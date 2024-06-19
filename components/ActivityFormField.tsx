@@ -7,6 +7,18 @@ import CustomButton from './CustomButton';
 import PriorityLevel from './PriorityLevel';
 import Indicator from './Indicator';
 
+const statusOptions = [
+  { label: 'Pending', color: '#E50000', icon: 'alert-circle' },
+  { label: 'Ongoing', color: '#00C853', icon: 'checkmark-circle' },
+  { label: 'Completed', color: '#000000', icon: 'checkmark-done-circle' },
+];
+
+const priorityOptions = [
+  { label: 'High', color: '#E50000', icon: 'alert-circle' },
+  { label: 'Mid', color: '#FFD700', icon: 'alert-circle' },
+  { label: 'Low', color: '#00C853', icon: 'alert-circle' },
+];
+
 export default function ActivityFormField() {
   const [text1, setText1] = useState('');
   const [text2, setText2] = useState('');
@@ -16,7 +28,8 @@ export default function ActivityFormField() {
   const [text6, setText6] = useState('');
   const [dropdownOption, setDropdownOption] = useState('');
   const [date, setDate] = useState(new Date());
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState<string | null>(null);
+  const [priority, setPriority] = useState<string | null>(null);
 
   const handleTextChange1 = (text: string) => setText1(text);
   const handleTextChange2 = (text: string) => setText2(text);
@@ -26,10 +39,10 @@ export default function ActivityFormField() {
   const handleTextChange6 = (text: string) => setText6(text);
   const handleDropdownSelect = (option: string) => setDropdownOption(option);
   const handleDateChange = (selectedDate: Date) => setDate(selectedDate);
-  const handleStatusSelect = (level: string) => setStatus(level);
+  const handleStatusSelect = (selectedStatus: string) => setStatus(selectedStatus);
+  const handlePrioritySelect = (selectedPriority: string) => setPriority(selectedPriority);
 
   const handleSubmit = () => {
-    // Handle the form submission logic here
     console.log('Form submitted with values:', {
       text1, text2, text3, text4, text5, text6, dropdownOption, date, status
     });
@@ -44,7 +57,20 @@ export default function ActivityFormField() {
       <TextField value={text4} placeholder="Description" label="Description" onChangeText={handleTextChange4} />
       <TextField value={text5} placeholder="Your view" label="Your View" onChangeText={handleTextChange5} />
       <TextField value={text6} placeholder="Next action step" label="Next Action Step" onChangeText={handleTextChange6} />
-      <Indicator onSelect={handleStatusSelect} />
+      <Indicator 
+        options={statusOptions}
+        onSelect={() => {}}
+        label="Status"
+        disabled={true}
+        defaultValue="Pending" 
+      />
+      <Indicator 
+        options={priorityOptions}
+        onSelect={() => {}}
+        label="Priority level"
+        disabled={true}
+        defaultValue="High"
+      />
       <CustomButton title="Log Report" onPress={handleSubmit} />
     </View>
   );

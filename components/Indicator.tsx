@@ -2,30 +2,32 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Modal, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-type Status = 'Pending' | 'Ongoing' | 'Completed';
-type StatusOption = { label: Status; color: string; icon: 'alert-circle' | 'checkmark-circle' | 'checkmark-done-circle' };
+type Option = { label: string; color: string; icon: string };
 
-const statuses: StatusOption[] = [
-  { label: 'Pending', color: '#E50000', icon: 'alert-circle' },
-  { label: 'Ongoing', color: '#00C853', icon: 'checkmark-circle' },
-  { label: 'Completed', color: '#000000', icon: 'checkmark-done-circle' },
-];
+interface IndicatorProps {
+  options: Option[];
+  onSelect: (label: string) => void;
+  label: string;
+  disabled?: boolean;
+  defaultValue?: string;
+}
 
-export default function Indicator({ onSelect }: { onSelect: (status: Status) => void }) {
-  const [selectedStatus, setSelectedStatus] = useState<Status | null>(null);
+export default function Indicator({ options, onSelect, label }: IndicatorProps) {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleSelect = (status: Status) => {
-    setSelectedStatus(status);
-    onSelect(status);
+  const handleSelect = (option: string) => {
+    setSelectedOption(option);
+    onSelect(option);
     setModalVisible(false);
   };
 
   return (
     <View style={styles.container}>
+      <Text style={styles.label}>{label}</Text>
       <TouchableOpacity style={styles.dropdownButton} onPress={() => setModalVisible(true)}>
         <Text style={styles.dropdownButtonText}>
-          {selectedStatus ? selectedStatus : 'Select Status'}
+          {selectedOption ? selectedOption : `Select ${label}`}
         </Text>
         <Ionicons name="chevron-down" size={20} color="#fff" />
       </TouchableOpacity>
@@ -39,14 +41,14 @@ export default function Indicator({ onSelect }: { onSelect: (status: Status) => 
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
             <FlatList
-              data={statuses}
+              data={options}
               keyExtractor={(item) => item.label}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={styles.statusItem}
                   onPress={() => handleSelect(item.label)}
                 >
-                  <Ionicons name={item.icon} size={20} color={item.color} style={styles.icon} />
+                  <Ionicons name={item.icon as any} size={20} color={item.color} style={styles.icon} />
                   <Text style={styles.statusText}>{item.label}</Text>
                 </TouchableOpacity>
               )}
@@ -61,6 +63,11 @@ export default function Indicator({ onSelect }: { onSelect: (status: Status) => 
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
+  },
+  label: {
+    color: '#fff',
+    marginBottom: 5,
+    fontSize: 16,
   },
   dropdownButton: {
     flexDirection: 'row',

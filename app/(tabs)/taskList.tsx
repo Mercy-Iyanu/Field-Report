@@ -1,4 +1,3 @@
-
 import PreviewList from '@/components/PreviewList';
 import Search from '@/components/Search';
 import React, { useState } from 'react';
