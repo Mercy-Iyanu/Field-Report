@@ -33,10 +33,14 @@ export default function CelebrateFormField({ options, onSubmit }: CelebrateFormF
       <TextField
         value={text}
         placeholder="Celebrant's name"
-        label="Celebrant's name" 
+        label="Celebrant's name"
         onChangeText={handleTextChange}
       />
-      <DropdownMenu options={options} onSelect={handleOptionSelect} />
+      <DropdownMenu
+        label="Agency's name"
+        options={options}
+        onSelect={handleOptionSelect}
+      />
       <RepeatEvent onRepeatChange={setRepeat} />
       <CustomButton title="Set reminder" onPress={handleSubmit} />
     </View>
@@ -46,5 +50,6 @@ export default function CelebrateFormField({ options, onSubmit }: CelebrateFormF
 const styles = StyleSheet.create({
   formContainer: {
     marginTop: 20,
+    zIndex: 1, // Ensure the form container has a lower zIndex
   },
 });
