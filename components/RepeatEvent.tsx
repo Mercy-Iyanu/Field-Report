@@ -29,7 +29,13 @@ export default function RepeatEvent({ onRepeatChange }: { onRepeatChange: (repea
           value={isEnabled}
         />
       </View>
-      {isEnabled && <DropdownMenu options={repeatOptions} onSelect={handleOptionSelect} />}
+      {isEnabled && (
+        <DropdownMenu
+          label=""
+          options={repeatOptions}
+          onSelect={handleOptionSelect}
+        />
+      )}
     </View>
   );
 }

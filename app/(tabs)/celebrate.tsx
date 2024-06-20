@@ -1,9 +1,9 @@
 
 import DatePicker from '@/components/DatePicker';
-import MembersTasks from '@/components/MembersTasks';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import CelebrateFormField from '@/components/CelebrateFormField';
+import TypeOfDropdown from '@/components/TypeOfDropdown';
 
 export default function CelebratePage() {
   const [selectedOption, setSelectedOption] = useState('Birthday');
@@ -25,7 +25,7 @@ export default function CelebratePage() {
     <ScrollView style={styles.container}>
       <Text style={styles.pageTitle}>New Anniversary</Text>
       <View style={styles.dropdownDateContainer}>
-        <MembersTasks
+        <TypeOfDropdown
           options={['Birthday', 'Wedding Anniversary', 'Agency Anniversary']}
           onSelect={handleOptionSelect}
         />
