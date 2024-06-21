@@ -1,10 +1,85 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React, {useState} from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import ProfileInfo from '@/components/ProfileInfo';
+import SettingsSection from '@/components/SettingsSection';
+import CustomButton from '@/components/CustomButton';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { Colors } from '@/constants/Colors';
 
-export default function profile() {
+export default function ProfilePage() {
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
+  const colorScheme = useColorScheme();
+  const colors = Colors[colorScheme ?? 'light'];
+  const [darkMode, setDarkMode] = useState(false);
+
+  const handleDarkModeToggle = () => {
+    setDarkMode(!darkMode);
+  };
+
+  const handleLogout = () => {
+    // Logic to handle logout
+  };
+
   return (
-    <View>
-      <Text>profile</Text>
-    </View>
-  )
+    <ScrollView 
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <View style={styles.header}>
+          <Text style={[styles.title, { color: colors.text }]}>Profile</Text>
+          <View style={styles.icons}>
+            <TouchableOpacity onPress={handleDarkModeToggle}>
+              <Ionicons name={darkMode ? 'sunny' : 'moon'} size={24} color={colors.text} style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleLogout}>
+              <Ionicons name="log-out-outline" size={24} color={colors.text} style={styles.logOutIcon} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <ProfileInfo />
+        <SettingsSection />
+        <CustomButton title="Delete Account" onPress={() => { /* Logic to delete account */ }} />
+      </View>
+    </ScrollView>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 8,
+    backgroundColor: '#161622',
+    paddingTop: 28,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  icons: {
+    flexDirection: 'row',
+  },
+  icon: {
+    marginLeft: 16,
+  },
+  logOutIcon: {
+    marginLeft: 16,
+    color: '#E50000'
+  }
+});

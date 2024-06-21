@@ -18,10 +18,9 @@ const priorityOptions = [
 ];
 
 const agencyCategories = [
-  'Travel Agency',
-  'Tour Operator',
-  'Online Travel Agency',
-  'Corporate Travel',
+  'Category A (Premium)',
+  'Category B (Opportunity)',
+  'Category C (Virtual)',
 ];
 
 export default function ActivityFormField() {
@@ -83,6 +82,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#161622',
-    padding: 16,
+    paddingTop: 0,
   },
 });
