@@ -2,16 +2,28 @@ import ActivityFormField from '@/components/ActivityFormField';
 import TypeOfDropdown from '@/components/TypeOfDropdown';
 import { Link } from 'expo-router';
 import React, {useState} from 'react';
-import { Text, View, ScrollView, StyleSheet } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, RefreshControl } from 'react-native';
 
 export default function ActivityLogPage() {
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
+  }, []);
   const [selectedOption, setSelectedOption] = useState('Birthday');
   const handleOptionSelect = (option: string) => {
     setSelectedOption(option);
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <Text style={styles.pageTitle}>Activity Log</Text>
       <View style={styles.dropdownDateContainer}>
         <TypeOfDropdown
