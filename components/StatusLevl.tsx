@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, Text, StyleSheet, Modal, FlatList } from 'react-native';
 
-interface PriorityLevelProps {
+interface StatusLevelProps {
   options: { id: string; label: string }[];
   currentOption: string;
   onSelect: (option: string) => void;
@@ -9,7 +9,7 @@ interface PriorityLevelProps {
   setModalVisible: (visible: boolean) => void;
 }
 
-const PriorityLevel: React.FC<PriorityLevelProps> = ({ options, currentOption, onSelect, modalVisible, setModalVisible }) => {
+const StatusLevel: React.FC<StatusLevelProps> = ({ options, currentOption, onSelect, modalVisible, setModalVisible }) => {
   const renderOption = ({ item }: { item: { id: string; label: string } }) => (
     <TouchableOpacity
       style={styles.option}
@@ -24,8 +24,8 @@ const PriorityLevel: React.FC<PriorityLevelProps> = ({ options, currentOption, o
 
   return (
     <>
-      <TouchableOpacity style={styles.priorityContainer} onPress={() => setModalVisible(true)}>
-        <Text style={styles.priorityText}>{currentOption}</Text>
+      <TouchableOpacity style={styles.statusContainer} onPress={() => setModalVisible(true)}>
+        <Text style={styles.statusText}>{currentOption}</Text>
       </TouchableOpacity>
       <Modal visible={modalVisible} transparent={true} animationType="slide">
         <FlatList
@@ -40,13 +40,14 @@ const PriorityLevel: React.FC<PriorityLevelProps> = ({ options, currentOption, o
 };
 
 const styles = StyleSheet.create({
-  priorityContainer: {
-    backgroundColor: '#ff4040',
+  statusContainer: {
+    borderWidth: 1,
+    borderColor: '#ff4040',
     borderRadius: 10,
     padding: 5,
   },
-  priorityText: {
-    color: '#fff',
+  statusText: {
+    color: '#ff4040',
     fontSize: 14,
     fontWeight: 'bold',
   },
@@ -68,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PriorityLevel;
+export default StatusLevel;

@@ -1,30 +1,58 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal, FlatList } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../../types'; // Ensure this path is correct
 
 type CreateTaskPageProps = NativeStackScreenProps<RootStackParamList, 'CreateTask'>;
 
+const options = [
+  { id: '1', label: 'High Priority' },
+  { id: '2', label: 'Medium Priority' },
+  { id: '3', label: 'Low Priority' },
+];
+
+const statusOptions = [
+  { id: '1', label: 'Pending' },
+  { id: '2', label: 'In Progress' },
+  { id: '3', label: 'Completed' },
+];
+
 export default function CreateTaskPage({ navigation }: CreateTaskPageProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [priorityModalVisible, setPriorityModalVisible] = useState(false);
+  const [statusModalVisible, setStatusModalVisible] = useState(false);
+  const [priority, setPriority] = useState('High Priority');
+  const [status, setStatus] = useState('Pending');
 
   const handleCreateTask = () => {
     // Handle task creation logic
-    console.log('Task created:', title, description);
+    console.log('Task created:', title, description, priority, status);
     navigation.goBack(); // Navigate back to the task list page
   };
+
+  const renderOption = ({ item }: { item: { id: string, label: string } }, setOption: (option: string) => void, setVisible: (visible: boolean) => void) => (
+    <TouchableOpacity
+      style={styles.option}
+      onPress={() => {
+        setOption(item.label);
+        setVisible(false);
+      }}
+    >
+      <Text style={styles.optionText}>{item.label}</Text>
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.priorityContainer}>
-          <Text style={styles.priorityText}>High Priority</Text>
-        </View>
-        <View style={styles.statusContainer}>
-          <Text style={styles.statusText}>Pending</Text>
-        </View>
+        <TouchableOpacity style={styles.priorityContainer} onPress={() => setPriorityModalVisible(true)}>
+          <Text style={styles.priorityText}>{priority}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.statusContainer} onPress={() => setStatusModalVisible(true)}>
+          <Text style={styles.statusText}>{status}</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.content}>
@@ -60,6 +88,26 @@ export default function CreateTaskPage({ navigation }: CreateTaskPageProps) {
       <TouchableOpacity style={styles.createButton} onPress={handleCreateTask}>
         <Text style={styles.createButtonText}>Create Task</Text>
       </TouchableOpacity>
+
+      <Modal visible={priorityModalVisible} transparent={true} animationType="slide">
+        <View style={styles.modalContainer}>
+          <FlatList
+            data={options}
+            renderItem={(item) => renderOption(item, setPriority, setPriorityModalVisible)}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+      </Modal>
+
+      <Modal visible={statusModalVisible} transparent={true} animationType="slide">
+        <View style={styles.modalContainer}>
+          <FlatList
+            data={statusOptions}
+            renderItem={(item) => renderOption(item, setStatus, setStatusModalVisible)}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -100,18 +148,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   titleInput: {
-    backgroundColor: '#2A2A3A',
     color: '#fff',
-    borderRadius: 8,
-    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#fff',
     marginBottom: 16,
     fontSize: 18,
   },
   descriptionInput: {
-    backgroundColor: '#2A2A3A',
     color: '#fff',
-    borderRadius: 8,
-    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#fff',
     marginBottom: 16,
     fontSize: 16,
     height: 100,
@@ -124,6 +170,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     marginBottom: 16,
+    width: '50%',
   },
   categoryButtonText: {
     color: '#fff',
@@ -149,5 +196,21 @@ const styles = StyleSheet.create({
   createButtonText: {
     color: '#fff',
     fontSize: 18,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  option: {
+    backgroundColor: '#fff',
+    padding: 20,
+    marginVertical: 5,
+    marginHorizontal: 20,
+    borderRadius: 10,
+  },
+  optionText: {
+    fontSize: 18,
+    color: '#000',
   },
 });
