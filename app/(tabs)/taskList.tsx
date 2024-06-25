@@ -2,9 +2,14 @@ import PreviewList from '@/components/PreviewList';
 import Search from '@/components/Search';
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import DateNavigator from '@/components/DateNavigator';
 import MembersTasks from '@/components/MembersTasks';
+import { useNavigation } from 'expo-router';
+import { RootStackParamList } from '../../types';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'TaskList'>;
 
 const handlePreviewListPress = (list: any) => {
   console.log("List pressed:", list);
@@ -16,6 +21,8 @@ const previewLists = [
 ]
 
 export default function TaskListPage() {
+  const navigation = useNavigation<NavigationProp>();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDate, setSelectedDate] = useState('2024-06-11');
   const [selectedFilter, setSelectedFilter] = useState('My tasks');
@@ -24,9 +31,10 @@ export default function TaskListPage() {
   const handleDateNext = () => setSelectedDate(new Date().toISOString().split('T')[0]);
   const handleDatePrevious = () => setSelectedDate(new Date().toISOString().split('T')[0]);
   const handleFilterSelect = (option: string) => setSelectedFilter(option);
+  
 
-  const handleAddTask = () => {
-    console.log("Add task button pressed");
+  const navigateToCreateTask = () => {
+    navigation.navigate('CreateTask');
   };
 
   return (
@@ -48,7 +56,7 @@ export default function TaskListPage() {
         ))}
       </View>
       </ScrollView>
-      <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
+      <TouchableOpacity style={styles.addButton} onPress={navigateToCreateTask}>
         <Ionicons name="add-circle" size={30} color="#FFF" />
       </TouchableOpacity>
     </View>
