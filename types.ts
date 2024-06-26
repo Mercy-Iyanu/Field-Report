@@ -1,15 +1,8 @@
-// types.ts
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RouteProp } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   Tabs: undefined;
-  Root: undefined;
-  TaskList: undefined;
-  CreateTask: { onCreateTask: (title: string, description: string, priority: string, status: string, category: string) => void };
+  CreateTask: undefined;
 };
 
-export type CreateTaskPageProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'CreateTask'>;
-  route: RouteProp<RootStackParamList, 'CreateTask'>;
-};
+export type CreateTaskPageProps = NativeStackScreenProps<RootStackParamList, 'CreateTask'>;

@@ -9,7 +9,7 @@ import MembersTasks from '@/components/MembersTasks';
 import { useNavigation } from 'expo-router';
 import { RootStackParamList } from '../../types';
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'TaskList'>;
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'CreateTask'>;
 
 const handlePreviewListPress = (list: any) => {
   console.log("List pressed:", list);
