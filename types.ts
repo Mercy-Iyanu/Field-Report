@@ -4,8 +4,9 @@ import { RouteProp } from '@react-navigation/native';
 
 export type RootStackParamList = {
   Tabs: undefined;
+  Root: undefined;
   TaskList: undefined;
-  CreateTask: undefined;
+  CreateTask: { onCreateTask: (title: string, description: string, priority: string, status: string, category: string) => void };
 };
 
 export type CreateTaskPageProps = {
