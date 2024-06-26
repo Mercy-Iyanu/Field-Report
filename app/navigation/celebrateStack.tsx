@@ -6,7 +6,7 @@ const Stack = createNativeStackNavigator();
 
 export default function CelebrateStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Celebrate" component={CelebratePage} />
     </Stack.Navigator>
   );

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Button, StyleSheet, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Button, StyleSheet, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface DatePickerProps {
@@ -7,13 +7,8 @@ interface DatePickerProps {
 }
 
 export default function DatePicker({ onDateChange }: DatePickerProps) {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const [show, setShow] = useState(false);
-  const [buttonTitle, setButtonTitle] = useState('');
-
-  useEffect(() => {
-    setButtonTitle(formatDate(date));
-  }, [date]);
 
   const formatDate = (date: Date) => {
     const day = date.getDate().toString().padStart(2, '0');
@@ -26,23 +21,35 @@ export default function DatePicker({ onDateChange }: DatePickerProps) {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
-    onDateChange(currentDate);
+    onDateChange(currentDate as Date);
   };
 
   return (
-    <View>
-      <Button onPress={() => setShow(true)} title={buttonTitle || "Select Date"} />
+    <View style={styles.container}>
       {show && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={date}
+          value={date || new Date()}
           mode="date"
           display="default"
           onChange={onChange}
         />
       )}
+      {/* {date ? (
+        <Text style={styles.dateText}>{formatDate(date)}</Text>
+      ) : (
+        <Button onPress={() => setShow(true)} title="Select Date" />
+      )} */}
     </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+  },
+  dateText: {
+    fontSize: 18,
+    marginVertical: 10,
+  },
+});

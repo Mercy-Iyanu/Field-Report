@@ -7,7 +7,7 @@ const Stack = createNativeStackNavigator();
 
 export default function TaskListStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="TaskList" component={TaskListPage} />
       {/* <Stack.Screen name="CreateTask" component={CreateTaskPage} /> */}
     </Stack.Navigator>

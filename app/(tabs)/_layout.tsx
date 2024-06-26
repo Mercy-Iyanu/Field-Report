@@ -14,9 +14,10 @@ export default function TabLayout() {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="HomeStack"
+        name="Home"
         component={HomeStack}
         options={{
+          headerShown: false,
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
@@ -27,6 +28,7 @@ export default function TabLayout() {
         name="TaskListStack"
         component={TaskListStack}
         options={{
+          headerShown: false,
           tabBarLabel: 'Task List',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'add-circle' : 'add-circle-outline'} color={color} />
@@ -37,6 +39,7 @@ export default function TabLayout() {
         name="CelebrateStack"
         component={CelebrateStack}
         options={{
+          headerShown: false,
           tabBarLabel: 'Celebrate',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'calendar' : 'calendar-outline'} color={color} />
@@ -47,6 +50,7 @@ export default function TabLayout() {
         name="ActivityLogStack"
         component={ActivityLogStack}
         options={{
+          headerShown: false,
           tabBarLabel: 'Activity Log',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'newspaper' : 'newspaper-outline'} color={color} />
@@ -57,6 +61,7 @@ export default function TabLayout() {
         name="ProfileStack"
         component={ProfileStack}
         options={{
+          headerShown: false,
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />

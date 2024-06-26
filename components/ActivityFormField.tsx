@@ -3,18 +3,19 @@ import { View, StyleSheet } from 'react-native';
 import TextField from './TextField';
 import DropdownMenu from './DropdownMenu';
 import CustomButton from './CustomButton';
-import Indicator from './Indicator';
+import StatusLevel from './StatusLevel';
+import PriorityLevel from './PriorityLevel';
 
 const statusOptions = [
-  { label: 'Pending', color: '#E50000', icon: 'alert-circle' },
-  { label: 'Ongoing', color: '#00C853', icon: 'checkmark-circle' },
-  { label: 'Completed', color: '#000000', icon: 'checkmark-done-circle' },
+  { id: '1', label: 'Pending' },
+  { id: '2', label: 'Ongoing' },
+  { id: '3', label: 'Completed' },
 ];
 
 const priorityOptions = [
-  { label: 'High', color: '#E50000', icon: 'alert-circle' },
-  { label: 'Mid', color: '#FFD700', icon: 'alert-circle' },
-  { label: 'Low', color: '#00C853', icon: 'alert-circle' },
+  { id: '1', label: 'High' },
+  { id: '2', label: 'Mid' },
+  { id: '3', label: 'Low' },
 ];
 
 const agencyCategories = [
@@ -31,8 +32,10 @@ export default function ActivityFormField() {
   const [text6, setText6] = useState('');
   const [agencyName, setAgencyName] = useState('');
   const [agencyCategory, setAgencyCategory] = useState('');
-  const [status, setStatus] = useState<string | null>(null);
-  const [priority, setPriority] = useState<string | null>(null);
+  const [status, setStatus] = useState<string>('Pending');
+  const [priority, setPriority] = useState<string>('High');
+  const [statusModalVisible, setStatusModalVisible] = useState(false);
+  const [priorityModalVisible, setPriorityModalVisible] = useState(false);
 
   const handleTextChange1 = (text: string) => setText1(text);
   const handleTextChange3 = (text: string) => setText3(text);
@@ -59,20 +62,25 @@ export default function ActivityFormField() {
       <TextField value={text4} placeholder="Description" label="Description" onChangeText={handleTextChange4} />
       <TextField value={text5} placeholder="Your view" label="Your View" onChangeText={handleTextChange5} />
       <TextField value={text6} placeholder="Next action step" label="Next Action Step" onChangeText={handleTextChange6} />
-      <Indicator 
-        options={statusOptions}
-        onSelect={() => {}}
-        label="Status"
-        disabled={true}
-        defaultValue="Pending" 
-      />
-      <Indicator 
-        options={priorityOptions}
-        onSelect={() => {}}
-        label="Priority level"
-        disabled={true}
-        defaultValue="High"
-      />
+      
+      <View style={styles.rowContainer}>
+        <StatusLevel
+          options={statusOptions}
+          currentOption={status}
+          onSelect={handleStatusSelect}
+          modalVisible={statusModalVisible}
+          setModalVisible={setStatusModalVisible}
+        />
+
+        <PriorityLevel
+          options={priorityOptions}
+          currentOption={priority}
+          onSelect={handlePrioritySelect}
+          modalVisible={priorityModalVisible}
+          setModalVisible={setPriorityModalVisible}
+        />
+      </View>
+
       <CustomButton title="Log Report" onPress={handleSubmit} />
     </View>
   );
@@ -83,5 +91,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#161622',
     paddingTop: 0,
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 10,
   },
 });
