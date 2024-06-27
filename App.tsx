@@ -3,8 +3,8 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabLayout from './app/(tabs)/_layout';
-import CreateTaskPage from './app/pages/createTask';
 import { RootStackParamList } from './types';
+import CreateTaskModal from './app/pages/createTask';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -19,7 +19,7 @@ export default function App() {
         />
         <Stack.Screen 
           name="CreateTask" 
-          component={CreateTaskPage} 
+          component={CreateTaskModal} 
           options={{ title: 'Create Task' }} 
         />
       </Stack.Navigator>

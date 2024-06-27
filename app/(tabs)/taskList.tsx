@@ -1,64 +1,54 @@
-import PreviewList from '@/components/PreviewList';
-import Search from '@/components/Search';
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import DateNavigator from '@/components/DateNavigator';
 import MembersTasks from '@/components/MembersTasks';
-import { useNavigation } from 'expo-router';
-import { RootStackParamList } from '../../types';
-
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'CreateTask'>;
-
-const handlePreviewListPress = (list: any) => {
-  console.log("List pressed:", list);
-}
+import Search from '@/components/Search';
+import PreviewList from '@/components/PreviewList';
+import CreateTaskModal from '../pages/createTask';
 const previewLists = [
-  {title: 'Attend seminar', description: 'Posted at 9am'},
-  {title: 'Call Mr. Amusan', description: 'Posted at 8:45 am'},
-  {title: 'Schedule meeting with Dele travels', description: 'Posted at 1pm'}
-]
+  { title: 'Attend seminar', description: 'Posted at 9am' },
+  { title: 'Call Mr. Amusan', description: 'Posted at 8:45 am' },
+  { title: 'Schedule meeting with Dele travels', description: 'Posted at 1pm' }
+];
 
 export default function TaskListPage() {
-  const navigation = useNavigation<NavigationProp>();
-
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDate, setSelectedDate] = useState('2024-06-11');
   const [selectedFilter, setSelectedFilter] = useState('My tasks');
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleSearchChange = (text: string) => setSearchQuery(text);
   const handleDateNext = () => setSelectedDate(new Date().toISOString().split('T')[0]);
   const handleDatePrevious = () => setSelectedDate(new Date().toISOString().split('T')[0]);
   const handleFilterSelect = (option: string) => setSelectedFilter(option);
-  
 
-  const navigateToCreateTask = () => {
-    navigation.navigate('CreateTask');
-  };
+  const openModal = () => setIsModalVisible(true);
+  const closeModal = () => setIsModalVisible(false);
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollContent}>
-      <Text style={styles.pageTitle}>Task List</Text>
-      <Search placeholder="Search for a task" onChangeText={handleSearchChange} />
-      <DateNavigator date={selectedDate} onNext={handleDateNext} onPrevious={handleDatePrevious} />
-      <MembersTasks options={['My tasks', 'Itunu Babatope', 'Koya Kasoro', 'Isaac Tope']} onSelect={handleFilterSelect} />
-      <View style={styles.activitiesContainer}>
-        <Text style={styles.activitiesTitle}>My tasks</Text>
-        {previewLists.map ((list, index) => (
-          <PreviewList 
-            key={index}
-            title={list.title}
-            description={list.description}
-            onPress={() => handlePreviewListPress(list)}
-          />
-        ))}
-      </View>
+        <Text style={styles.pageTitle}>Task List</Text>
+        <Search placeholder="Search for a task" onChangeText={handleSearchChange} />
+        <DateNavigator date={selectedDate} onNext={handleDateNext} onPrevious={handleDatePrevious} />
+        <MembersTasks options={['My tasks', 'Itunu Babatope', 'Koya Kasoro', 'Isaac Tope']} onSelect={handleFilterSelect} />
+        <View style={styles.activitiesContainer}>
+          <Text style={styles.activitiesTitle}>My tasks</Text>
+          {previewLists.map((list, index) => (
+            <PreviewList
+              key={index}
+              title={list.title}
+              description={list.description}
+              onPress={() => console.log("List pressed:", list)}
+            />
+          ))}
+        </View>
       </ScrollView>
-      <TouchableOpacity style={styles.addButton} onPress={navigateToCreateTask}>
+      <TouchableOpacity style={styles.addButton} onPress={openModal}>
         <Ionicons name="add-circle" size={30} color="#FFF" />
       </TouchableOpacity>
+      <CreateTaskModal isVisible={isModalVisible} onClose={closeModal} /> {/* Use the modal component */}
     </View>
   );
 }
@@ -105,5 +95,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
-  }
+  },
 });
