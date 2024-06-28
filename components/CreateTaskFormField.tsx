@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Ionicons } from '@expo/vector-icons';
+import { View, TextInput, StyleSheet } from 'react-native';
 import PriorityLevel from './PriorityLevel';
 import StatusLevel from './StatusLevel';
 import CustomButton from './CustomButton';
+import DropdownMenu from './DropdownMenu';
+import MemberAvatar from './MemberAvatar'; 
 
 const options = [
   { id: '1', label: 'High Priority' },
@@ -29,6 +29,13 @@ export default function CreateTaskFormField() {
   const handleCreateTask = () => {
     console.log('Task created:', title, description, priority, status);
   };
+
+  
+  const avatars = [
+    'https://via.placeholder.com/40',
+    'https://via.placeholder.com/40',
+    'https://via.placeholder.com/40',
+  ];
 
   return (
     <View style={styles.container}>
@@ -66,17 +73,14 @@ export default function CreateTaskFormField() {
           multiline
         />
 
-        <TouchableOpacity style={styles.categoryButton}>
-          <Text style={styles.categoryButtonText}>Task category</Text>
-          <Ionicons name="chevron-down" size={20} color="#fff" />
-        </TouchableOpacity>
+        <DropdownMenu
+          label="Task category"
+          options={['Field Report', 'Others']}
+          onSelect={(option) => console.log('Selected category:', option)} // Handle selection logic
+        />
 
-        <View style={styles.membersContainer}>
-          {/* Replace with actual member avatars */}
-          <Image source={{ uri: 'https://via.placeholder.com/40' }} style={styles.memberAvatar} />
-          <Image source={{ uri: 'https://via.placeholder.com/40' }} style={styles.memberAvatar} />
-          <Image source={{ uri: 'https://via.placeholder.com/40' }} style={styles.memberAvatar} />
-        </View>
+        {/* Use the MemberAvatar component */}
+        <MemberAvatar avatars={avatars} />
       </View>
 
       <CustomButton title="Create Task" onPress={handleCreateTask} />
@@ -112,29 +116,5 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     fontSize: 16,
     height: 100,
-  },
-  categoryButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#2A2A3A',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 16,
-    width: '50%',
-  },
-  categoryButtonText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  membersContainer: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  memberAvatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 8,
   },
 });
