@@ -35,11 +35,11 @@ export default function DatePicker({ onDateChange }: DatePickerProps) {
           onChange={onChange}
         />
       )}
-      {/* {date ? (
+      {date ? (
         <Text style={styles.dateText}>{formatDate(date)}</Text>
       ) : (
         <Button onPress={() => setShow(true)} title="Select Date" />
-      )} */}
+      )}
     </View>
   );
 }
