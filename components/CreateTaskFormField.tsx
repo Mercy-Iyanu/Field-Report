@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal, FlatList } from 'react-native';
+import { View, TextInput, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../types';
+import PriorityLevel from './PriorityLevel';
+import StatusLevel from './StatusLevel';
+import CustomButton from './CustomButton';
 
-type CreateTaskPageProps = NativeStackScreenProps<RootStackParamList, 'CreateTask'>;
+type CreateTaskFormFieldProps = NativeStackScreenProps<RootStackParamList, 'CreateTask'>;
 
 const options = [
   { id: '1', label: 'High Priority' },
@@ -18,13 +21,13 @@ const statusOptions = [
   { id: '3', label: 'Completed' },
 ];
 
-export default function CreateTaskPage({ navigation }: CreateTaskPageProps) {
+export default function CreateTaskFormField({ navigation }: CreateTaskFormFieldProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [priorityModalVisible, setPriorityModalVisible] = useState(false);
-  const [statusModalVisible, setStatusModalVisible] = useState(false);
   const [priority, setPriority] = useState('High Priority');
   const [status, setStatus] = useState('Pending');
+  const [priorityModalVisible, setPriorityModalVisible] = useState(false);
+  const [statusModalVisible, setStatusModalVisible] = useState(false);
 
   const handleCreateTask = () => {
     // Handle task creation logic
@@ -32,27 +35,23 @@ export default function CreateTaskPage({ navigation }: CreateTaskPageProps) {
     navigation.goBack(); // Navigate back to the task list page
   };
 
-  const renderOption = ({ item }: { item: { id: string, label: string } }, setOption: (option: string) => void, setVisible: (visible: boolean) => void) => (
-    <TouchableOpacity
-      style={styles.option}
-      onPress={() => {
-        setOption(item.label);
-        setVisible(false);
-      }}
-    >
-      <Text style={styles.optionText}>{item.label}</Text>
-    </TouchableOpacity>
-  );
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.priorityContainer} onPress={() => setPriorityModalVisible(true)}>
-          <Text style={styles.priorityText}>{priority}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.statusContainer} onPress={() => setStatusModalVisible(true)}>
-          <Text style={styles.statusText}>{status}</Text>
-        </TouchableOpacity>
+        <PriorityLevel
+          options={options}
+          currentOption={priority}
+          onSelect={setPriority}
+          modalVisible={priorityModalVisible}
+          setModalVisible={setPriorityModalVisible}
+        />
+        <StatusLevel
+          options={statusOptions}
+          currentOption={status}
+          onSelect={setStatus}
+          modalVisible={statusModalVisible}
+          setModalVisible={setStatusModalVisible}
+        />
       </View>
 
       <View style={styles.content}>
@@ -85,29 +84,7 @@ export default function CreateTaskPage({ navigation }: CreateTaskPageProps) {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.createButton} onPress={handleCreateTask}>
-        <Text style={styles.createButtonText}>Create Task</Text>
-      </TouchableOpacity>
-
-      <Modal visible={priorityModalVisible} transparent={true} animationType="slide">
-        <View style={styles.modalContainer}>
-          <FlatList
-            data={options}
-            renderItem={(item) => renderOption(item, setPriority, setPriorityModalVisible)}
-            keyExtractor={(item) => item.id}
-          />
-        </View>
-      </Modal>
-
-      <Modal visible={statusModalVisible} transparent={true} animationType="slide">
-        <View style={styles.modalContainer}>
-          <FlatList
-            data={statusOptions}
-            renderItem={(item) => renderOption(item, setStatus, setStatusModalVisible)}
-            keyExtractor={(item) => item.id}
-          />
-        </View>
-      </Modal>
+      <CustomButton title="Create Task" onPress={handleCreateTask} />
     </View>
   );
 }
@@ -122,27 +99,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  priorityContainer: {
-    backgroundColor: '#ff4040',
-    borderRadius: 10,
-    padding: 5,
-  },
-  priorityText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  statusContainer: {
-    borderWidth: 1,
-    borderColor: '#ff4040',
-    borderRadius: 10,
-    padding: 5,
-  },
-  statusText: {
-    color: '#ff4040',
-    fontSize: 14,
-    fontWeight: 'bold',
   },
   content: {
     marginTop: 20,
@@ -185,32 +141,5 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     marginRight: 8,
-  },
-  createButton: {
-    backgroundColor: '#E50000',
-    paddingVertical: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  createButtonText: {
-    color: '#fff',
-    fontSize: 18,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  option: {
-    backgroundColor: '#fff',
-    padding: 20,
-    marginVertical: 5,
-    marginHorizontal: 20,
-    borderRadius: 10,
-  },
-  optionText: {
-    fontSize: 18,
-    color: '#000',
   },
 });

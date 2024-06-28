@@ -1,73 +1,63 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeStack from '../navigation/homeStack';
-import TaskListStack from '../navigation/taskListStack';
-import CelebrateStack from '../navigation/celebrateStack';
-import ActivityLogStack from '../navigation/activityLogStack';
-import ProfileStack from '../navigation/profileStack';
-  
-const Tab = createBottomTabNavigator();
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
+  const colorScheme = useColorScheme();
+
   return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="Home"
-        component={HomeStack}
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        headerShown: false,
+      }}>
+      <Tabs.Screen
+        name="index"
         options={{
-          headerShown: false,
-          tabBarLabel: 'Home',
+          title: 'Home',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
           ),
         }}
       />
-      <Tab.Screen
-        name="TaskListStack"
-        component={TaskListStack}
+      <Tabs.Screen
+        name="taskList"
         options={{
-          headerShown: false,
-          tabBarLabel: 'Task List',
+          title: 'Task List',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'add-circle' : 'add-circle-outline'} color={color} />
           ),
         }}
       />
-      <Tab.Screen
-        name="CelebrateStack"
-        component={CelebrateStack}
+       <Tabs.Screen
+        name="celebrate"
         options={{
-          headerShown: false,
-          tabBarLabel: 'Celebrate',
+          title: 'Celebrate',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'calendar' : 'calendar-outline'} color={color} />
           ),
         }}
       />
-      <Tab.Screen
-        name="ActivityLogStack"
-        component={ActivityLogStack}
+      <Tabs.Screen
+        name="activityLog"
         options={{
-          headerShown: false,
-          tabBarLabel: 'Activity Log',
+          title: 'Activity Log',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'newspaper' : 'newspaper-outline'} color={color} />
           ),
         }}
       />
-      <Tab.Screen
-        name="ProfileStack"
-        component={ProfileStack}
+      <Tabs.Screen
+        name="profile"
         options={{
-          headerShown: false,
-          tabBarLabel: 'Profile',
+          title: 'Profile',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} />
           ),
         }}
       />
-    </Tab.Navigator>
+    </Tabs>
   );
 }
