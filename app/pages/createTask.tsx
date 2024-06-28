@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Modal } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import CreateTaskFormField from '@/components/CreateTaskFormField';
 
 interface CreateTaskModalProps {
   isVisible: boolean;
@@ -23,24 +24,8 @@ export default function CreateTaskModal({ isVisible, onClose }: CreateTaskModalP
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <Ionicons name="close" size={24} color="#000" />
           </TouchableOpacity>
-          <TextInput
-            style={styles.titleInput}
-            placeholder="Add task title"
-            placeholderTextColor="#888"
-            value={title}
-            onChangeText={setTitle}
-          />
-          <TextInput
-            style={styles.descriptionInput}
-            placeholder="Add task description"
-            placeholderTextColor="#888"
-            value={description}
-            onChangeText={setDescription}
-            multiline
-          />
-          <TouchableOpacity style={styles.createButton} onPress={handleCreateTask}>
-            <Text style={styles.createButtonText}>Create Task</Text>
-          </TouchableOpacity>
+          <Text style={styles.modalTitle}>Create Task</Text>
+          <CreateTaskFormField /> 
         </View>
       </View>
     </Modal>
@@ -51,7 +36,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: '#161622',
   },
   modalContent: {
     margin: 20,
@@ -70,18 +55,11 @@ const styles = StyleSheet.create({
   closeButton: {
     alignSelf: 'flex-end',
   },
-  titleInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
     marginBottom: 20,
-    padding: 10,
-  },
-  descriptionInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    marginBottom: 20,
-    padding: 10,
-    height: 100,
+    textAlign: 'left',
   },
   createButton: {
     backgroundColor: '#E50000',

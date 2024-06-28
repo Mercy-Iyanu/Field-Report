@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
-import { RootStackParamList } from '../types';
 import PriorityLevel from './PriorityLevel';
 import StatusLevel from './StatusLevel';
 import CustomButton from './CustomButton';
-
-type CreateTaskFormFieldProps = NativeStackScreenProps<RootStackParamList, 'CreateTask'>;
 
 const options = [
   { id: '1', label: 'High Priority' },
@@ -21,7 +18,7 @@ const statusOptions = [
   { id: '3', label: 'Completed' },
 ];
 
-export default function CreateTaskFormField({ navigation }: CreateTaskFormFieldProps) {
+export default function CreateTaskFormField() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState('High Priority');
@@ -30,9 +27,7 @@ export default function CreateTaskFormField({ navigation }: CreateTaskFormFieldP
   const [statusModalVisible, setStatusModalVisible] = useState(false);
 
   const handleCreateTask = () => {
-    // Handle task creation logic
     console.log('Task created:', title, description, priority, status);
-    navigation.goBack(); // Navigate back to the task list page
   };
 
   return (
