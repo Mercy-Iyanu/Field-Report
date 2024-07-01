@@ -8,14 +8,14 @@ import PriorityLevel from './PriorityLevel';
 
 const statusOptions = [
   { id: '1', label: 'Pending' },
-  { id: '2', label: 'Ongoing' },
+  { id: '2', label: 'In Progress' },
   { id: '3', label: 'Completed' },
 ];
 
 const priorityOptions = [
-  { id: '1', label: 'High' },
-  { id: '2', label: 'Mid' },
-  { id: '3', label: 'Low' },
+  { id: '1', label: 'High Priority' },
+  { id: '2', label: 'Medium Priority' },
+  { id: '3', label: 'Low Priority' },
 ];
 
 const agencyCategories = [

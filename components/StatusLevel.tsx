@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { TouchableOpacity, Text, StyleSheet, Modal, FlatList } from 'react-native';
+import React from 'react';
+import { TouchableOpacity, Text, StyleSheet, Modal, FlatList, View } from 'react-native';
 
 interface StatusLevelProps {
   options: { id: string; label: string }[];
@@ -8,6 +8,19 @@ interface StatusLevelProps {
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
 }
+
+const getStatusStyles = (status: string) => {
+  switch (status) {
+    case 'Pending':
+      return { backgroundColor: '#ff4040', color: '#fff' };
+    case 'In Progress':
+      return { backgroundColor: '#ffbf00', color: '#000' };
+    case 'Completed':
+      return { backgroundColor: '#00aaff', color: '#fff' };
+    default:
+      return { backgroundColor: 'transparent', color: '#fff' };
+  }
+};
 
 const StatusLevel: React.FC<StatusLevelProps> = ({ options, currentOption, onSelect, modalVisible, setModalVisible }) => {
   const renderOption = ({ item }: { item: { id: string; label: string } }) => (
@@ -22,18 +35,27 @@ const StatusLevel: React.FC<StatusLevelProps> = ({ options, currentOption, onSel
     </TouchableOpacity>
   );
 
+  const { backgroundColor, color } = getStatusStyles(currentOption);
+
   return (
     <>
-      <TouchableOpacity style={styles.statusContainer} onPress={() => setModalVisible(true)}>
-        <Text style={styles.statusText}>{currentOption}</Text>
+      <TouchableOpacity
+        style={[styles.statusContainer, { backgroundColor }]}
+        onPress={() => setModalVisible(true)}
+      >
+        <Text style={[styles.statusText, { color }]}>{currentOption}</Text>
       </TouchableOpacity>
       <Modal visible={modalVisible} transparent={true} animationType="slide">
-        <FlatList
-          data={options}
-          renderItem={renderOption}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.modalContainer}
-        />
+        <View>
+          <View style={styles.modalContainer}>
+            <FlatList
+              data={options}
+              renderItem={renderOption}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={styles.flatListContainer}
+            />
+          </View>
+        </View>
       </Modal>
     </>
   );
@@ -41,31 +63,36 @@ const StatusLevel: React.FC<StatusLevelProps> = ({ options, currentOption, onSel
 
 const styles = StyleSheet.create({
   statusContainer: {
-    borderWidth: 1,
-    borderColor: '#ff4040',
-    borderRadius: 10,
-    padding: 5,
+    borderRadius: 50,
+    paddingHorizontal: 20,
+    paddingVertical: 5,
   },
   statusText: {
-    color: '#ff4040',
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 10,
   },
+  // modalBackground: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   backgroundColor: 'rgba(0,0,0,0.5)',
+  // },
   modalContainer: {
-    flex: 1,
+    backgroundColor: '#161622',
+    padding: 20,
+  },
+  flatListContainer: {
+    flexGrow: 1,
     justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   option: {
-    backgroundColor: '#fff',
-    padding: 20,
+    backgroundColor: '#1E1E2D',
+    padding: 10,
     marginVertical: 5,
-    marginHorizontal: 20,
     borderRadius: 10,
   },
   optionText: {
-    fontSize: 18,
-    color: '#000',
+    fontSize: 12,
+    color: '#fff',
   },
 });
 

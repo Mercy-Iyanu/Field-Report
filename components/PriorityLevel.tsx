@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, Text, StyleSheet, Modal, FlatList } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Modal, FlatList } from 'react-native';
 
 interface PriorityLevelProps {
   options: { id: string; label: string }[];
@@ -8,6 +8,19 @@ interface PriorityLevelProps {
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
 }
+
+const getIndicatorColor = (priority: string) => {
+  switch (priority) {
+    case 'High Priority':
+      return '#ff4040';
+    case 'Medium Priority':
+      return '#ffbf00';
+    case 'Low Priority':
+      return '#00aaff';
+    default:
+      return '#fff';
+  }
+};
 
 const PriorityLevel: React.FC<PriorityLevelProps> = ({ options, currentOption, onSelect, modalVisible, setModalVisible }) => {
   const renderOption = ({ item }: { item: { id: string; label: string } }) => (
@@ -25,6 +38,7 @@ const PriorityLevel: React.FC<PriorityLevelProps> = ({ options, currentOption, o
   return (
     <>
       <TouchableOpacity style={styles.priorityContainer} onPress={() => setModalVisible(true)}>
+        <View style={[styles.indicator, { backgroundColor: getIndicatorColor(currentOption) }]} />
         <Text style={styles.priorityText}>{currentOption}</Text>
       </TouchableOpacity>
       <Modal visible={modalVisible} transparent={true} animationType="slide">
@@ -41,30 +55,39 @@ const PriorityLevel: React.FC<PriorityLevelProps> = ({ options, currentOption, o
 
 const styles = StyleSheet.create({
   priorityContainer: {
-    backgroundColor: '#ff4040',
-    borderRadius: 10,
-    padding: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderRadius: 50,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderColor: '#fff',
+  },
+  indicator: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginRight: 10,
   },
   priorityText: {
     color: '#fff',
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 10,
   },
   modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: '#161622',
+    padding: 20,
   },
   option: {
-    backgroundColor: '#fff',
-    padding: 20,
+    backgroundColor: '#1E1E2D',
+    padding: 10,
     marginVertical: 5,
     marginHorizontal: 20,
     borderRadius: 10,
   },
   optionText: {
-    fontSize: 18,
-    color: '#000',
+    fontSize: 12,
+    color: '#fff',
   },
 });
 

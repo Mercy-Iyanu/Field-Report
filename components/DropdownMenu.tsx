@@ -43,11 +43,11 @@ export default function DropdownMenu({ label, options, onSelect }: DropdownMenuP
 const styles = StyleSheet.create({
   container: {
     marginBottom: 16,
-    zIndex: 2, // Ensure the container has a higher zIndex
+    zIndex: 2, // Ensures the container has a higher zIndex
   },
   label: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 10,
     marginBottom: 8,
   },
   dropdownContainer: {

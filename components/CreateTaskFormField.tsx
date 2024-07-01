@@ -4,7 +4,7 @@ import PriorityLevel from './PriorityLevel';
 import StatusLevel from './StatusLevel';
 import CustomButton from './CustomButton';
 import DropdownMenu from './DropdownMenu';
-import MemberAvatar from './MemberAvatar'; 
+import MemberDropdown from './MemberDropdown'; // Import the MemberDropdown component
 
 const options = [
   { id: '1', label: 'High Priority' },
@@ -30,7 +30,7 @@ export default function CreateTaskFormField() {
     console.log('Task created:', title, description, priority, status);
   };
 
-  
+  // Mock avatars data for demonstration
   const avatars = [
     'https://via.placeholder.com/40',
     'https://via.placeholder.com/40',
@@ -70,7 +70,6 @@ export default function CreateTaskFormField() {
           placeholderTextColor="#888"
           value={description}
           onChangeText={setDescription}
-          multiline
         />
 
         <DropdownMenu
@@ -79,8 +78,15 @@ export default function CreateTaskFormField() {
           onSelect={(option) => console.log('Selected category:', option)} // Handle selection logic
         />
 
-        {/* Use the MemberAvatar component */}
-        <MemberAvatar avatars={avatars} />
+        {/* Add MemberDropdown component */}
+        <MemberDropdown
+          teamMembers={[
+            { id: '1', name: 'John Doe', avatar: 'https://via.placeholder.com/40' },
+            { id: '2', name: 'Jane Smith', avatar: 'https://via.placeholder.com/40' },
+            { id: '3', name: 'Mike Johnson', avatar: 'https://via.placeholder.com/40' },
+          ]}
+          onAddMembers={(selectedMembers) => console.log('Selected members:', selectedMembers)}
+        />
       </View>
 
       <CustomButton title="Create Task" onPress={handleCreateTask} />
@@ -104,17 +110,12 @@ const styles = StyleSheet.create({
   },
   titleInput: {
     color: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#fff',
     marginBottom: 16,
-    fontSize: 18,
+    fontSize: 24,
   },
   descriptionInput: {
     color: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#fff',
     marginBottom: 16,
-    fontSize: 16,
-    height: 100,
+    fontSize: 10,
   },
 });
