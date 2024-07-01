@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: '#fff',
-    fontSize: 10,
+    fontSize: 12,
     marginBottom: 8,
   },
   dropdownContainer: {

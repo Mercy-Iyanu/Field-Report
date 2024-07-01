@@ -32,9 +32,9 @@ export default function CreateTaskFormField() {
 
   // Mock avatars data for demonstration
   const avatars = [
-    'https://via.placeholder.com/40',
-    'https://via.placeholder.com/40',
-    'https://via.placeholder.com/40',
+    'https://www.canva.com/design/DAGJttY6Ll4/LjQD0ymU3AsZLx41L76Wjw/view?utm_content=DAGJttY6Ll4&utm_campaign=designshare&utm_medium=link&utm_source=editor',
+    'https://www.canva.com/design/DAGJttY6Ll4/LjQD0ymU3AsZLx41L76Wjw/view?utm_content=DAGJttY6Ll4&utm_campaign=designshare&utm_medium=link&utm_source=editor',
+    'https://www.canva.com/design/DAGJttY6Ll4/LjQD0ymU3AsZLx41L76Wjw/view?utm_content=DAGJttY6Ll4&utm_campaign=designshare&utm_medium=link&utm_source=editor',
   ];
 
   return (
@@ -72,21 +72,25 @@ export default function CreateTaskFormField() {
           onChangeText={setDescription}
         />
 
-        <DropdownMenu
-          label="Task category"
-          options={['Field Report', 'Others']}
-          onSelect={(option) => console.log('Selected category:', option)} // Handle selection logic
-        />
+        <View 
+          style={styles.inputRow}
+        >
+          <DropdownMenu
+            label="Task category"
+            options={['Field Report', 'Others']}
+            onSelect={(option) => console.log('Selected category:', option)} // Handle selection logic
+          />
 
-        {/* Add MemberDropdown component */}
-        <MemberDropdown
-          teamMembers={[
-            { id: '1', name: 'John Doe', avatar: 'https://via.placeholder.com/40' },
-            { id: '2', name: 'Jane Smith', avatar: 'https://via.placeholder.com/40' },
-            { id: '3', name: 'Mike Johnson', avatar: 'https://via.placeholder.com/40' },
-          ]}
-          onAddMembers={(selectedMembers) => console.log('Selected members:', selectedMembers)}
-        />
+          {/* Add MemberDropdown component */}
+          <MemberDropdown
+            teamMembers={[
+              { id: '1', name: 'John Doe', avatar: 'https://www.canva.com/design/DAGJttY6Ll4/LjQD0ymU3AsZLx41L76Wjw/view?utm_content=DAGJttY6Ll4&utm_campaign=designshare&utm_medium=link&utm_source=editor' },
+              { id: '2', name: 'Jane Smith', avatar: 'https://www.canva.com/design/DAGJttY6Ll4/LjQD0ymU3AsZLx41L76Wjw/view?utm_content=DAGJttY6Ll4&utm_campaign=designshare&utm_medium=link&utm_source=editor' },
+              { id: '3', name: 'Mike Johnson', avatar: 'https://www.canva.com/design/DAGJttY6Ll4/LjQD0ymU3AsZLx41L76Wjw/view?utm_content=DAGJttY6Ll4&utm_campaign=designshare&utm_medium=link&utm_source=editor' },
+            ]}
+            onAddMembers={(selectedMembers) => console.log('Selected members:', selectedMembers)}
+          />
+        </View>
       </View>
 
       <CustomButton title="Create Task" onPress={handleCreateTask} />
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#161622',
     padding: 16,
+    marginTop: 20,
   },
   header: {
     flexDirection: 'row',
@@ -116,6 +121,11 @@ const styles = StyleSheet.create({
   descriptionInput: {
     color: '#fff',
     marginBottom: 16,
-    fontSize: 10,
+    fontSize: 12,
+  },
+  inputRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
   },
 });
