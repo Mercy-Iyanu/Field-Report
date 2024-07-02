@@ -57,7 +57,7 @@ export default function TaskListPage() {
       <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
         <Ionicons name="add-circle" size={30} color="#FFF" />
       </TouchableOpacity>
-      <CreateTaskModal isVisible={isModalVisible} onClose={handleCloseModal} /> {/* Render the modal */}
+      <CreateTaskModal isVisible={isModalVisible} onClose={handleCloseModal} />
     </View>
   );
 }

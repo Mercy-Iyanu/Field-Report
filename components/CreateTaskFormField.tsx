@@ -4,7 +4,7 @@ import PriorityLevel from './PriorityLevel';
 import StatusLevel from './StatusLevel';
 import CustomButton from './CustomButton';
 import DropdownMenu from './DropdownMenu';
-import MemberDropdown from './MemberDropdown'; // Import the MemberDropdown component
+import MemberDropdown from './MemberDropdown';
 
 const options = [
   { id: '1', label: 'High Priority' },
@@ -18,6 +18,12 @@ const statusOptions = [
   { id: '3', label: 'Completed' },
 ];
 
+interface Member {
+  id: string;
+  name: string;
+  avatar: string;
+}
+
 export default function CreateTaskFormField() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -25,17 +31,12 @@ export default function CreateTaskFormField() {
   const [status, setStatus] = useState('Pending');
   const [priorityModalVisible, setPriorityModalVisible] = useState(false);
   const [statusModalVisible, setStatusModalVisible] = useState(false);
+  const [principalMembers, setPrincipalMembers] = useState<Member[]>([]);
+  const [coMembers, setCoMembers] = useState<Member[]>([]);
 
   const handleCreateTask = () => {
-    console.log('Task created:', title, description, priority, status);
+    console.log('Task created:', title, description, priority, status, principalMembers, coMembers);
   };
-
-  // Mock avatars data for demonstration
-  const avatars = [
-    'https://www.canva.com/design/DAGJttY6Ll4/LjQD0ymU3AsZLx41L76Wjw/view?utm_content=DAGJttY6Ll4&utm_campaign=designshare&utm_medium=link&utm_source=editor',
-    'https://www.canva.com/design/DAGJttY6Ll4/LjQD0ymU3AsZLx41L76Wjw/view?utm_content=DAGJttY6Ll4&utm_campaign=designshare&utm_medium=link&utm_source=editor',
-    'https://www.canva.com/design/DAGJttY6Ll4/LjQD0ymU3AsZLx41L76Wjw/view?utm_content=DAGJttY6Ll4&utm_campaign=designshare&utm_medium=link&utm_source=editor',
-  ];
 
   return (
     <View style={styles.container}>
@@ -72,23 +73,24 @@ export default function CreateTaskFormField() {
           onChangeText={setDescription}
         />
 
-        <View 
-          style={styles.inputRow}
-        >
+        <View style={styles.inputRow}>
           <DropdownMenu
             label="Task category"
             options={['Field Report', 'Others']}
             onSelect={(option) => console.log('Selected category:', option)} // Handle selection logic
           />
 
-          {/* Add MemberDropdown component */}
           <MemberDropdown
             teamMembers={[
-              { id: '1', name: 'John Doe', avatar: 'https://www.canva.com/design/DAGJttY6Ll4/LjQD0ymU3AsZLx41L76Wjw/view?utm_content=DAGJttY6Ll4&utm_campaign=designshare&utm_medium=link&utm_source=editor' },
-              { id: '2', name: 'Jane Smith', avatar: 'https://www.canva.com/design/DAGJttY6Ll4/LjQD0ymU3AsZLx41L76Wjw/view?utm_content=DAGJttY6Ll4&utm_campaign=designshare&utm_medium=link&utm_source=editor' },
-              { id: '3', name: 'Mike Johnson', avatar: 'https://www.canva.com/design/DAGJttY6Ll4/LjQD0ymU3AsZLx41L76Wjw/view?utm_content=DAGJttY6Ll4&utm_campaign=designshare&utm_medium=link&utm_source=editor' },
+              { id: '1', name: 'Ronke Ugoju', avatar: 'https://via.placeholder.com/40' },
+              { id: '2', name: 'Itunu Babatope', avatar: 'https://via.placeholder.com/40' },
+              { id: '3', name: 'Koya Kasoro', avatar: 'https://via.placeholder.com/40' },
+              { id: '4', name: 'Isaac Tope', avatar: 'https://via.placeholder.com/40' },
             ]}
-            onAddMembers={(selectedMembers) => console.log('Selected members:', selectedMembers)}
+            onAddMembers={(principal: Member[], co: Member[]) => {
+              setPrincipalMembers(principal);
+              setCoMembers(co);
+            }}
           />
         </View>
       </View>

@@ -9,31 +9,46 @@ interface Member {
 
 interface MemberDropdownProps {
   teamMembers: Member[];
-  onAddMembers: (selectedMembers: Member[]) => void;
+  onAddMembers: (principalMembers: Member[], coMembers: Member[]) => void;
 }
 
 const MemberDropdown = ({ teamMembers, onAddMembers }: MemberDropdownProps) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+  const [principalMembers, setPrincipalMembers] = useState<Member[]>([]);
+  const [coMembers, setCoMembers] = useState<Member[]>([]);
 
-  const handleToggleMember = (member: Member) => {
-    const isSelected = selectedMembers.some((m) => m.id === member.id);
-    if (isSelected) {
-      setSelectedMembers(selectedMembers.filter((m) => m.id !== member.id));
+  const handleToggleMember = (member: Member, isPrincipal: boolean) => {
+    if (isPrincipal) {
+      const isSelected = principalMembers.some((m) => m.id === member.id);
+      if (isSelected) {
+        setPrincipalMembers(principalMembers.filter((m) => m.id !== member.id));
+      } else {
+        setPrincipalMembers([...principalMembers, member]);
+      }
     } else {
-      setSelectedMembers([...selectedMembers, member]);
+      const isSelected = coMembers.some((m) => m.id === member.id);
+      if (isSelected) {
+        setCoMembers(coMembers.filter((m) => m.id !== member.id));
+      } else {
+        setCoMembers([...coMembers, member]);
+      }
     }
   };
 
   const handleAddMembers = () => {
-    onAddMembers(selectedMembers);
+    onAddMembers(principalMembers, coMembers);
     setModalVisible(false);
   };
 
-  const renderMember = ({ item }: { item: Member }) => (
+  const renderMember = ({ item }: { item: Member }, isPrincipal: boolean) => (
     <TouchableOpacity
-      style={[styles.memberContainer, selectedMembers.some((m) => m.id === item.id) && styles.selectedMember]}
-      onPress={() => handleToggleMember(item)}
+      style={[
+        styles.memberContainer,
+        (isPrincipal
+          ? principalMembers.some((m) => m.id === item.id)
+          : coMembers.some((m) => m.id === item.id)) && styles.selectedMember,
+      ]}
+      onPress={() => handleToggleMember(item, isPrincipal)}
     >
       <Image source={{ uri: item.avatar }} style={styles.avatar} />
       <Text style={styles.memberName}>{item.name}</Text>
@@ -48,9 +63,17 @@ const MemberDropdown = ({ teamMembers, onAddMembers }: MemberDropdownProps) => {
       <Modal visible={modalVisible} transparent={true} animationType="slide">
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
+            <Text style={styles.sectionTitle}>Principal Task-Owners</Text>
             <FlatList
               data={teamMembers}
-              renderItem={renderMember}
+              renderItem={(item) => renderMember(item, true)}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={styles.listContainer}
+            />
+            <Text style={styles.sectionTitle}>Co Task-Owners</Text>
+            <FlatList
+              data={teamMembers}
+              renderItem={(item) => renderMember(item, false)}
               keyExtractor={(item) => item.id}
               contentContainerStyle={styles.listContainer}
             />
@@ -92,10 +115,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
-    backgroundColor: '#2A2A3A',
+    backgroundColor: '#161622',
   },
   selectedMember: {
-    backgroundColor: '#1E90FF',
+    backgroundColor: '#E50000',
   },
   avatar: {
     width: 40,
@@ -105,17 +128,23 @@ const styles = StyleSheet.create({
   },
   memberName: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 12,
   },
   addButton: {
-    backgroundColor: '#1E90FF',
+    borderColor: '#E50000',
+    borderWidth: 1,
     borderRadius: 5,
     padding: 10,
     alignItems: 'center',
   },
   addButtonText: {
     color: '#fff',
+    fontSize: 12,
+  },
+  sectionTitle: {
+    color: '#fff',
     fontSize: 16,
+    marginBottom: 10,
   },
 });
 

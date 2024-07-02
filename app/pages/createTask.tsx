@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,
-    maxHeight: '70%', // Adjust the height to take up 50% of the screen
+    maxHeight: '70%', 
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
