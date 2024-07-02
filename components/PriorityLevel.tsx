@@ -7,6 +7,7 @@ interface PriorityLevelProps {
   onSelect: (option: string) => void;
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
+  isDisabled?: boolean;
 }
 
 const getIndicatorColor = (priority: string) => {

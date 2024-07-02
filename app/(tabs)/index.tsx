@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import PreviewList from '@/components/PreviewList';
 import Search from '@/components/Search';
-import TaskDetails from '../pages/taskDetails';
+import TaskDetails from '../pages/taskDetails'; // Ensure the correct path
 
 export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
@@ -96,10 +96,9 @@ export default function HomeScreen() {
                 description={selectedTask.description}
                 priority={selectedTask.priority}
                 status={selectedTask.status}
+                principalMembers={[]} // Provide appropriate members data if needed
+                coMembers={[]} // Provide appropriate members data if needed
               />
-              <TouchableOpacity onPress={handleModalClose} style={styles.closeButton}>
-                <Text style={styles.closeButtonText}>Close</Text>
-              </TouchableOpacity>
             </View>
           </View>
         </Modal>

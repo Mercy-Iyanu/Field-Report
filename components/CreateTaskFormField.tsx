@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, Button } from 'react-native';
 import PriorityLevel from './PriorityLevel';
 import StatusLevel from './StatusLevel';
 import CustomButton from './CustomButton';
 import DropdownMenu from './DropdownMenu';
 import MemberDropdown from './MemberDropdown';
+import TaskDetails from '@/app/pages/taskDetails';
 
 const options = [
   { id: '1', label: 'High Priority' },
@@ -33,10 +34,35 @@ export default function CreateTaskFormField() {
   const [statusModalVisible, setStatusModalVisible] = useState(false);
   const [principalMembers, setPrincipalMembers] = useState<Member[]>([]);
   const [coMembers, setCoMembers] = useState<Member[]>([]);
+  const [showDetails, setShowDetails] = useState(false);
 
   const handleCreateTask = () => {
     console.log('Task created:', title, description, priority, status, principalMembers, coMembers);
+    setShowDetails(true);
   };
+
+  const handleEditTask = () => {
+    console.log('Editing task...');
+  };
+
+  const handleDeleteTask = () => {
+    console.log('Deleting task...');
+  };
+
+  if (showDetails) {
+    return (
+      <TaskDetails
+        title={title}
+        description={description}
+        priority={priority}
+        status={status}
+        principalMembers={principalMembers}
+        coMembers={coMembers}
+        onEditTask={handleEditTask}
+        onDeleteTask={handleDeleteTask}
+      />
+    );
+  }
 
   return (
     <View style={styles.container}>

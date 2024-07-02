@@ -7,6 +7,7 @@ interface StatusLevelProps {
   onSelect: (option: string) => void;
   modalVisible: boolean;
   setModalVisible: (visible: boolean) => void;
+  isDisabled?: boolean;
 }
 
 const getStatusStyles = (status: string) => {
