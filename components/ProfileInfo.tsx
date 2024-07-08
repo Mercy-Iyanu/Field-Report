@@ -5,11 +5,12 @@ export default function ProfileInfo() {
 
     const profilePic = require('../assets/images/profilepic.jpg');
   return (
-    <View style={styles.container}><Image
-    source={profilePic}
-    style={styles.profileImage  }
-    resizeMode="contain"
-  />
+    <View style={styles.container}>
+      <Image
+        source={profilePic}
+        style={styles.profileImage  }
+        resizeMode="contain"
+      />
       <Text style={styles.name}>Tosin Onalaja</Text>
       <Text style={styles.email}>oluwatosinonalaja@sabreng.com</Text>
       <Text style={styles.title}>Account Management</Text>

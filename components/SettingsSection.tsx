@@ -9,12 +9,19 @@ type SettingItem = {
   onPress: () => void;
 };
 
-export default function SettingsSection() {
+type SettingsSectionProps = {
+  onEditProfile: () => void;
+  onResetPassword: () => void;
+  onPrivacyAndSecurity: () => void;
+  onNotifications: () => void;
+};
+
+export default function SettingsSection({ onEditProfile, onResetPassword, onPrivacyAndSecurity, onNotifications }: SettingsSectionProps) {
   const settings: SettingItem[] = [
-    { title: 'Edit Profile', description: 'Change your profile information', icon: 'person-circle-outline', onPress: () => {} },
-    { title: 'Reset Password', description: 'Change your account password', icon: 'key-outline', onPress: () => {} },
-    { title: 'Notifications', description: 'Manage your notification preferences', icon: 'notifications-outline', onPress: () => {} },
-    { title: 'Privacy and Security', description: 'Adjust your privacy settings', icon: 'lock-closed-outline', onPress: () => {} },
+    { title: 'Edit Profile', description: 'Change your profile information', icon: 'person-circle-outline', onPress: onEditProfile },
+    { title: 'Reset Password', description: 'Change your account password', icon: 'key-outline', onPress: onResetPassword },
+    { title: 'Notifications', description: 'Manage your notification preferences', icon: 'notifications-outline', onPress: onNotifications },
+    { title: 'Privacy and Security', description: 'Adjust your privacy settings', icon: 'lock-closed-outline', onPress: onPrivacyAndSecurity },
   ];
 
   return (

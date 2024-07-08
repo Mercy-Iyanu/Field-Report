@@ -1,15 +1,22 @@
-import React, {useState} from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import ProfileInfo from '@/components/ProfileInfo';
 import SettingsSection from '@/components/SettingsSection';
 import CustomButton from '@/components/CustomButton';
+import EditProfileModal from '../pages/editProfile';
+import ResetPasswordModal from '../pages/resetPassword';
+import PrivacyAndSecurityModal from '../pages/privacySecurity';
+import NotificationsModal from '../pages/notifications';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 
 export default function ProfilePage() {
-
   const [refreshing, setRefreshing] = React.useState(false);
+  const [editProfileVisible, setEditProfileVisible] = useState(false);
+  const [resetPasswordVisible, setResetPasswordVisible] = useState(false);
+  const [privacyAndSecurityVisible, setPrivacyAndSecurityVisible] = useState(false);
+  const [notificationsVisible, setNotificationsVisible] = useState(false);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -17,6 +24,7 @@ export default function ProfilePage() {
       setRefreshing(false);
     }, 1000);
   }, []);
+  
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
   const [darkMode, setDarkMode] = useState(false);
@@ -27,6 +35,22 @@ export default function ProfilePage() {
 
   const handleLogout = () => {
     // Logic to handle logout
+  };
+
+  const handleEditProfile = () => {
+    setEditProfileVisible(true);
+  };
+
+  const handleResetPassword = () => {
+    setResetPasswordVisible(true);
+  };
+
+  const handlePrivacyAndSecurity = () => {
+    setPrivacyAndSecurityVisible(true);
+  };
+
+  const handleNotifications = () => {
+    setNotificationsVisible(true);
   };
 
   return (
@@ -49,9 +73,21 @@ export default function ProfilePage() {
           </View>
         </View>
         <ProfileInfo />
-        <SettingsSection />
+        <SettingsSection onEditProfile={handleEditProfile} onResetPassword={handleResetPassword} onPrivacyAndSecurity={handlePrivacyAndSecurity} onNotifications={handleNotifications} />
         <CustomButton title="Delete Account" onPress={() => { /* Logic to delete account */ }} />
       </View>
+      <Modal visible={editProfileVisible} animationType="slide">
+        <EditProfileModal onClose={() => setEditProfileVisible(false)} />
+      </Modal>
+      <Modal visible={resetPasswordVisible} animationType="slide">
+        <ResetPasswordModal onClose={() => setResetPasswordVisible(false)} />
+      </Modal>
+      <Modal visible={privacyAndSecurityVisible} animationType="slide">
+        <PrivacyAndSecurityModal onClose={() => setPrivacyAndSecurityVisible(false)} />
+      </Modal>
+      <Modal visible={notificationsVisible} animationType="slide">
+        <NotificationsModal onClose={() => setNotificationsVisible(false)} />
+      </Modal>
     </ScrollView>
   );
 }

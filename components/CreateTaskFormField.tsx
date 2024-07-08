@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Button } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 import PriorityLevel from './PriorityLevel';
 import StatusLevel from './StatusLevel';
 import CustomButton from './CustomButton';
@@ -49,6 +49,10 @@ export default function CreateTaskFormField() {
     console.log('Deleting task...');
   };
 
+  const handleCloseTaskDetails = () => {
+    setShowDetails(false);
+  };
+
   if (showDetails) {
     return (
       <TaskDetails
@@ -60,6 +64,7 @@ export default function CreateTaskFormField() {
         coMembers={coMembers}
         onEditTask={handleEditTask}
         onDeleteTask={handleDeleteTask}
+        onClose={handleCloseTaskDetails}  // Pass the onClose prop
       />
     );
   }
@@ -103,7 +108,7 @@ export default function CreateTaskFormField() {
           <DropdownMenu
             label="Task category"
             options={['Field Report', 'Others']}
-            onSelect={(option) => console.log('Selected category:', option)} // Handle selection logic
+            onSelect={(option) => console.log('Selected category:', option)}
           />
 
           <MemberDropdown

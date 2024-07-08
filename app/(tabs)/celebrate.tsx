@@ -1,4 +1,3 @@
-
 import DatePicker from '@/components/DatePicker';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
@@ -19,6 +18,7 @@ export default function CelebratePage() {
 
   const handleFormSubmit = (text: string, option: string) => {
     console.log('Form submitted with:', text, option);
+    // Form submission logic goes here if needed
   };
 
   return (
