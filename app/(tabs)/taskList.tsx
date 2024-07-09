@@ -1,26 +1,22 @@
-import PreviewList from '@/components/PreviewList';
-import Search from '@/components/Search';
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import DateNavigator from '@/components/DateNavigator';
 import MembersTasks from '@/components/MembersTasks';
 import CreateTaskModal from '../pages/createTask';
-
-const handlePreviewListPress = (list: any) => {
-  console.log("List pressed:", list);
-}
-const previewLists = [
-  {title: 'Attend seminar', description: 'Posted at 9am'},
-  {title: 'Call Mr. Amusan', description: 'Posted at 8:45 am'},
-  {title: 'Schedule meeting with Dele travels', description: 'Posted at 1pm'}
-]
+import PreviewList from '@/components/PreviewList';
+import Search from '@/components/Search';
 
 export default function TaskListPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDate, setSelectedDate] = useState('2024-06-11');
   const [selectedFilter, setSelectedFilter] = useState('My tasks');
-  const [isModalVisible, setModalVisible] = useState(false); // Add state for modal visibility
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [previewLists, setPreviewLists] = useState([
+    { title: 'Attend seminar', description: 'Posted at 9am' },
+    { title: 'Call Mr. Amusan', description: 'Posted at 8:45 am' },
+    { title: 'Schedule meeting with Dele travels', description: 'Posted at 1pm' },
+  ]);
 
   const handleSearchChange = (text: string) => setSearchQuery(text);
   const handleDateNext = () => setSelectedDate(new Date().toISOString().split('T')[0]);
@@ -28,11 +24,17 @@ export default function TaskListPage() {
   const handleFilterSelect = (option: string) => setSelectedFilter(option);
 
   const handleAddTask = () => {
-    setModalVisible(true); // Show the modal when the add task button is pressed
+    setModalVisible(true);
   };
 
   const handleCloseModal = () => {
-    setModalVisible(false); // Hide the modal when it is closed
+    setModalVisible(false);
+  };
+
+  const addTaskToList = (task: any) => {
+    // Update the task list state with the new task
+    const updatedList = [...previewLists, { title: task.title, description: task.description }];
+    setPreviewLists(updatedList); // Update state with new list including the new task
   };
 
   return (
@@ -45,11 +47,11 @@ export default function TaskListPage() {
         <View style={styles.activitiesContainer}>
           <Text style={styles.activitiesTitle}>My tasks</Text>
           {previewLists.map((list, index) => (
-            <PreviewList 
+            <PreviewList
               key={index}
               title={list.title}
               description={list.description}
-              onPress={() => handlePreviewListPress(list)}
+              onPress={() => console.log("List pressed:", list)}
             />
           ))}
         </View>
@@ -57,7 +59,7 @@ export default function TaskListPage() {
       <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
         <Ionicons name="add-circle" size={30} color="#FFF" />
       </TouchableOpacity>
-      <CreateTaskModal isVisible={isModalVisible} onClose={handleCloseModal} />
+      <CreateTaskModal isVisible={isModalVisible} onClose={handleCloseModal} onTaskCreated={addTaskToList} />
     </View>
   );
 }
@@ -104,5 +106,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
-  }
+  },
 });

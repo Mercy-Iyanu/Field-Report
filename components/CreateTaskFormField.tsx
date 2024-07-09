@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Alert } from 'react-native';
+import React from 'react';
+import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import PriorityLevel from './PriorityLevel';
 import StatusLevel from './StatusLevel';
 import CustomButton from './CustomButton';
 import DropdownMenu from './DropdownMenu';
 import MemberDropdown from './MemberDropdown';
-import TaskDetails from '@/app/pages/taskDetails';
 
 const options = [
   { id: '1', label: 'High Priority' },
@@ -19,39 +18,18 @@ const statusOptions = [
   { id: '3', label: 'Completed' },
 ];
 
-interface Member {
-  id: string;
-  name: string;
-  avatar: string;
+interface CreateTaskFormFieldProps {
+  setTitle: (title: string) => void;
+  setDescription: (description: string) => void;
+  onCreateTask: () => void;
 }
 
-export default function CreateTaskFormField() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [priority, setPriority] = useState('High Priority');
-  const [status, setStatus] = useState('Pending');
-  const [priorityModalVisible, setPriorityModalVisible] = useState(false);
-  const [statusModalVisible, setStatusModalVisible] = useState(false);
-  const [principalMembers, setPrincipalMembers] = useState<Member[]>([]);
-  const [coMembers, setCoMembers] = useState<Member[]>([]);
-  const [showDetails, setShowDetails] = useState(false);
+export default function CreateTaskFormField({ setTitle, setDescription, onCreateTask }: CreateTaskFormFieldProps) {
+  const [priority, setPriority] = React.useState('High Priority');
+  const [status, setStatus] = React.useState('Pending');
 
   const handleCreateTask = () => {
-    if (!title || !description || !priority || !status) {
-      alert('Please fill out all fields before creating the task.');
-      return;
-    }
-
-    alert('Task successfully created.');
-    setShowDetails(false);
-  };
-
-  const handleEditTask = () => {
-    console.log('Editing task...');
-  };
-
-  const handleDeleteTask = () => {
-    console.log('Deleting task...');
+    onCreateTask();
   };
 
   return (
@@ -62,15 +40,15 @@ export default function CreateTaskFormField() {
             options={options}
             currentOption={priority}
             onSelect={setPriority}
-            modalVisible={priorityModalVisible}
-            setModalVisible={setPriorityModalVisible}
+            modalVisible={false} // Set to false as it's not used in this component
+            setModalVisible={() => {}} // Dummy function
           />
           <StatusLevel
             options={statusOptions}
             currentOption={status}
             onSelect={setStatus}
-            modalVisible={statusModalVisible}
-            setModalVisible={setStatusModalVisible}
+            modalVisible={false} // Set to false as it's not used in this component
+            setModalVisible={() => {}} // Dummy function
           />
         </View>
 
@@ -79,15 +57,13 @@ export default function CreateTaskFormField() {
             style={styles.titleInput}
             placeholder="Add task title"
             placeholderTextColor="#888"
-            value={title}
-            onChangeText={setTitle}
+            onChangeText={setTitle} // Update title state
           />
           <TextInput
             style={styles.descriptionInput}
             placeholder="Add task description"
             placeholderTextColor="#888"
-            value={description}
-            onChangeText={setDescription}
+            onChangeText={setDescription} // Update description state
           />
 
           <View style={styles.inputRow}>
@@ -104,10 +80,7 @@ export default function CreateTaskFormField() {
                 { id: '3', name: 'Koya Kasoro', avatar: 'https://via.placeholder.com/40' },
                 { id: '4', name: 'Isaac Tope', avatar: 'https://via.placeholder.com/40' },
               ]}
-              onAddMembers={(principal: Member[], co: Member[]) => {
-                setPrincipalMembers(principal);
-                setCoMembers(co);
-              }}
+              onAddMembers={(principal: any[], co: any[]) => {}}
             />
           </View>
         </View>
@@ -121,7 +94,6 @@ export default function CreateTaskFormField() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // padding: 16,
     marginTop: 33,
   },
   lightBg: {

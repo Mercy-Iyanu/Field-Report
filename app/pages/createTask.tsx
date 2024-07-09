@@ -6,14 +6,21 @@ import CreateTaskFormField from '@/components/CreateTaskFormField';
 interface CreateTaskModalProps {
   isVisible: boolean;
   onClose: () => void;
+  onTaskCreated: (task: any) => void; // Callback to handle task creation
 }
 
-export default function CreateTaskModal({ isVisible, onClose }: CreateTaskModalProps) {
+export default function CreateTaskModal({ isVisible, onClose, onTaskCreated }: CreateTaskModalProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
   const handleCreateTask = () => {
-    console.log('Task created:', title, description);
+    if (!title || !description) {
+      alert('Please fill out all fields before creating the task.');
+      return;
+    }
+
+    const newTask = { title, description };
+    onTaskCreated(newTask); // Call the callback with the new task details
     onClose();
   };
 
@@ -27,7 +34,11 @@ export default function CreateTaskModal({ isVisible, onClose }: CreateTaskModalP
             </TouchableOpacity>
             <Text style={styles.headerTitle}>Create Task</Text>
           </View>
-          <CreateTaskFormField />
+          <CreateTaskFormField
+            setTitle={setTitle}
+            setDescription={setDescription}
+            onCreateTask={handleCreateTask}
+          />
         </View>
       </View>
     </Modal>
