@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Animated, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import CustomButton from '@/components/CustomButton';
 
@@ -32,6 +32,16 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
   onDeleteTask,
   onClose,
 }) => {
+  const slideAnim = useRef(new Animated.Value(300)).current; // Initial position of modal (off-screen)
+
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: 0, // Move modal to the visible screen
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
   const renderMember = ({ item }: { item: Member }) => (
     <View style={styles.memberContainer}>
       <Image source={{ uri: item.avatar }} style={styles.avatar} />
@@ -40,37 +50,39 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={onClose}>
-          <Ionicons name="close-outline" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Task Detail</Text>
-        <View /> {/* This empty View is used for alignment */}
-      </View>
+    <Modal transparent animationType="none" visible={true} onRequestClose={onClose}>
+      <Animated.View style={[styles.container, { transform: [{ translateY: slideAnim }] }]}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={onClose}>
+            <Ionicons name="arrow-back" size={24} color="white" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Task Detail</Text>
+          <View /> {/* This empty View is used for alignment */}
+        </View>
 
-      <View style={styles.content}>
-        <Text style={styles.titleInput}>{title}</Text>
-        <Text style={styles.descriptionInput}>{description}</Text>
+        <View style={styles.content}>
+          <Text style={styles.titleInput}>{title}</Text>
+          <Text style={styles.descriptionInput}>{description}</Text>
 
-        <Text style={styles.label}>Principal Members:</Text>
-        <FlatList
-          data={principalMembers}
-          renderItem={renderMember}
-          keyExtractor={(item) => item.id}
-        />
+          <Text style={styles.label}>Principal Members:</Text>
+          <FlatList
+            data={principalMembers}
+            renderItem={renderMember}
+            keyExtractor={(item) => item.id}
+          />
 
-        <Text style={styles.label}>Co Members:</Text>
-        <FlatList
-          data={coMembers}
-          renderItem={renderMember}
-          keyExtractor={(item) => item.id}
-        />
+          <Text style={styles.label}>Co Members:</Text>
+          <FlatList
+            data={coMembers}
+            renderItem={renderMember}
+            keyExtractor={(item) => item.id}
+          />
 
-        <CustomButton title="Edit Task" onPress={onEditTask} />
-        <CustomButton title="Delete Task" onPress={onDeleteTask} />
-      </View>
-    </View>
+          <CustomButton title="Edit Task" onPress={onEditTask} />
+          <CustomButton title="Delete Task" onPress={onDeleteTask} />
+        </View>
+      </Animated.View>
+    </Modal>
   );
 };
 

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  RefreshControl, 
-  Text, 
-  Image, 
-  ScrollView, 
-  StyleSheet, 
-  Modal, 
-  TouchableOpacity 
+import {
+  View,
+  RefreshControl,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Modal,
+  TouchableOpacity,
 } from 'react-native';
 import PreviewList from '@/components/PreviewList';
 import Search from '@/components/Search';
@@ -25,13 +25,13 @@ export default function HomeScreen() {
       setRefreshing(false);
     }, 1000);
   }, []);
-  
+
   const logo = require('../../assets/images/logo.png');
 
   const previewLists = [
     { title: 'Attend seminar', description: 'Posted at 9am', priority: 'High', status: 'Pending' },
     { title: 'Call Mr. Amusan', description: 'Posted at 8:45 am', priority: 'Medium', status: 'In Progress' },
-    { title: 'Schedule meeting with Dele travels', description: 'Posted at 1pm', priority: 'Low', status: 'Completed' }
+    { title: 'Schedule meeting with Dele travels', description: 'Posted at 1pm', priority: 'Low', status: 'Completed' },
   ];
 
   const handleSearchChange = (text: string) => setSearchQuery(text);
@@ -46,8 +46,18 @@ export default function HomeScreen() {
     setSelectedTask(null);
   };
 
+  const handleEditTask = () => {
+    // Logic to edit task
+    console.log('Edit task');
+  };
+
+  const handleDeleteTask = () => {
+    // Logic to delete task
+    console.log('Delete task');
+  };
+
   return (
-    <ScrollView 
+    <ScrollView
       style={styles.container}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -58,37 +68,20 @@ export default function HomeScreen() {
           <Text style={styles.greeting}>Hello,</Text>
           <Text style={styles.username}>Tosin Onalaja</Text>
         </View>
-        <Image
-          source={logo}
-          style={styles.logo}
-          resizeMode="contain"
-        />
+        <Image source={logo} style={styles.logo} resizeMode="contain" />
       </View>
 
-      <Search 
-        placeholder='Looking for something?'
-        onChangeText={handleSearchChange}
-      />
+      <Search placeholder="Looking for something?" onChangeText={handleSearchChange} />
 
       <View style={styles.activitiesContainer}>
         <Text style={styles.activitiesTitle}>Your task for today</Text>
         {previewLists.map((list, index) => (
-          <PreviewList 
-            key={index}
-            title={list.title}
-            description={list.description}
-            onPress={() => handlePreviewListPress(list)}
-          />
+          <PreviewList key={index} title={list.title} description={list.description} onPress={() => handlePreviewListPress(list)} />
         ))}
       </View>
 
       {selectedTask && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={handleModalClose}
-        >
+        <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={handleModalClose}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               <TaskDetails
@@ -98,6 +91,9 @@ export default function HomeScreen() {
                 status={selectedTask.status}
                 principalMembers={[]} // Provide appropriate members data if needed
                 coMembers={[]} // Provide appropriate members data if needed
+                onEditTask={handleEditTask}
+                onDeleteTask={handleDeleteTask}
+                onClose={handleModalClose}
               />
             </View>
           </View>
