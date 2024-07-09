@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import TextField from './TextField';
 import DropdownMenu from './DropdownMenu';
 import CustomButton from './CustomButton';
@@ -26,6 +26,7 @@ export default function CelebrateFormField({ options, onSubmit }: CelebrateFormF
   const handleSubmit = () => {
     onSubmit(text, selectedOption);
     setText('');
+    alert('Reminder successfully set.'); // Display an alert
   };
 
   return (

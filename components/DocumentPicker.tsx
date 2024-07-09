@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import DocumentPicker, { DocumentPickerResponse, types } from 'react-native-document-picker';
 
-export default function DocumentPickerComponent() {
+interface DocumentPickerComponentProps {
+  onFileSelect: (response: DocumentPickerResponse[]) => void;
+}
+
+export default function DocumentPickerComponent({ onFileSelect }: DocumentPickerComponentProps) {
   const [fileResponse, setFileResponse] = useState<DocumentPickerResponse[] | null>(null);
 
   const handleDocumentSelection = async () => {
@@ -16,6 +20,7 @@ export default function DocumentPickerComponent() {
         ],
       });
       setFileResponse(response);
+      onFileSelect(response);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('User cancelled the picker');
@@ -32,12 +37,12 @@ export default function DocumentPickerComponent() {
       </TouchableOpacity>
       {fileResponse && fileResponse.length > 0 && (
         <View style={styles.fileContainer}>
-          <Text style={styles.fileName}>File Name: {fileResponse[0].name}</Text>
-          <Text style={styles.fileType}>File Type: {fileResponse[0].type}</Text>
-          <Text style={styles.fileSize}>File Size: {fileResponse[0].size} bytes</Text>
-          {fileResponse[0].type.startsWith('image/') && (
+          <Text style={styles.fileName}>File Name: {fileResponse[0]?.name ?? 'Unknown'}</Text>
+          <Text style={styles.fileType}>File Type: {fileResponse[0]?.type ?? 'Unknown'}</Text>
+          <Text style={styles.fileSize}>File Size: {fileResponse[0]?.size ?? 0} bytes</Text>
+          {fileResponse[0]?.type?.startsWith('image/') && (
             <Image
-              source={{ uri: fileResponse[0].uri }}
+              source={{ uri: fileResponse[0]?.uri }}
               style={styles.image}
               resizeMode="contain"
             />

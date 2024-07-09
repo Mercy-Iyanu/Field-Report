@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, Alert } from 'react-native';
 import PriorityLevel from './PriorityLevel';
 import StatusLevel from './StatusLevel';
 import CustomButton from './CustomButton';
@@ -37,8 +37,8 @@ export default function CreateTaskFormField() {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleCreateTask = () => {
-    console.log('Task created:', title, description, priority, status, principalMembers, coMembers);
-    setShowDetails(true);
+    alert('Task successfully created.');
+    setShowDetails(true); // Optional: You can set this to true if you want to show task details after creation.
   };
 
   const handleEditTask = () => {
@@ -49,80 +49,62 @@ export default function CreateTaskFormField() {
     console.log('Deleting task...');
   };
 
-  const handleCloseTaskDetails = () => {
-    setShowDetails(false);
-  };
-
-  if (showDetails) {
-    return (
-      <TaskDetails
-        title={title}
-        description={description}
-        priority={priority}
-        status={status}
-        principalMembers={principalMembers}
-        coMembers={coMembers}
-        onEditTask={handleEditTask}
-        onDeleteTask={handleDeleteTask}
-        onClose={handleCloseTaskDetails}  // Pass the onClose prop
-      />
-    );
-  }
-
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <PriorityLevel
-          options={options}
-          currentOption={priority}
-          onSelect={setPriority}
-          modalVisible={priorityModalVisible}
-          setModalVisible={setPriorityModalVisible}
-        />
-        <StatusLevel
-          options={statusOptions}
-          currentOption={status}
-          onSelect={setStatus}
-          modalVisible={statusModalVisible}
-          setModalVisible={setStatusModalVisible}
-        />
-      </View>
+      <View style={styles.lightBg}>
+        <View style={styles.header}>
+          <PriorityLevel
+            options={options}
+            currentOption={priority}
+            onSelect={setPriority}
+            modalVisible={priorityModalVisible}
+            setModalVisible={setPriorityModalVisible}
+          />
+          <StatusLevel
+            options={statusOptions}
+            currentOption={status}
+            onSelect={setStatus}
+            modalVisible={statusModalVisible}
+            setModalVisible={setStatusModalVisible}
+          />
+        </View>
 
-      <View style={styles.content}>
-        <TextInput
-          style={styles.titleInput}
-          placeholder="Add task title"
-          placeholderTextColor="#888"
-          value={title}
-          onChangeText={setTitle}
-        />
-        <TextInput
-          style={styles.descriptionInput}
-          placeholder="Add task description"
-          placeholderTextColor="#888"
-          value={description}
-          onChangeText={setDescription}
-        />
-
-        <View style={styles.inputRow}>
-          <DropdownMenu
-            label="Task category"
-            options={['Field Report', 'Others']}
-            onSelect={(option) => console.log('Selected category:', option)}
+        <View style={styles.content}>
+          <TextInput
+            style={styles.titleInput}
+            placeholder="Add task title"
+            placeholderTextColor="#888"
+            value={title}
+            onChangeText={setTitle}
+          />
+          <TextInput
+            style={styles.descriptionInput}
+            placeholder="Add task description"
+            placeholderTextColor="#888"
+            value={description}
+            onChangeText={setDescription}
           />
 
-          <MemberDropdown
-            teamMembers={[
-              { id: '1', name: 'Ronke Ugoju', avatar: 'https://via.placeholder.com/40' },
-              { id: '2', name: 'Itunu Babatope', avatar: 'https://via.placeholder.com/40' },
-              { id: '3', name: 'Koya Kasoro', avatar: 'https://via.placeholder.com/40' },
-              { id: '4', name: 'Isaac Tope', avatar: 'https://via.placeholder.com/40' },
-            ]}
-            onAddMembers={(principal: Member[], co: Member[]) => {
-              setPrincipalMembers(principal);
-              setCoMembers(co);
-            }}
-          />
+          <View style={styles.inputRow}>
+            <DropdownMenu
+              label="Task category"
+              options={['Field Report', 'Others']}
+              onSelect={(option) => console.log('Selected category:', option)}
+            />
+
+            <MemberDropdown
+              teamMembers={[
+                { id: '1', name: 'Ronke Ugoju', avatar: 'https://via.placeholder.com/40' },
+                { id: '2', name: 'Itunu Babatope', avatar: 'https://via.placeholder.com/40' },
+                { id: '3', name: 'Koya Kasoro', avatar: 'https://via.placeholder.com/40' },
+                { id: '4', name: 'Isaac Tope', avatar: 'https://via.placeholder.com/40' },
+              ]}
+              onAddMembers={(principal: Member[], co: Member[]) => {
+                setPrincipalMembers(principal);
+                setCoMembers(co);
+              }}
+            />
+          </View>
         </View>
       </View>
 
@@ -134,9 +116,14 @@ export default function CreateTaskFormField() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#161622',
-    padding: 16,
-    marginTop: 20,
+    // padding: 16,
+    marginTop: 33,
+  },
+  lightBg: {
+    backgroundColor: '#232533',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
   },
   header: {
     flexDirection: 'row',

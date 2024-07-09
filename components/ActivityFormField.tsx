@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import TextField from './TextField';
 import DropdownMenu from './DropdownMenu';
 import CustomButton from './CustomButton';
 import StatusLevel from './StatusLevel';
 import PriorityLevel from './PriorityLevel';
-import DocumentPickerComponent from './DocumentPicker';
-import { DocumentPickerResponse } from 'react-native-document-picker';
 
 const statusOptions = [
   { id: '1', label: 'Pending' },
@@ -38,7 +36,6 @@ export default function ActivityFormField() {
   const [priority, setPriority] = useState<string>('High');
   const [statusModalVisible, setStatusModalVisible] = useState(false);
   const [priorityModalVisible, setPriorityModalVisible] = useState(false);
-  const [fileResponse, setFileResponse] = useState<DocumentPickerResponse[] | null>(null);
 
   const handleTextChange1 = (text: string) => setText1(text);
   const handleTextChange3 = (text: string) => setText3(text);
@@ -52,12 +49,8 @@ export default function ActivityFormField() {
 
   const handleSubmit = () => {
     console.log('Form submitted with values:', {
-      text1, agencyName, agencyCategory, text3, text4, text5, text6, status, priority, fileResponse
+      text1, agencyName, agencyCategory, text3, text4, text5, text6, status, priority
     });
-  };
-
-  const handleFileSelect = (response: DocumentPickerResponse[]) => {
-    setFileResponse(response);
   };
 
   return (
@@ -69,23 +62,7 @@ export default function ActivityFormField() {
       <TextField value={text4} placeholder="Description" label="Description" onChangeText={handleTextChange4} />
       <TextField value={text5} placeholder="Your view" label="Your View" onChangeText={handleTextChange5} />
       <TextField value={text6} placeholder="Next action step" label="Next Action Step" onChangeText={handleTextChange6} />
-
-      <DocumentPickerComponent onFileSelect={handleFileSelect} />
-      {fileResponse && fileResponse.length > 0 && (
-        <View style={styles.fileContainer}>
-          <Text style={styles.fileName}>File Name: {fileResponse[0].name}</Text>
-          <Text style={styles.fileType}>File Type: {fileResponse[0].type}</Text>
-          <Text style={styles.fileSize}>File Size: {fileResponse[0].size} bytes</Text>
-          {fileResponse[0].type.startsWith('image/') && (
-            <Image
-              source={{ uri: fileResponse[0].uri }}
-              style={styles.image}
-              resizeMode="contain"
-            />
-          )}
-        </View>
-      )}
-
+      
       <View style={styles.rowContainer}>
         <StatusLevel
           options={statusOptions}
@@ -120,26 +97,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginVertical: 10,
-  },
-  fileContainer: {
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  fileName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  fileType: {
-    fontSize: 14,
-    color: '#666',
-  },
-  fileSize: {
-    fontSize: 14,
-    color: '#666',
-  },
-  image: {
-    width: 200,
-    height: 200,
-    marginTop: 10,
   },
 });
