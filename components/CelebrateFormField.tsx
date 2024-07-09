@@ -24,9 +24,14 @@ export default function CelebrateFormField({ options, onSubmit }: CelebrateFormF
   };
 
   const handleSubmit = () => {
+    if (!text || !selectedOption) {
+      alert('Please fill out all fields before setting the reminder.');
+      return;
+    }
+    
     onSubmit(text, selectedOption);
     setText('');
-    alert('Reminder successfully set.'); // Display an alert
+    alert('Reminder successfully set.');
   };
 
   return (
@@ -51,6 +56,6 @@ export default function CelebrateFormField({ options, onSubmit }: CelebrateFormF
 const styles = StyleSheet.create({
   formContainer: {
     marginTop: 20,
-    zIndex: 1, // Ensure the form container has a lower zIndex
+    zIndex: 1
   },
 });

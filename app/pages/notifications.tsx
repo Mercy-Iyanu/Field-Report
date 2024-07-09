@@ -60,7 +60,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onClose }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={onClose}>
-          <Ionicons name="arrow-back" size={24} color="white" />
+          <Ionicons name="chevron-back-outline" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Notifications</Text>
         <TouchableOpacity>

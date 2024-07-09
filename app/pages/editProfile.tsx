@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Picker } from '@react-native-picker/picker';
+import TextField from '@/components/TextField';
+import CustomButton from '@/components/CustomButton';
+import DropdownMenu from '@/components/DropdownMenu';
 
 type EditProfileModalProps = {
   onClose: () => void;
@@ -23,7 +25,7 @@ export default function EditProfileModal({ onClose }: EditProfileModalProps) {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={onClose}>
-          <Ionicons name="arrow-back" size={24} color="white" />
+          <Ionicons name="chevron-back-outline" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Edit Profile</Text>
         <View /> {/* This empty View is used for alignment */}
@@ -31,46 +33,39 @@ export default function EditProfileModal({ onClose }: EditProfileModalProps) {
 
       <View style={styles.content}>
         <TouchableOpacity style={styles.imageContainer}>
-        <Image
+          <Image
             source={profilePic}
             style={styles.profileImage}
             resizeMode="contain"
-        />
+          />
           <Ionicons name="camera" size={24} color="white" style={styles.cameraIcon} />
         </TouchableOpacity>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Fullname"
+        <TextField
           value={fullName}
+          placeholder="Fullname"
+          label="Fullname"
           onChangeText={setFullName}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
+        <TextField
           value={username}
+          placeholder="Username"
+          label="Username"
           onChangeText={setUsername}
         />
-        <View style={styles.pickerContainer}>
-          <Picker
-            selectedValue={department}
-            style={styles.picker}
-            onValueChange={(itemValue) => setDepartment(itemValue)}
-          >
-            <Picker.Item label="Account Management" value="Account Management" />
-            <Picker.Item label="HR" value="HR" />
-            <Picker.Item label="Engineering" value="Engineering" />
-            <Picker.Item label="Sales" value="Sales" />
-          </Picker>
-        </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Phone no"
+        <DropdownMenu
+          label="Department"
+          options={['Account Management', 'Sales']}
+          onSelect={setDepartment}
+        />
+        <TextField
           value={phone}
+          placeholder="Phone no"
+          label="Phone no"
           onChangeText={setPhone}
         />
 
-        <Button title="Save Changes" onPress={handleSaveChanges} />
+        <CustomButton title="Save Changes" onPress={handleSaveChanges} />
       </View>
     </View>
   );
@@ -110,20 +105,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 10,
-  },
-  input: {
-    backgroundColor: '#333',
-    color: '#fff',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 15,
-  },
-  pickerContainer: {
-    backgroundColor: '#333',
-    borderRadius: 5,
-    marginBottom: 15,
-  },
-  picker: {
-    color: '#fff',
   },
 });

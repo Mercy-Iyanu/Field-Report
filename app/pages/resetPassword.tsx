@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import PasswordField from '@/components/PasswordField';
+import CustomButton from '@/components/CustomButton';
 
 type ResetPasswordModalProps = {
   onClose: () => void;
@@ -20,36 +22,33 @@ export default function ResetPasswordModal({ onClose }: ResetPasswordModalProps)
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={onClose}>
-          <Ionicons name="arrow-back" size={24} color="white" />
+          <Ionicons name="chevron-back-outline" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Reset Password</Text>
         <View /> {/* This empty View is used for alignment */}
       </View>
 
       <View style={styles.content}>
-        <TextInput
-          style={styles.input}
-          placeholder="Current Password"
+        <PasswordField
           value={currentPassword}
+          placeholder="Current Password"
+          label="Current Password"
           onChangeText={setCurrentPassword}
-          secureTextEntry
         />
-        <TextInput
-          style={styles.input}
-          placeholder="New Password"
+        <PasswordField
           value={newPassword}
+          placeholder="New Password"
+          label="New Password"
           onChangeText={setNewPassword}
-          secureTextEntry
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Reconfirm New Password"
+        <PasswordField
           value={reconfirmNewPassword}
+          placeholder="Reconfirm New Password"
+          label="Reconfirm New Password"
           onChangeText={setReconfirmNewPassword}
-          secureTextEntry
         />
 
-        <Button title="Reset Password" onPress={handleResetPassword} />
+        <CustomButton title="Reset Password" onPress={handleResetPassword} />
       </View>
     </View>
   );
@@ -75,12 +74,5 @@ const styles = StyleSheet.create({
   },
   content: {
     marginTop: 20,
-  },
-  input: {
-    backgroundColor: '#333',
-    color: '#fff',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 15,
   },
 });

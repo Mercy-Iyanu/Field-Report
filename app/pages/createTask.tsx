@@ -23,7 +23,7 @@ export default function CreateTaskModal({ isVisible, onClose }: CreateTaskModalP
         <View style={styles.modalContent}>
           <View style={styles.header}>
             <TouchableOpacity onPress={onClose}>
-              <Ionicons name="arrow-back" size={24} color="white" />
+              <Ionicons name="chevron-back-outline" size={24} color="white" />
             </TouchableOpacity>
             <Text style={styles.headerTitle}>Create Task</Text>
           </View>

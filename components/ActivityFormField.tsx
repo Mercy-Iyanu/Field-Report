@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import TextField from './TextField';
 import DropdownMenu from './DropdownMenu';
 import CustomButton from './CustomButton';
@@ -48,9 +48,13 @@ export default function ActivityFormField() {
   const handlePrioritySelect = (selectedPriority: string) => setPriority(selectedPriority);
 
   const handleSubmit = () => {
-    console.log('Form submitted with values:', {
-      text1, agencyName, agencyCategory, text3, text4, text5, text6, status, priority
-    });
+    // Check if any of the required fields are empty
+    if (!text1 || !agencyName || !agencyCategory || !text3 || !text4 || !text5 || !text6) {
+      // If any field is empty, show an alert or take appropriate action
+      alert('Please fill out all fields before logging the report.');
+      return; // Exit the function early
+    }
+    alert('Report successfully logged.'); 
   };
 
   return (

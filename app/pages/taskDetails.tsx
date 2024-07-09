@@ -18,7 +18,7 @@ interface TaskDetailsProps {
   coMembers: Member[];
   onEditTask: () => void;
   onDeleteTask: () => void;
-  onClose: () => void; // Callback for closing the modal
+  onClose: () => void;
 }
 
 const TaskDetails: React.FC<TaskDetailsProps> = ({
@@ -32,11 +32,11 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
   onDeleteTask,
   onClose,
 }) => {
-  const slideAnim = useRef(new Animated.Value(300)).current; // Initial position of modal (off-screen)
+  const slideAnim = useRef(new Animated.Value(300)).current;
 
   useEffect(() => {
     Animated.timing(slideAnim, {
-      toValue: 0, // Move modal to the visible screen
+      toValue: 0,
       duration: 300,
       useNativeDriver: true,
     }).start();
@@ -54,7 +54,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
       <Animated.View style={[styles.container, { transform: [{ translateY: slideAnim }] }]}>
         <View style={styles.header}>
           <TouchableOpacity onPress={onClose}>
-            <Ionicons name="arrow-back" size={24} color="white" />
+            <Ionicons name="chevron-back-outline" size={24} color="white" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Task Detail</Text>
           <View /> {/* This empty View is used for alignment */}

@@ -37,8 +37,13 @@ export default function CreateTaskFormField() {
   const [showDetails, setShowDetails] = useState(false);
 
   const handleCreateTask = () => {
+    if (!title || !description || !priority || !status) {
+      alert('Please fill out all fields before creating the task.');
+      return;
+    }
+
     alert('Task successfully created.');
-    setShowDetails(true); // Optional: You can set this to true if you want to show task details after creation.
+    setShowDetails(false);
   };
 
   const handleEditTask = () => {
