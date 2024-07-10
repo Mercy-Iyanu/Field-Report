@@ -16,6 +16,7 @@ export default function TaskListPage() {
     { title: 'Attend seminar', description: 'Posted at 9am' },
     { title: 'Call Mr. Amusan', description: 'Posted at 8:45 am' },
     { title: 'Schedule meeting with Dele travels', description: 'Posted at 1pm' },
+    { title: 'Schedule meeting with Dele travels', description: 'Posted at 1pm' }
   ]);
 
   const handleSearchChange = (text: string) => setSearchQuery(text);
