@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import CreateTaskFormField from '@/components/CreateTaskFormField';
 
 interface CreateTaskModalProps {
   isVisible: boolean;
   onClose: () => void;
-  onTaskCreated: (task: any) => void; // Callback to handle task creation
+  onTaskCreated: (task: any) => void; 
 }
 
 export default function CreateTaskModal({ isVisible, onClose, onTaskCreated }: CreateTaskModalProps) {
@@ -20,7 +20,7 @@ export default function CreateTaskModal({ isVisible, onClose, onTaskCreated }: C
     }
 
     const newTask = { title, description };
-    onTaskCreated(newTask); // Call the callback with the new task details
+    onTaskCreated(newTask);
     onClose();
   };
 

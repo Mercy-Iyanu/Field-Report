@@ -1,17 +1,8 @@
 import React, { useState } from 'react';
-import {
-  View,
-  RefreshControl,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Modal,
-  TouchableOpacity,
-} from 'react-native';
+import { View, RefreshControl,Text,Image,ScrollView,StyleSheet,Modal,TouchableOpacity,} from 'react-native';
 import PreviewList from '@/components/PreviewList';
 import Search from '@/components/Search';
-import TaskDetails from '../pages/taskDetails'; // Ensure the correct path
+import TaskDetails from '../pages/taskDetails';
 
 export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
@@ -48,12 +39,10 @@ export default function HomeScreen() {
 
   const handleEditTask = () => {
     // Logic to edit task
-    console.log('Edit task');
   };
 
   const handleDeleteTask = () => {
     // Logic to delete task
-    console.log('Delete task');
   };
 
   return (
@@ -89,8 +78,8 @@ export default function HomeScreen() {
                 description={selectedTask.description}
                 priority={selectedTask.priority}
                 status={selectedTask.status}
-                principalMembers={[]} // Provide appropriate members data if needed
-                coMembers={[]} // Provide appropriate members data if needed
+                principalMembers={[]}
+                coMembers={[]}
                 onEditTask={handleEditTask}
                 onDeleteTask={handleDeleteTask}
                 onClose={handleModalClose}

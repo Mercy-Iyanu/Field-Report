@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import DateNavigator from '@/components/DateNavigator';
 import MembersTasks from '@/components/MembersTasks';
 import CreateTaskModal from '../pages/createTask';
 import PreviewList from '@/components/PreviewList';
 import Search from '@/components/Search';
+import TaskDetails from '../pages/taskDetails';
 
 export default function TaskListPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,16 +14,20 @@ export default function TaskListPage() {
   const [selectedFilter, setSelectedFilter] = useState('My tasks');
   const [isModalVisible, setModalVisible] = useState(false);
   const [previewLists, setPreviewLists] = useState([
-    { title: 'Attend seminar', description: 'Posted at 9am' },
-    { title: 'Call Mr. Amusan', description: 'Posted at 8:45 am' },
-    { title: 'Schedule meeting with Dele travels', description: 'Posted at 1pm' },
-    { title: 'Schedule meeting with Dele travels', description: 'Posted at 1pm' }
+    { title: 'Attend seminar', description: 'NANTA seminar in collaboration with Sabre coorpration' },
   ]);
+  const [taskModalVisible, setTaskModalVisible] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<any>(null);
 
   const handleSearchChange = (text: string) => setSearchQuery(text);
   const handleDateNext = () => setSelectedDate(new Date().toISOString().split('T')[0]);
   const handleDatePrevious = () => setSelectedDate(new Date().toISOString().split('T')[0]);
   const handleFilterSelect = (option: string) => setSelectedFilter(option);
+
+  const handlePreviewListPress = (list: any) => {
+    setSelectedTask(list);
+    setTaskModalVisible(true);
+  };
 
   const handleAddTask = () => {
     setModalVisible(true);
@@ -35,7 +40,7 @@ export default function TaskListPage() {
   const addTaskToList = (task: any) => {
     // Update the task list state with the new task
     const updatedList = [...previewLists, { title: task.title, description: task.description }];
-    setPreviewLists(updatedList); // Update state with new list including the new task
+    setPreviewLists(updatedList);
   };
 
   return (
@@ -52,7 +57,7 @@ export default function TaskListPage() {
               key={index}
               title={list.title}
               description={list.description}
-              onPress={() => console.log("List pressed:", list)}
+              onPress={() => handlePreviewListPress(list)}
             />
           ))}
         </View>
@@ -61,6 +66,26 @@ export default function TaskListPage() {
         <Ionicons name="add-circle" size={30} color="#FFF" />
       </TouchableOpacity>
       <CreateTaskModal isVisible={isModalVisible} onClose={handleCloseModal} onTaskCreated={addTaskToList} />
+      
+      {selectedTask && (
+        <Modal animationType="slide" transparent={true} visible={taskModalVisible} onRequestClose={() => setTaskModalVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <TaskDetails
+                title={selectedTask.title}
+                description={selectedTask.description}
+                priority={selectedTask.priority || 'N/A'}
+                status={selectedTask.status || 'N/A'}
+                principalMembers={selectedTask.principalMembers || []}
+                coMembers={selectedTask.coMembers || []}
+                onEditTask={() => console.log("Edit task")}
+                onDeleteTask={() => console.log("Delete task")}
+                onClose={() => setTaskModalVisible(false)}
+              />
+            </View>
+          </View>
+        </Modal>
+      )}
     </View>
   );
 }
@@ -107,5 +132,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    width: '90%',
   },
 });

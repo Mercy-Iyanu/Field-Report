@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import PriorityLevel from './PriorityLevel';
 import StatusLevel from './StatusLevel';
@@ -27,6 +27,8 @@ interface CreateTaskFormFieldProps {
 export default function CreateTaskFormField({ setTitle, setDescription, onCreateTask }: CreateTaskFormFieldProps) {
   const [priority, setPriority] = React.useState('High Priority');
   const [status, setStatus] = React.useState('Pending');
+  const [priorityModalVisible, setPriorityModalVisible] = useState(false);
+  const [statusModalVisible, setStatusModalVisible] = useState(false);
 
   const handleCreateTask = () => {
     onCreateTask();
@@ -40,15 +42,15 @@ export default function CreateTaskFormField({ setTitle, setDescription, onCreate
             options={options}
             currentOption={priority}
             onSelect={setPriority}
-            modalVisible={false} // Set to false as it's not used in this component
-            setModalVisible={() => {}} // Dummy function
+            modalVisible={priorityModalVisible}
+            setModalVisible={setPriorityModalVisible}
           />
           <StatusLevel
             options={statusOptions}
             currentOption={status}
             onSelect={setStatus}
-            modalVisible={false} // Set to false as it's not used in this component
-            setModalVisible={() => {}} // Dummy function
+            modalVisible={statusModalVisible}
+            setModalVisible={setStatusModalVisible}
           />
         </View>
 

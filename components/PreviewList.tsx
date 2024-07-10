@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface PreviewListProps {
   title: string;
@@ -7,7 +7,7 @@ interface PreviewListProps {
   onPress: () => void;
 }
 
-export default function PreviewList({ title, description, onPress }: PreviewListProps) {
+const PreviewList: React.FC<PreviewListProps> = ({ title, description, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.activityItem}>
       <View>
@@ -16,7 +16,7 @@ export default function PreviewList({ title, description, onPress }: PreviewList
       </View>
     </TouchableOpacity>
   );
-}
+};
 
 const styles = StyleSheet.create({
   activityItem: {
@@ -35,3 +35,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
+
+export default PreviewList;
