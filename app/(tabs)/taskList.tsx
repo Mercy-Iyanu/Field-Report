@@ -10,7 +10,7 @@ import TaskDetails from '../pages/taskDetails';
 
 export default function TaskListPage() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedDate, setSelectedDate] = useState('2024-06-11');
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedFilter, setSelectedFilter] = useState('My tasks');
   const [isModalVisible, setModalVisible] = useState(false);
   const [previewLists, setPreviewLists] = useState([
