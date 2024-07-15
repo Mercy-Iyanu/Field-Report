@@ -65,7 +65,7 @@ export default function CreateTaskFormField({ setTitle, setDescription, onCreate
             style={styles.descriptionInput}
             placeholder="Add task description"
             placeholderTextColor="#888"
-            onChangeText={setDescription} // Update description state
+            onChangeText={setDescription}
           />
 
           <View style={styles.inputRow}>
