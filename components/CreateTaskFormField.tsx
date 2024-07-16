@@ -59,7 +59,7 @@ export default function CreateTaskFormField({ setTitle, setDescription, onCreate
             style={styles.titleInput}
             placeholder="Add task title"
             placeholderTextColor="#888"
-            onChangeText={setTitle} // Update title state
+            onChangeText={setTitle}
           />
           <TextInput
             style={styles.descriptionInput}
