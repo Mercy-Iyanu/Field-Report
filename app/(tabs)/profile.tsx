@@ -10,6 +10,7 @@ import PrivacyAndSecurityModal from '../pages/privacySecurity';
 import NotificationsModal from '../pages/notifications';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
+import LogoutConfirmationModal from '@/components/LogOut';
 
 export default function ProfilePage() {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -17,6 +18,7 @@ export default function ProfilePage() {
   const [resetPasswordVisible, setResetPasswordVisible] = useState(false);
   const [privacyAndSecurityVisible, setPrivacyAndSecurityVisible] = useState(false);
   const [notificationsVisible, setNotificationsVisible] = useState(false);
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -24,7 +26,7 @@ export default function ProfilePage() {
       setRefreshing(false);
     }, 1000);
   }, []);
-  
+
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? 'light'];
   const [darkMode, setDarkMode] = useState(false);
@@ -34,7 +36,14 @@ export default function ProfilePage() {
   };
 
   const handleLogout = () => {
+    setLogoutModalVisible(true);
+  };
+
+  const confirmLogout = () => {
     // Logic to handle logout
+    console.log('Logged out successfully');
+    // Close the logout confirmation modal
+    setLogoutModalVisible(false);
   };
 
   const handleEditProfile = () => {
@@ -88,6 +97,11 @@ export default function ProfilePage() {
       <Modal visible={notificationsVisible} animationType="slide">
         <NotificationsModal onClose={() => setNotificationsVisible(false)} />
       </Modal>
+      <LogoutConfirmationModal
+        visible={logoutModalVisible}
+        onConfirm={confirmLogout}
+        onCancel={() => setLogoutModalVisible(false)}
+      />
     </ScrollView>
   );
 }

@@ -33,7 +33,7 @@ export default function ActivityFormField() {
   const [agencyName, setAgencyName] = useState('');
   const [agencyCategory, setAgencyCategory] = useState('');
   const [status, setStatus] = useState<string>('Pending');
-  const [priority, setPriority] = useState<string>('High');
+  const [priority, setPriority] = useState<string>('High Priority');
   const [statusModalVisible, setStatusModalVisible] = useState(false);
   const [priorityModalVisible, setPriorityModalVisible] = useState(false);
 
