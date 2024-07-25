@@ -1,37 +1,46 @@
+// PreviewList.tsx
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-interface PreviewListProps {
+interface Task {
   title: string;
   description: string;
-  onPress: () => void;
+  priority?: string;
+  status?: string;
 }
 
-const PreviewList: React.FC<PreviewListProps> = ({ title, description, onPress }) => {
+interface PreviewListProps {
+  tasks: Task[];
+  onPress: (task: Task) => void;
+}
+
+const PreviewList: React.FC<PreviewListProps> = ({ tasks, onPress }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.activityItem}>
-      <View>
-        <Text style={styles.activityText}>{title}</Text>
-        <Text style={styles.activityDescription}>{description}</Text>
-      </View>
-    </TouchableOpacity>
+    <View>
+      {tasks.map((task, index) => (
+        <TouchableOpacity key={index} style={styles.taskItem} onPress={() => onPress(task)}>
+          <Text style={styles.taskTitle}>{task.title}</Text>
+          <Text style={styles.taskDescription}>{task.description}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  activityItem: {
-    backgroundColor: '#232533',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 5,
-    marginBottom: 12,
+  taskItem: {
+    backgroundColor: '#2A2A3A',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 8,
   },
-  activityText: {
-    color: '#fff',
-    fontSize: 15,
+  taskTitle: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
-  activityDescription: {
-    color: '#CDCDE0',
+  taskDescription: {
+    color: '#AAA',
     fontSize: 14,
   },
 });

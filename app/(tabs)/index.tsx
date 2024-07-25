@@ -1,10 +1,15 @@
+// HomeScreen.tsx
 import React, { useState } from 'react';
-import { View, RefreshControl,Text,Image,ScrollView,StyleSheet,Modal,TouchableOpacity,} from 'react-native';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { View, RefreshControl, Text, Image, ScrollView, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import PreviewList from '@/components/PreviewList';
 import Search from '@/components/Search';
 import TaskDetails from '../pages/taskDetails';
 
 export default function HomeScreen() {
+  const tasks = useSelector((state: RootState) => state.tasks.tasks);
+
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -19,16 +24,10 @@ export default function HomeScreen() {
 
   const logo = require('../../assets/images/logo.png');
 
-  const previewLists = [
-    { title: 'Attend seminar', description: 'Posted at 9am', priority: 'High', status: 'Pending' },
-    { title: 'Call Mr. Amusan', description: 'Posted at 8:45 am', priority: 'Medium', status: 'In Progress' },
-    { title: 'Schedule meeting with Dele travels', description: 'Posted at 1pm', priority: 'Low', status: 'Completed' },
-  ];
-
   const handleSearchChange = (text: string) => setSearchQuery(text);
 
-  const handlePreviewListPress = (list: any) => {
-    setSelectedTask(list);
+  const handlePreviewListPress = (task: any) => {
+    setSelectedTask(task);
     setModalVisible(true);
   };
 
@@ -64,9 +63,7 @@ export default function HomeScreen() {
 
       <View style={styles.activitiesContainer}>
         <Text style={styles.activitiesTitle}>Your task for today</Text>
-        {previewLists.map((list, index) => (
-          <PreviewList key={index} title={list.title} description={list.description} onPress={() => handlePreviewListPress(list)} />
-        ))}
+        <PreviewList tasks={tasks} onPress={handlePreviewListPress} />
       </View>
 
       {selectedTask && (

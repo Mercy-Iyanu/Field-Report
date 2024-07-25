@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTask } from '../../redux/slices/taskSlice';
+import { RootState } from '../../redux/store';
 import { Ionicons } from '@expo/vector-icons';
 import DateNavigator from '@/components/DateNavigator';
 import MembersTasks from '@/components/MembersTasks';
@@ -13,6 +16,9 @@ export default function TaskListPage() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedFilter, setSelectedFilter] = useState('My tasks');
   const [isModalVisible, setModalVisible] = useState(false);
+  
+  const dispatch = useDispatch();
+
   const [previewLists, setPreviewLists] = useState([
     { title: 'Attend seminar', description: 'NANTA seminar in collaboration with Sabre coorpration' },
   ]);
@@ -37,35 +43,48 @@ export default function TaskListPage() {
     setModalVisible(false);
   };
 
-  const addTaskToList = (task: any) => {
-    // Update the task list state with the new task
-    const updatedList = [...previewLists, { title: task.title, description: task.description }];
-    setPreviewLists(updatedList);
+  // const addTaskToList = (task: any) => {
+  //   dispatch(addTask(task));
+  //   setModalVisible(false);
+  // };
+
+  const handleTaskCreated = (task: any) => {
+    dispatch(addTask(task)); // Dispatch addTask action
+    handleCloseModal();
   };
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollContent}>
         <Text style={styles.pageTitle}>Task List</Text>
-        <Search placeholder="Search for a task" onChangeText={handleSearchChange} />
-        <DateNavigator date={selectedDate} onNext={handleDateNext} onPrevious={handleDatePrevious} />
-        <MembersTasks options={['My tasks', 'Itunu Babatope', 'Koya Kasoro', 'Isaac Tope']} onSelect={handleFilterSelect} />
+        <Search 
+          placeholder="Search for a task" 
+          onChangeText={handleSearchChange} 
+        />
+        <DateNavigator 
+          date={selectedDate} 
+          onNext={handleDateNext} 
+          onPrevious={handleDatePrevious} 
+        />
+        <MembersTasks 
+          options={['My tasks', 'Itunu Babatope', 'Koya Kasoro', 'Isaac Tope']} 
+          onSelect={handleFilterSelect} 
+        />
         <View style={styles.activitiesContainer}>
           <Text style={styles.activitiesTitle}>My tasks</Text>
-          {previewLists.map((list, index) => (
-            <PreviewList
-              key={index}
-              title={list.title}
-              description={list.description}
-              onPress={() => handlePreviewListPress(list)}
-            />
-          ))}
+          <PreviewList 
+            tasks={useSelector((state: RootState) => state.tasks.tasks)} onPress={handlePreviewListPress} 
+          />
         </View>
       </ScrollView>
       <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
         <Ionicons name="add-circle" size={30} color="#FFF" />
       </TouchableOpacity>
-      <CreateTaskModal isVisible={isModalVisible} onClose={handleCloseModal} onTaskCreated={addTaskToList} />
+      <CreateTaskModal 
+        isVisible={isModalVisible} 
+        onClose={handleCloseModal} 
+        onTaskCreated={handleTaskCreated} 
+      />
       
       {selectedTask && (
         <Modal animationType="slide" transparent={true} visible={taskModalVisible} onRequestClose={() => setTaskModalVisible(false)}>
