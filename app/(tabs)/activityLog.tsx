@@ -30,10 +30,11 @@ export default function ActivityLogPage() {
           options={['Birthday', 'Wedding Anniversary', 'Agency Anniversary']}
           onSelect={handleOptionSelect}
         />
+        <Link href="../pages/fieldReportHistory">
+          <Text style={styles.viewReportLink}>View Report History</Text>
+        </Link>
       </View>  
-      <ActivityFormField 
-
-      />
+      <ActivityFormField />   
     </ScrollView>
   );
 }
@@ -57,5 +58,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
+  },
+  viewReportLink: {
+    color: '#3B3B3E',
+    fontSize: 16,
   },
 });
