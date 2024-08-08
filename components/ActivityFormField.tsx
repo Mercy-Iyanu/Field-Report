@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Alert,Button } from 'react-native';
 import TextField from './TextField';
 import DropdownMenu from './DropdownMenu';
 import CustomButton from './CustomButton';
@@ -24,7 +24,25 @@ const agencyCategories = [
   'Category C (Virtual)',
 ];
 
-export default function ActivityFormField() {
+interface ActivityFormFieldProps {
+  onAddReport: (report: any) => void;
+}
+
+export default function ActivityFormField({ onAddReport }: ActivityFormFieldProps) {
+
+  const [reportData, setReportData] = useState({
+    title: '',
+    agencyName: '',
+    agencyCategory: '',
+    contactPerson: '',
+    description: '',
+    yourView: '',
+    nextActionStep: '',
+    priorityLevel: '',
+    status: '',
+    attachment: '',
+  });
+   
   const [text1, setText1] = useState('');
   const [text3, setText3] = useState('');
   const [text4, setText4] = useState('');
@@ -54,7 +72,35 @@ export default function ActivityFormField() {
       alert('Please fill out all fields before logging the report.');
       return; // Exit the function early
     }
-    alert('Report successfully logged.'); 
+    // Create the report object
+    const newReport = {
+      title: text1,
+      agencyName,
+      agencyCategory,
+      contactPerson: text3,
+      description: text4,
+      yourView: text5,
+      nextActionStep: text6,
+      priorityLevel: priority,
+      status,
+      attachment: '', // Placeholder for attachment
+    };
+
+    // Notify parent component
+    onAddReport(newReport);
+
+    // Reset fields after submission
+    setText1('');
+    setAgencyName('');
+    setAgencyCategory('');
+    setText3('');
+    setText4('');
+    setText5('');
+    setText6('');
+    setPriority('High Priority');
+    setStatus('Pending');
+
+    alert('Report successfully logged.');
   };
 
   return (

@@ -1,22 +1,37 @@
-// FieldReportHistory.tsx
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { Modal, View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import DatePicker from '@/components/DatePicker';
 import TypeOfDropdown from '@/components/TypeOfDropdown';
 import CustomButton from '@/components/CustomButton';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
 
 const statusOptions = ['Pending', 'In Progress', 'Done'];
 const satisfactionOptions = ['Satisfied', 'Not Satisfied'];
 
-export default function FieldReportHistory() {
-  const fieldReports = useSelector((state: RootState) => state.fieldReports.fieldReports); // Accessing fieldReports from Redux state
+interface Report {
+  title: string;
+  agencyName: string;
+  agencyCategory: string;
+  contactPerson: string;
+  description: string;
+  yourView: string;
+  nextActionStep: string;
+  priorityLevel: string;
+  status: string;
+  attachment: string;
+}
+
+interface FieldReportHistoryModalProps {
+  visible: boolean;
+  onClose: () => void;
+  reports: Report[];
+}
+
+export default function FieldReportHistoryModal({ visible, onClose, reports }: FieldReportHistoryModalProps) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedType, setSelectedType] = useState('');
   const [statusFilters, setStatusFilters] = useState<string[]>([]);
-  
+
   const handleExport = () => {
     // Logic for exporting the data
     alert('Export functionality to be implemented');
@@ -29,69 +44,76 @@ export default function FieldReportHistory() {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => {/* Navigation logic */}}>
-          <Ionicons name="arrow-back" size={24} color="#fff" />
-        </TouchableOpacity>
-        <Text style={styles.title}>Field Report History</Text>
-      </View>
-
-      <View style={styles.filterContainer}>
-        <DatePicker onDateChange={setSelectedDate} />
-        <TypeOfDropdown options={['All', 'Category 1', 'Category 2']} onSelect={setSelectedType} />
-      </View>
-
-      <FlatList
-        data={fieldReports}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item, index }) => (
-          <View style={styles.tableRow}>
-            <Text style={styles.tableCell}>{index + 1}</Text>
-            <Text style={styles.tableCell}>{item.taskCategory}</Text>
-            <Text style={styles.tableCell}>{item.priorityLevel}</Text>
-            <Text style={styles.tableCell}>{item.title}</Text>
-            <Text style={styles.tableCell}>{item.agencyName}</Text>
-            <Text style={styles.tableCell}>{item.agencyCategory}</Text>
-            <Text style={styles.tableCell}>{item.contactPerson}</Text>
-            <Text style={styles.tableCell}>{item.description}</Text>
-            <Text style={styles.tableCell}>{item.yourView}</Text>
-            <Text style={styles.tableCell}>{item.nextActionStep}</Text>
-            <View style={styles.tableCell}>
-              <TypeOfDropdown
-                options={statusOptions}
-                onSelect={(value) => handleStatusChange(index, value)}
-              />
-            </View>
-            <Text style={styles.tableCell}>{item.attachment}</Text>
-            <View style={styles.tableCell}>
-              <TypeOfDropdown
-                options={satisfactionOptions}
-                onSelect={(value) => handleStatusChange(index, value)}
-              />
-            </View>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={visible}
+      onRequestClose={onClose}
+    >
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={onClose}>
+              <Ionicons name="close" size={24} color="#fff" />
+            </TouchableOpacity>
+            <Text style={styles.title}>Field Report History</Text>
           </View>
-        )}
-        ListHeaderComponent={() => (
-          <View style={styles.tableHeader}>
-            {['S/N', 'Task Category', 'Priority Level', 'Title', 'Agency Name', 'Agency Category', 'Contact Person', 'Description', 'Your View', 'Next Action Step', 'Status', 'Attachment', 'Status Reply'].map((header, index) => (
-              <Text key={index} style={styles.tableHeaderCell}>{header}</Text>
-            ))}
-          </View>
-        )}
-      />
 
-      <View style={styles.exportButtonContainer}>
-        <CustomButton title="Export" onPress={handleExport} />
+          <ScrollView style={styles.container}>
+            <View style={styles.filterContainer}>
+              <DatePicker onDateChange={setSelectedDate} />
+              <TypeOfDropdown options={['All', 'Category 1', 'Category 2']} onSelect={setSelectedType} />
+            </View>
+
+            <FlatList
+              data={reports} // Change from fieldReports to reports
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item, index }) => (
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCell}>{index + 1}</Text>
+                  <Text style={styles.tableCell}>{item.priorityLevel}</Text>
+                  <Text style={styles.tableCell}>{item.title}</Text>
+                  <Text style={styles.tableCell}>{item.agencyName}</Text>
+                  <Text style={styles.tableCell}>{item.agencyCategory}</Text>
+                  <Text style={styles.tableCell}>{item.contactPerson}</Text>
+                  <Text style={styles.tableCell}>{item.description}</Text>
+                  <Text style={styles.tableCell}>{item.yourView}</Text>
+                  <Text style={styles.tableCell}>{item.nextActionStep}</Text>
+                  <Text style={styles.tableCell}>{item.status}</Text>
+                  <Text style={styles.tableCell}>{item.attachment}</Text>
+                </View>
+              )}
+              ListHeaderComponent={() => (
+                <View style={styles.tableHeader}>
+                  {['S/N', 'Priority Level', 'Title', 'Agency Name', 'Agency Category', 'Contact Person', 'Description', 'Your View', 'Next Action Step', 'Status', 'Attachment'].map((header, index) => (
+                    <Text key={index} style={styles.tableHeaderCell}>{header}</Text>
+                  ))}
+                </View>
+              )}
+            />
+
+            <View style={styles.exportButtonContainer}>
+              <CustomButton title="Export" onPress={handleExport} />
+            </View>
+          </ScrollView>
+        </View>
       </View>
-    </ScrollView>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  modalContainer: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: '90%',
+    height: '90%',
     backgroundColor: '#161622',
+    borderRadius: 10,
     padding: 16,
   },
   header: {
@@ -104,6 +126,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginLeft: 16,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#161622',
+    padding: 16,
   },
   filterContainer: {
     flexDirection: 'row',

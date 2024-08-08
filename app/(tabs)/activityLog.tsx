@@ -1,28 +1,42 @@
+import React, { useState, useCallback } from 'react';
+import { Text, View, ScrollView, StyleSheet, RefreshControl, TouchableOpacity } from 'react-native';
 import ActivityFormField from '@/components/ActivityFormField';
 import TypeOfDropdown from '@/components/TypeOfDropdown';
-import { Link } from 'expo-router';
-import React, {useState} from 'react';
-import { Text, View, ScrollView, StyleSheet, RefreshControl } from 'react-native';
+import FieldReportHistoryModal from '../pages/fieldReportHistory';
 
 export default function ActivityLogPage() {
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('Birthday');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [reports, setReports] = useState<any[]>([]); // Add state to hold report data
 
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   }, []);
-  const [selectedOption, setSelectedOption] = useState('Birthday');
+
   const handleOptionSelect = (option: string) => {
     setSelectedOption(option);
   };
 
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const addReport = (report: any) => {
+    setReports([...reports, report]);
+  };
+
   return (
-    <ScrollView style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
+    <ScrollView
+      style={styles.container}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
       <Text style={styles.pageTitle}>Activity Log</Text>
       <View style={styles.dropdownDateContainer}>
@@ -30,11 +44,12 @@ export default function ActivityLogPage() {
           options={['Birthday', 'Wedding Anniversary', 'Agency Anniversary']}
           onSelect={handleOptionSelect}
         />
-        <Link href="../pages/fieldReportHistory">
+        <TouchableOpacity onPress={openModal}>
           <Text style={styles.viewReportLink}>View Report History</Text>
-        </Link>
-      </View>  
-      <ActivityFormField />   
+        </TouchableOpacity>
+      </View>
+      <ActivityFormField onAddReport={addReport} />
+      <FieldReportHistoryModal visible={modalVisible} onClose={closeModal} reports={reports} />
     </ScrollView>
   );
 }
