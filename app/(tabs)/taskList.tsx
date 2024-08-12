@@ -11,6 +11,9 @@ import PreviewList from '@/components/PreviewList';
 import Search from '@/components/Search';
 import TaskDetails from '../pages/taskDetails';
 
+const tasks = useSelector((state: RootState) => state.tasks.tasks);
+const taskTitles = tasks.map(task => task.title);
+
 export default function TaskListPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -19,9 +22,9 @@ export default function TaskListPage() {
   
   const dispatch = useDispatch();
 
-  const [previewLists, setPreviewLists] = useState([
-    { title: 'Attend seminar', description: 'NANTA seminar in collaboration with Sabre coorpration' },
-  ]);
+  // const [previewLists, setPreviewLists] = useState([
+  //   { title: 'Attend seminar', description: 'NANTA seminar in collaboration with Sabre coorpration' },
+  // ]);
   const [taskModalVisible, setTaskModalVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState<any>(null);
 

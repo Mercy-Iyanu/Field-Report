@@ -4,11 +4,15 @@ import ActivityFormField from '@/components/ActivityFormField';
 import TypeOfDropdown from '@/components/TypeOfDropdown';
 import FieldReportHistoryModal from '../pages/fieldReportHistory';
 
-export default function ActivityLogPage() {
+interface ActivityLogPageProps {
+  taskTitles: string[];
+}
+
+export default function ActivityLogPage({taskTitles}: ActivityLogPageProps) {
   const [refreshing, setRefreshing] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('Birthday');
+  const [selectedOption, setSelectedOption] = useState(taskTitles[0]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [reports, setReports] = useState<any[]>([]); // Add state to hold report data
+  const [reports, setReports] = useState<any[]>([]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -41,7 +45,7 @@ export default function ActivityLogPage() {
       <Text style={styles.pageTitle}>Activity Log</Text>
       <View style={styles.dropdownDateContainer}>
         <TypeOfDropdown
-          options={['Birthday', 'Wedding Anniversary', 'Agency Anniversary']}
+          options={taskTitles}
           onSelect={handleOptionSelect}
         />
         <TouchableOpacity onPress={openModal}>

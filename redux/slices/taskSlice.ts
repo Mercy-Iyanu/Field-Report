@@ -15,7 +15,7 @@ interface TaskState {
 const initialState: TaskState = {
   tasks: [],
 };
-
+  
 const taskSlice = createSlice({
   name: 'tasks',
   initialState,
