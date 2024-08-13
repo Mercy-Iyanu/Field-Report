@@ -1,3 +1,4 @@
+// TaskListPage.tsx
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,9 +12,6 @@ import PreviewList from '@/components/PreviewList';
 import Search from '@/components/Search';
 import TaskDetails from '../pages/taskDetails';
 
-const tasks = useSelector((state: RootState) => state.tasks.tasks);
-const taskTitles = tasks.map(task => task.title);
-
 export default function TaskListPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -22,19 +20,18 @@ export default function TaskListPage() {
   
   const dispatch = useDispatch();
 
-  // const [previewLists, setPreviewLists] = useState([
-  //   { title: 'Attend seminar', description: 'NANTA seminar in collaboration with Sabre coorpration' },
-  // ]);
   const [taskModalVisible, setTaskModalVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState<any>(null);
+
+  const tasks = useSelector((state: RootState) => state.tasks.tasks);
 
   const handleSearchChange = (text: string) => setSearchQuery(text);
   const handleDateNext = () => setSelectedDate(new Date().toISOString().split('T')[0]);
   const handleDatePrevious = () => setSelectedDate(new Date().toISOString().split('T')[0]);
   const handleFilterSelect = (option: string) => setSelectedFilter(option);
 
-  const handlePreviewListPress = (list: any) => {
-    setSelectedTask(list);
+  const handlePreviewListPress = (task: any) => {
+    setSelectedTask(task);
     setTaskModalVisible(true);
   };
 
@@ -45,11 +42,6 @@ export default function TaskListPage() {
   const handleCloseModal = () => {
     setModalVisible(false);
   };
-
-  // const addTaskToList = (task: any) => {
-  //   dispatch(addTask(task));
-  //   setModalVisible(false);
-  // };
 
   const handleTaskCreated = (task: any) => {
     dispatch(addTask(task)); // Dispatch addTask action
@@ -76,7 +68,8 @@ export default function TaskListPage() {
         <View style={styles.activitiesContainer}>
           <Text style={styles.activitiesTitle}>My tasks</Text>
           <PreviewList 
-            tasks={useSelector((state: RootState) => state.tasks.tasks)} onPress={handlePreviewListPress} 
+            tasks={tasks} 
+            onPress={handlePreviewListPress} 
           />
         </View>
       </ScrollView>
