@@ -10,6 +10,7 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
+    
     <Provider store={store}>
       <Tabs
         screenOptions={{
