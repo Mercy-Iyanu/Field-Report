@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTask } from '../../redux/slices/taskSlice';
+import { addTask, deleteTask } from '../../redux/slices/taskSlice';
 import { RootState } from '../../redux/store';
 import { Ionicons } from '@expo/vector-icons';
 import DateNavigator from '@/components/DateNavigator';
@@ -44,8 +44,15 @@ export default function TaskListPage() {
   };
 
   const handleTaskCreated = (task: any) => {
-    dispatch(addTask(task)); // Dispatch addTask action
+    dispatch(addTask(task));
     handleCloseModal();
+  };
+
+  const handleDeleteTask = (taskId: string) => {
+    if (selectedTask) {
+      dispatch(deleteTask(selectedTask.id));
+      setTaskModalVisible(false);
+    }
   };
 
   return (
@@ -94,7 +101,7 @@ export default function TaskListPage() {
                 principalMembers={selectedTask.principalMembers || []}
                 coMembers={selectedTask.coMembers || []}
                 onEditTask={() => console.log("Edit task")}
-                onDeleteTask={() => console.log("Delete task")}
+                onDeleteTask={() => handleDeleteTask(selectedTask.id)}
                 onClose={() => setTaskModalVisible(false)}
               />
             </View>

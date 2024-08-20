@@ -1,10 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import { Text, View, ScrollView, StyleSheet, RefreshControl, TouchableOpacity } from 'react-native';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 import ActivityFormField from '@/components/ActivityFormField';
 import TypeOfDropdown from '@/components/TypeOfDropdown';
 import FieldReportHistoryModal from '../pages/fieldReportHistory';
 
 export default function ActivityLogPage() {
+  const tasks = useSelector((state: RootState) => state.tasks.tasks);
+  console.log('Task details:', tasks)
+
   const [refreshing, setRefreshing] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Birthday');
   const [modalVisible, setModalVisible] = useState(false);

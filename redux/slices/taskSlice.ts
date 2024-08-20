@@ -1,21 +1,21 @@
-// /redux/slices/taskSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface Task {
+  id: string;
   title: string;
   description: string;
-  priority?: string;
-  status?: string;
+  priority: string;
+  status: string;
 }
 
-interface TaskState {
+interface TasksState {
   tasks: Task[];
 }
 
-const initialState: TaskState = {
+const initialState: TasksState = {
   tasks: [],
 };
-  
+
 const taskSlice = createSlice({
   name: 'tasks',
   initialState,
@@ -23,9 +23,12 @@ const taskSlice = createSlice({
     addTask: (state, action: PayloadAction<Task>) => {
       state.tasks.push(action.payload);
     },
+    deleteTask: (state, action: PayloadAction<string>) => {
+      state.tasks = state.tasks.filter(task => task.id !== action.payload);
+    },
   },
 });
 
-export const { addTask } = taskSlice.actions;
+export const { addTask, deleteTask } = taskSlice.actions;
 
 export default taskSlice.reducer;
