@@ -28,7 +28,6 @@ export default function Search({ placeholder, onChangeText }: SearchProps) {
         onChangeText={handleChangeText}
         value={searchText}
         style={styles.searchInput}
-
       />
       {searchText.length > 0 && (
         <TouchableOpacity onPress={handleClear} style={styles.clearButton}>
@@ -53,8 +52,15 @@ const styles = StyleSheet.create ({
         flex: 1,
         color: '#fff',
         fontSize: 16,
+        borderWidth: 0,
     },
+
+    searchInputFocused: {
+        borderColor: 'transparent'
+    },
+
     clearButton: {
-      marginLeft: -10,
+      position: 'absolute',
+      right: 14,
     }
 })

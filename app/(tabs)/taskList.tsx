@@ -1,11 +1,10 @@
-// TaskListPage.tsx
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTask, deleteTask } from '../../redux/slices/taskSlice';
 import { RootState } from '../../redux/store';
 import { Ionicons } from '@expo/vector-icons';
-import DateNavigator from '@/components/DateNavigator';
+import DateNavigatorContainer from '@/components/DateNavigatorContainer'; // Updated import
 import MembersTasks from '@/components/MembersTasks';
 import CreateTaskModal from '../pages/createTask';
 import PreviewList from '@/components/PreviewList';
@@ -26,8 +25,11 @@ export default function TaskListPage() {
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
 
   const handleSearchChange = (text: string) => setSearchQuery(text);
+
+  // Functions to navigate between dates
   const handleDateNext = () => setSelectedDate(new Date().toISOString().split('T')[0]);
   const handleDatePrevious = () => setSelectedDate(new Date().toISOString().split('T')[0]);
+
   const handleFilterSelect = (option: string) => setSelectedFilter(option);
 
   const handlePreviewListPress = (task: any) => {
@@ -63,11 +65,7 @@ export default function TaskListPage() {
           placeholder="Search for a task" 
           onChangeText={handleSearchChange} 
         />
-        <DateNavigator 
-          date={selectedDate} 
-          onNext={handleDateNext} 
-          onPrevious={handleDatePrevious} 
-        />
+        <DateNavigatorContainer /> {/* Use DateNavigatorContainer here */}
         <MembersTasks 
           options={['My tasks', 'Itunu Babatope', 'Koya Kasoro', 'Isaac Tope']} 
           onSelect={handleFilterSelect} 
