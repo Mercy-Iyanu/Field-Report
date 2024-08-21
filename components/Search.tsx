@@ -53,6 +53,6 @@ const styles = StyleSheet.create ({
         fontSize: 16,
     },
     clearButton: {
-      marginLeft: 10,
+      marginLeft: -10,
     }
 })
