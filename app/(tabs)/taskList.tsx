@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTask, deleteTask } from '../../redux/slices/taskSlice';
 import { RootState } from '../../redux/store';
 import { Ionicons } from '@expo/vector-icons';
-import DateNavigatorContainer from '@/components/DateNavigatorContainer'; // Updated import
+import DateNavigatorContainer from '@/components/DateNavigatorContainer';
 import MembersTasks from '@/components/MembersTasks';
 import CreateTaskModal from '../pages/createTask';
 import PreviewList from '@/components/PreviewList';
@@ -65,7 +65,7 @@ export default function TaskListPage() {
           placeholder="Search for a task" 
           onChangeText={handleSearchChange} 
         />
-        <DateNavigatorContainer /> {/* Use DateNavigatorContainer here */}
+        <DateNavigatorContainer />
         <MembersTasks 
           options={['My tasks', 'Itunu Babatope', 'Koya Kasoro', 'Isaac Tope']} 
           onSelect={handleFilterSelect} 

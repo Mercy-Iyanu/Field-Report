@@ -63,7 +63,7 @@ const MemberDropdown = ({ teamMembers, onAddMembers }: MemberDropdownProps) => {
       <Modal visible={modalVisible} transparent={true} animationType="slide">
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
-            <Text style={styles.sectionTitle}>Principal Task-Owners</Text>
+            <Text style={styles.sectionTitle}>Principal Task-Owner</Text>
             <FlatList
               data={teamMembers}
               renderItem={(item) => renderMember(item, true)}

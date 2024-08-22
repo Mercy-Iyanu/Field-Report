@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import PriorityLevel from './PriorityLevel';
-import StatusLevel from './StatusLevel';
+import React, { useState } from 'react';
+import { View, TextInput, StyleSheet, Text } from 'react-native';
 import CustomButton from './CustomButton';
 import DropdownMenu from './DropdownMenu';
 import MemberDropdown from './MemberDropdown';
+import PriorityLevel from './PriorityLevel';
+import StatusLevel from './StatusLevel';
 
 const options = [
   { id: '1', label: 'High Priority' },
@@ -18,26 +18,43 @@ const statusOptions = [
   { id: '3', label: 'Completed' },
 ];
 
+interface Member {
+  id: string;
+  name: string;
+  avatar: string;
+}
+
 interface CreateTaskFormFieldProps {
   setTitle: (title: string) => void;
   setDescription: (description: string) => void;
   onCreateTask: () => void;
 }
 
-export default function CreateTaskFormField({ setTitle, setDescription, onCreateTask }: CreateTaskFormFieldProps) {
-  const [priority, setPriority] = React.useState('High Priority');
-  const [status, setStatus] = React.useState('Pending');
-  const [priorityModalVisible, setPriorityModalVisible] = useState(false);
-  const [statusModalVisible, setStatusModalVisible] = useState(false);
+export default function CreateTaskFormField({
+  setTitle,
+  setDescription,
+  onCreateTask,
+}: CreateTaskFormFieldProps) {
+  const [priority, setPriority] = useState<string>('High Priority');
+  const [status, setStatus] = useState<string>('Pending');
+  const [priorityModalVisible, setPriorityModalVisible] = useState<boolean>(false);
+  const [statusModalVisible, setStatusModalVisible] = useState<boolean>(false);
+  const [principalMembers, setPrincipalMembers] = useState<Member[]>([]);
+  const [coMembers, setCoMembers] = useState<Member[]>([]);
 
   const handleCreateTask = () => {
     onCreateTask();
   };
 
+  const handleAddMembers = (principal: Member[], co: Member[]) => {
+    setPrincipalMembers(principal);
+    setCoMembers(co);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.lightBg}>
-        <View style={styles.header}>
+      <View style={styles.header}>
           <PriorityLevel
             options={options}
             currentOption={priority}
@@ -53,7 +70,6 @@ export default function CreateTaskFormField({ setTitle, setDescription, onCreate
             setModalVisible={setStatusModalVisible}
           />
         </View>
-
         <View style={styles.content}>
           <TextInput
             style={styles.titleInput}
@@ -82,8 +98,29 @@ export default function CreateTaskFormField({ setTitle, setDescription, onCreate
                 { id: '3', name: 'Koya Kasoro', avatar: 'https://via.placeholder.com/40' },
                 { id: '4', name: 'Isaac Tope', avatar: 'https://via.placeholder.com/40' },
               ]}
-              onAddMembers={(principal: any[], co: any[]) => {}}
+              onAddMembers={handleAddMembers} // Update selected members
             />
+          </View>
+
+          {/* Display Selected Members */}
+          <View style={styles.selectedMembersContainer}>
+            <Text style={styles.sectionTitle}>Principal Members:</Text>
+            {principalMembers.length > 0 ? (
+              principalMembers.map((member) => (
+                <Text key={member.id} style={styles.memberName}>{member.name}</Text>
+              ))
+            ) : (
+              <Text style={styles.noMembersText}>No principal members selected</Text>
+            )}
+
+            <Text style={styles.sectionTitle}>Co-Members:</Text>
+            {coMembers.length > 0 ? (
+              coMembers.map((member) => (
+                <Text key={member.id} style={styles.memberName}>{member.name}</Text>
+              ))
+            ) : (
+              <Text style={styles.noMembersText}>No co-members selected</Text>
+            )}
           </View>
         </View>
       </View>
@@ -126,5 +163,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
+  },
+  selectedMembersContainer: {
+    marginTop: 20,
+  },
+  sectionTitle: {
+    color: '#fff',
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  memberName: {
+    color: '#fff',
+    fontSize: 14,
+    marginLeft: 10,
+    marginBottom: 4,
+  },
+  noMembersText: {
+    color: '#888',
+    fontSize: 14,
+    marginLeft: 10,
+    marginBottom: 8,
   },
 });
