@@ -98,11 +98,9 @@ export default function CreateTaskFormField({
                 { id: '3', name: 'Koya Kasoro', avatar: 'https://via.placeholder.com/40' },
                 { id: '4', name: 'Isaac Tope', avatar: 'https://via.placeholder.com/40' },
               ]}
-              onAddMembers={handleAddMembers} // Update selected members
+              onAddMembers={handleAddMembers}
             />
           </View>
-
-          {/* Display Selected Members */}
           <View style={styles.selectedMembersContainer}>
             <Text style={styles.sectionTitle}>Principal Members:</Text>
             {principalMembers.length > 0 ? (
