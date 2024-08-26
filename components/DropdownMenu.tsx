@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 interface DropdownMenuProps {
-  label: string;
+  // label: string;
   options: string[];
   onSelect: (option: string) => void;
+  style?: ViewStyle;
 }
 
-export default function DropdownMenu({ label, options, onSelect }: DropdownMenuProps) {
+// export default function DropdownMenu({ label, options, onSelect }: DropdownMenuProps) {
+export default function DropdownMenu({ options, onSelect, style }: DropdownMenuProps) {
   const [showOptions, setShowOptions] = useState(false);
   const [selectedOption, setSelectedOption] = useState(options[0]);
 
@@ -20,7 +22,7 @@ export default function DropdownMenu({ label, options, onSelect }: DropdownMenuP
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+      {/* <Text style={styles.label}>{label}</Text> */}
       <View style={styles.dropdownContainer}>
         <TouchableOpacity onPress={() => setShowOptions(!showOptions)} style={styles.dropdownHeader}>
           <Text style={styles.dropdownText}>{selectedOption}</Text>
@@ -43,7 +45,7 @@ export default function DropdownMenu({ label, options, onSelect }: DropdownMenuP
 const styles = StyleSheet.create({
   container: {
     marginBottom: 16,
-    zIndex: 2, // Ensures the container has a higher zIndex
+    zIndex: 2,
   },
   label: {
     color: '#fff',
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: '#161622',
-    zIndex: 3, // Ensure the dropdown options have a higher zIndex
+    zIndex: 3,
     borderRadius: 8,
   },
   dropdownOption: {

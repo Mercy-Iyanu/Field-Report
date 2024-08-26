@@ -45,14 +45,22 @@ const styles = StyleSheet.create ({
         paddingHorizontal: 14,
         paddingVertical: 16,
         marginBottom: 24,
+        flexDirection: 'row',
+        alignItems: 'center',
       },
     searchInput: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flex: 1,
         color: '#fff',
         fontSize: 16,
+        borderWidth: 0,
     },
+
+    searchInputFocused: {
+        borderColor: 'transparent'
+    },
+
     clearButton: {
-      marginLeft: 10,
+      position: 'absolute',
+      right: 14,
     }
 })

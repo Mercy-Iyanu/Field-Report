@@ -24,6 +24,7 @@ const priorityOptions = [
 ];
 
 const agencyCategories = [
+  'Select agency category',
   'Category A (Premium)',
   'Category B (Opportunity)',
   'Category C (Virtual)',
@@ -71,13 +72,10 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
   const handlePrioritySelect = (selectedPriority: string) => setPriority(selectedPriority);
 
   const handleSubmit = () => {
-    // Check if any of the required fields are empty
     if (!text1 || !agencyName || !agencyCategory || !text3 || !text4 || !text5 || !text6) {
-      // If any field is empty, show an alert or take appropriate action
       alert('Please fill out all fields before logging the report.');
-      return; // Exit the function early
+      return;
     }
-    // Create the report object
     const newReport = {
       title: text1,
       agencyName,
@@ -88,13 +86,11 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
       nextActionStep: text6,
       priorityLevel: priority,
       status,
-      attachment: '', // Placeholder for attachment
+      attachment: '',
     };
 
-    // Notify parent component
     onAddReport(newReport);
 
-    // Reset fields after submission
     setText1('');
     setAgencyName('');
     setAgencyCategory('');
@@ -111,11 +107,19 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
   return (
     <View style={styles.container}>
       <TextField value={text1} placeholder="Title" label="Title" onChangeText={handleTextChange1} />
-      <DropdownMenu label="Agency's name" options={['Search agency name', 'Dee Travels', 'InterGuide Air', 'Tifa Travels']} onSelect={handleAgencyNameSelect} />
-      <DropdownMenu label="Agency Category" options={agencyCategories} onSelect={handleAgencyCategorySelect} />
+      <DropdownMenu 
+        options={['Select agency name', 'Dee Travels', 'InterGuide Air', 'Tifa Travels']} 
+        onSelect={handleAgencyNameSelect} 
+        style={{ zIndex: 2 }}
+      />
+      <DropdownMenu 
+        options={agencyCategories} 
+        onSelect={handleAgencyCategorySelect}
+        style={{ zIndex: 1 }}
+      />
       <TextField value={text3} placeholder="Contact person" label="Contact Person" onChangeText={handleTextChange3} />
       <TextField value={text4} placeholder="Description" label="Description" onChangeText={handleTextChange4} />
-      <TextField value={text5} placeholder="Your view" label="Your View" onChangeText={handleTextChange5} />
+      <TextField value={text5} placeholder="Your view" label="Your View" onChangeText={ handleTextChange5} />
       <TextField value={text6} placeholder="Next action step" label="Next Action Step" onChangeText={handleTextChange6} />
       
       <View style={styles.rowContainer}>

@@ -12,29 +12,99 @@ type Notifications = {
 };
 
 type NotificationsPageProps = {
-  onClose: () => void; // Define onClose as a function that takes no parameters and returns void
+  onClose: () => void;
 };
 
 const categories = ['All', 'Mentions', 'Task List', 'Activity Log'];
 
 const notifications: { [key: string]: Notifications[] } = {
   all: [
-    { id: '1', avatar: '../../assets/images/avatar1.jpg', user: 'Itunu Babatope', activity: 'logged a field report', time: '20 mins ago', title: 'Call Mr. Amusan task submitted.' },
-    { id: '2', avatar: '../../assets/images/avatar2.jpg', user: 'Koya Kasoro', activity: 'added a new task', time: '2 hrs ago', title: 'Schedule NDC training for SkyBlue Travels' },
-    { id: '3', avatar: '../../assets/images/avatar3.jpg', user: 'Tosin Onalaja', activity: 'has viewed your task', time: '10 hrs ago', title: 'Attend NANTA seminar.' },
-    { id: '4', avatar: '../../assets/images/avatar4.jpg', user: '', activity: 'Our new privacy update', time: '15 hrs ago', title: 'We’ve just updated our privacy policy. No action needed, just to let you know.' },
+    { 
+      id: '1', 
+      avatar: '../../assets/images/avatar1.jpg', 
+      user: 'Itunu Babatope', 
+      activity: 'logged a field report', 
+      time: '20 mins ago', 
+      title: 'Call Mr. Amusan task submitted.' 
+    },
+    { 
+      id: '2', 
+      avatar: '../../assets/images/avatar2.jpg', 
+      user: 'Koya Kasoro', 
+      activity: 'added a new task', 
+      time: '2 hrs ago', 
+      title: 'Schedule NDC training for SkyBlue Travels' 
+    },
+    { 
+      id: '3', 
+      avatar: '../../assets/images/avatar3.jpg', 
+      user: 'Tosin Onalaja', 
+      activity: 'has viewed your task', 
+      time: '10 hrs ago', 
+      title: 'Attend NANTA seminar.' 
+    },
+    { 
+      id: '4', 
+      avatar: '../../assets/images/avatar4.jpg', 
+      user: '', 
+      activity: 'Our new privacy update', 
+      time: '15 hrs ago', 
+      title: 'We’ve just updated our privacy policy. No action needed, just to let you know.' 
+    },
   ],
   mentions: [
-    { id: '5', avatar: '../../assets/images/avatar1.jpg', user: 'User1', activity: 'mentioned you in a comment', time: '5 mins ago', title: 'Check out the new report.' },
-    { id: '6', avatar: '../../assets/images/avatar3.jpg', user: 'User2', activity: 'mentioned you in a task', time: '1 hr ago', title: 'Review the latest proposal.' },
+    { 
+      id: '5', 
+      avatar: '../../assets/images/avatar1.jpg', 
+      user: 'User1', 
+      activity: 'mentioned you in a comment', 
+      time: '5 mins ago', 
+      title: 'Check out the new report.' 
+    },
+    { 
+      id: '6', 
+      avatar: '../../assets/images/avatar3.jpg', 
+      user: 'User2', 
+      activity: 'mentioned you in a task', 
+      time: '1 hr ago', 
+      title: 'Review the latest proposal.' 
+    },
   ],
   taskList: [
-    { id: '7', avatar: '../../assets/images/avatar4.jpg', user: 'User3', activity: 'assigned you a new task', time: '30 mins ago', title: 'Prepare for the upcoming meeting.' },
-    { id: '8', avatar: '../../assets/images/avatar3.jpg', user: 'User4', activity: 'updated task priority', time: '3 hrs ago', title: 'Complete the project milestone.' },
+    { 
+      id: '7', 
+      avatar: '../../assets/images/avatar4.jpg', 
+      user: 'User3', 
+      activity: 'assigned you a new task', 
+      time: '30 mins ago', 
+      title: 'Prepare for the upcoming meeting.' 
+    },
+    { 
+      id: '8', 
+      avatar: '../../assets/images/avatar3.jpg', 
+      user: 'User4', 
+      activity: 'updated task priority', 
+      time: '3 hrs ago', 
+      title: 'Complete the project milestone.' 
+    },
   ],
   activityLog: [
-    { id: '9', avatar: '../../assets/images/avatar1.jpg', user: 'User5', activity: 'logged a call', time: '1 hr ago', title: 'Review the client meeting notes.' },
-    { id: '10', avatar: '../../assets/images/avatar4.jpg', user: 'User6', activity: 'reviewed your document', time: '5 hrs ago', title: 'Approve the new proposal.' },
+    { 
+      id: '9', 
+      avatar: '../../assets/images/avatar1.jpg', 
+      user: 'User5', 
+      activity: 'logged a call', 
+      time: '1 hr ago', 
+      title: 'Review the client meeting notes.' 
+    },
+    { 
+      id: '10', 
+      avatar: '../../assets/images/avatar4.jpg', 
+      user: 'User6', 
+      activity: 'reviewed your document', 
+      time: '5 hrs ago', 
+      title: 'Approve the new proposal.' 
+    },
   ],
 };
 
