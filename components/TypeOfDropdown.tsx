@@ -20,7 +20,7 @@ export default function TypeOfDropdown({ options, onSelect }: TypeOfDropdownProp
   };
 
   return (
-    <>
+  <>
       <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.dropdownHeader}>
         <Text style={styles.dropdownText}>{selectedOption}</Text>
         <Ionicons name={showOptions ? 'chevron-up' : 'chevron-down'} size={20} color="#fff" style={styles.icon} />

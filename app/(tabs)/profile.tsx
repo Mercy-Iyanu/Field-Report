@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { Colors } from '@/constants/Colors';
+
 import ProfileInfo from '@/components/ProfileInfo';
 import SettingsSection from '@/components/SettingsSection';
 import CustomButton from '@/components/CustomButton';
+import LogoutConfirmationModal from '@/components/LogOut';
+
 import EditProfileModal from '../pages/editProfile';
 import ResetPasswordModal from '../pages/resetPassword';
 import PrivacyAndSecurityModal from '../pages/privacySecurity';
 import NotificationsModal from '../pages/notifications';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { Colors } from '@/constants/Colors';
-import LogoutConfirmationModal from '@/components/LogOut';
 
 export default function ProfilePage() {
   const [refreshing, setRefreshing] = React.useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const [editProfileVisible, setEditProfileVisible] = useState(false);
   const [resetPasswordVisible, setResetPasswordVisible] = useState(false);
   const [privacyAndSecurityVisible, setPrivacyAndSecurityVisible] = useState(false);
@@ -28,8 +31,8 @@ export default function ProfilePage() {
   }, []);
 
   const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
-  const [darkMode, setDarkMode] = useState(false);
+  // const colors = Colors[colorScheme ?? 'light'];
+  const colors = darkMode ? Colors.dark : Colors.light;
 
   const handleDarkModeToggle = () => {
     setDarkMode(!darkMode);
@@ -74,7 +77,7 @@ export default function ProfilePage() {
           <Text style={[styles.title, { color: colors.text }]}>Profile</Text>
           <View style={styles.icons}>
             <TouchableOpacity onPress={handleDarkModeToggle}>
-              <Ionicons name={darkMode ? 'sunny' : 'moon'} size={24} color={colors.text} style={styles.icon} />
+              <Ionicons name={darkMode ? 'moon' : 'sunny'} size={24} color={colors.text} style={styles.icon} />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleLogout}>
               <Ionicons name="log-out-outline" size={24} color={colors.text} style={styles.logOutIcon} />
@@ -83,7 +86,7 @@ export default function ProfilePage() {
         </View>
         <ProfileInfo />
         <SettingsSection onEditProfile={handleEditProfile} onResetPassword={handleResetPassword} onPrivacyAndSecurity={handlePrivacyAndSecurity} onNotifications={handleNotifications} />
-        <CustomButton title="Delete Account" onPress={() => { /* Logic to delete account */ }} />
+        <CustomButton title="Delete Account" onPress={() => {}} />
       </View>
       <Modal visible={editProfileVisible} animationType="slide">
         <EditProfileModal onClose={() => setEditProfileVisible(false)} />

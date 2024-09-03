@@ -1,14 +1,31 @@
 // HomeScreen.tsx
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Colors } from '@/constants/Colors';
 import { RootState } from '../../redux/store';
+import { Calendar } from 'react-native-calendars';
 import { View, RefreshControl, Text, Image, ScrollView, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import PreviewList from '@/components/PreviewList';
 import Search from '@/components/Search';
 import TaskDetails from '../pages/taskDetails';
 
 export default function HomeScreen() {
+  // const darkMode = useSelector((state) => state.theme.darkMode);
+  // const colors = darkMode ? Colors.dark : Colors.light;
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
+  const [selectedDate, setSelectedDate] = useState('');
+
+  interface DateObject {
+    dateString: string;
+    day: number;
+    month: number;
+    year: number;
+    timestamp: number;
+  }
+
+  const onDayPress = (day: DateObject) => {
+    setSelectedDate(day.dateString);
+  };
 
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -60,6 +77,21 @@ export default function HomeScreen() {
       </View>
 
       <Search placeholder="Looking for something?" onChangeText={handleSearchChange} />
+
+      <View style={styles.dateContainer}>
+        <Calendar
+          onDayPress={onDayPress}
+          markedDates={{
+            [selectedDate]: { selected: true, marked: true, selectedColor: '#E50000' },
+          }}
+          theme={{
+            calendarBackground: '#161622',
+            dayContainerStyle: {
+              paddingHorizontal: 10,
+            },
+          }}
+        />
+      </View>
 
       <View style={styles.activitiesContainer}>
         <Text style={styles.activitiesTitle}>Your task for today</Text>
@@ -115,6 +147,19 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
+
+  selectedDateText: {
+    marginTop: 20,
+    fontSize: 18,
+  },
+
+  dateContainer: {
+    flex: 1,
+    backgroundColor: '#161622',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   activitiesContainer: {
     marginBottom: 16,
   },
@@ -122,6 +167,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
     color: '#fff',
+    marginTop: 12,
     marginBottom: 12,
   },
   modalOverlay: {
