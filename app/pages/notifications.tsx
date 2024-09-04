@@ -168,14 +168,14 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onClose }) => {
       </View>
       <ScrollView style={styles.content}>
         {renderNotifications().map(notification => (
-          <View key={notification.id} style={styles.notification}>
+          <TouchableOpacity key={notification.id} style={styles.notification}>
             <Image source={{ uri: notification.avatar }} style={styles.avatar} />
             <View style={styles.notificationText}>
               <Text style={styles.activity}>{notification.user} {notification.activity}</Text>
               <Text style={styles.time}>{notification.time}</Text>
               <Text style={styles.title}>{notification.title}</Text>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
 
