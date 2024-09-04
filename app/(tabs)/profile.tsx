@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { Colors } from '@/constants/Colors';
+
 import ProfileInfo from '@/components/ProfileInfo';
 import SettingsSection from '@/components/SettingsSection';
 import CustomButton from '@/components/CustomButton';
+import LogoutConfirmationModal from '@/components/LogOut';
+
 import EditProfileModal from '../pages/editProfile';
 import ResetPasswordModal from '../pages/resetPassword';
 import PrivacyAndSecurityModal from '../pages/privacySecurity';
 import NotificationsModal from '../pages/notifications';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { Colors } from '@/constants/Colors';
-import LogoutConfirmationModal from '@/components/LogOut';
 
 export default function ProfilePage() {
   const [refreshing, setRefreshing] = React.useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const [editProfileVisible, setEditProfileVisible] = useState(false);
   const [resetPasswordVisible, setResetPasswordVisible] = useState(false);
   const [privacyAndSecurityVisible, setPrivacyAndSecurityVisible] = useState(false);
@@ -28,8 +31,8 @@ export default function ProfilePage() {
   }, []);
 
   const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
-  const [darkMode, setDarkMode] = useState(false);
+  // const colors = Colors[colorScheme ?? 'light'];
+  const colors = darkMode ? Colors.dark : Colors.light;
 
   const handleDarkModeToggle = () => {
     setDarkMode(!darkMode);
@@ -40,9 +43,7 @@ export default function ProfilePage() {
   };
 
   const confirmLogout = () => {
-    // Logic to handle logout
     console.log('Logged out successfully');
-    // Close the logout confirmation modal
     setLogoutModalVisible(false);
   };
 
@@ -83,7 +84,7 @@ export default function ProfilePage() {
         </View>
         <ProfileInfo />
         <SettingsSection onEditProfile={handleEditProfile} onResetPassword={handleResetPassword} onPrivacyAndSecurity={handlePrivacyAndSecurity} onNotifications={handleNotifications} />
-        <CustomButton title="Delete Account" onPress={() => { /* Logic to delete account */ }} />
+        <CustomButton title="Delete Account" onPress={() => {}} />
       </View>
       <Modal visible={editProfileVisible} animationType="slide">
         <EditProfileModal onClose={() => setEditProfileVisible(false)} />

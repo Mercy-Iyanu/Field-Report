@@ -54,7 +54,7 @@ export default function CreateTaskFormField({
   return (
     <View style={styles.container}>
       <View style={styles.lightBg}>
-      <View style={styles.header}>
+        <View style={styles.header}>
           <PriorityLevel
             options={options}
             currentOption={priority}
@@ -83,14 +83,11 @@ export default function CreateTaskFormField({
             placeholderTextColor="#888"
             onChangeText={setDescription}
           />
-
           <View style={styles.inputRow}>
             <DropdownMenu
-              label="Task category"
-              options={['Field Report', 'Others']}
+              options={['Select a task category','Field Report', 'Others']}
               onSelect={(option) => console.log('Selected category:', option)}
             />
-
             <MemberDropdown
               teamMembers={[
                 { id: '1', name: 'Ronke Ugoju', avatar: 'https://via.placeholder.com/40' },
@@ -110,7 +107,6 @@ export default function CreateTaskFormField({
             ) : (
               <Text style={styles.noMembersText}>No principal members selected</Text>
             )}
-
             <Text style={styles.sectionTitle}>Co-Members:</Text>
             {coMembers.length > 0 ? (
               coMembers.map((member) => (
@@ -122,7 +118,6 @@ export default function CreateTaskFormField({
           </View>
         </View>
       </View>
-
       <CustomButton title="Create Task" onPress={handleCreateTask} />
     </View>
   );
@@ -143,6 +138,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    zIndex: 100, // Ensures header dropdowns are on top
   },
   content: {
     marginTop: 20,
@@ -161,9 +157,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
+    zIndex: 100, // Ensures dropdowns are on top
   },
   selectedMembersContainer: {
     marginTop: 20,
+    zIndex: 1, // Ensure this is below the dropdowns
   },
   sectionTitle: {
     color: '#fff',

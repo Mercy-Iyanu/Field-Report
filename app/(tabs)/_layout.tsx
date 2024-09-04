@@ -2,19 +2,25 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
+import { useSelector } from 'react-redux';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 
+import { ThemeProvider } from '@/components/context/ThemeContext';
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  // const darkMode = useSelector((state) => state.theme.darkMode);
+  // const colors = darkMode ? Colors.dark : Colors.light;
 
   return (
     
-    <Provider store={store}>
+    <ThemeProvider>
+      <Provider store={store}>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+          tabBarActiveTintColor: Colors[colorScheme ?? 'dark'].tint,
           headerShown: false,
         }}>
         <Tabs.Screen
@@ -63,6 +69,7 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-    </Provider>  
+      </Provider>
+    </ThemeProvider>  
   );
 }

@@ -19,19 +19,17 @@ const MemberDropdown = ({ teamMembers, onAddMembers }: MemberDropdownProps) => {
 
   const handleToggleMember = (member: Member, isPrincipal: boolean) => {
     if (isPrincipal) {
-      const isSelected = principalMembers.some((m) => m.id === member.id);
-      if (isSelected) {
-        setPrincipalMembers(principalMembers.filter((m) => m.id !== member.id));
-      } else {
-        setPrincipalMembers([...principalMembers, member]);
-      }
+      setPrincipalMembers((prev) =>
+        prev.some((m) => m.id === member.id)
+          ? prev.filter((m) => m.id !== member.id)
+          : [...prev, member]
+      );
     } else {
-      const isSelected = coMembers.some((m) => m.id === member.id);
-      if (isSelected) {
-        setCoMembers(coMembers.filter((m) => m.id !== member.id));
-      } else {
-        setCoMembers([...coMembers, member]);
-      }
+      setCoMembers((prev) =>
+        prev.some((m) => m.id === member.id)
+          ? prev.filter((m) => m.id !== member.id)
+          : [...prev, member]
+      );
     }
   };
 
@@ -60,10 +58,10 @@ const MemberDropdown = ({ teamMembers, onAddMembers }: MemberDropdownProps) => {
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Text style={styles.addMembersLink}>Add members</Text>
       </TouchableOpacity>
-      <Modal visible={modalVisible} transparent={true} animationType="slide">
+      <Modal visible={modalVisible} transparent={true} animationType="fade">
         <View style={styles.modalBackground}>
           <View style={styles.modalContainer}>
-            <Text style={styles.sectionTitle}>Principal Task-Owner</Text>
+            <Text style={styles.sectionTitle}>Principal Task-Owners</Text>
             <FlatList
               data={teamMembers}
               renderItem={(item) => renderMember(item, true)}
