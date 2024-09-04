@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Modal, Image, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 type Notifications = {
@@ -9,6 +9,7 @@ type Notifications = {
   activity: string;
   time: string;
   title: string;
+  read: boolean;
 };
 
 type NotificationsPageProps = {
@@ -20,54 +21,60 @@ const categories = ['All', 'Mentions', 'Task List', 'Activity Log'];
 const notifications: { [key: string]: Notifications[] } = {
   all: [
     { 
-      id: '1', 
+      id: '1',
       avatar: '../../assets/images/avatar1.jpg', 
       user: 'Itunu Babatope', 
       activity: 'logged a field report', 
       time: '20 mins ago', 
-      title: 'Call Mr. Amusan task submitted.' 
+      title: 'Call Mr. Amusan task submitted.',
+      read: false
     },
     { 
-      id: '2', 
+      id: '2',
       avatar: '../../assets/images/avatar2.jpg', 
       user: 'Koya Kasoro', 
       activity: 'added a new task', 
       time: '2 hrs ago', 
-      title: 'Schedule NDC training for SkyBlue Travels' 
+      title: 'Schedule NDC training for SkyBlue Travels',
+      read: false 
     },
     { 
-      id: '3', 
+      id: '3',
       avatar: '../../assets/images/avatar3.jpg', 
       user: 'Tosin Onalaja', 
       activity: 'has viewed your task', 
       time: '10 hrs ago', 
-      title: 'Attend NANTA seminar.' 
+      title: 'Attend NANTA seminar.',
+      read: true 
     },
     { 
-      id: '4', 
+      id: '4',
       avatar: '../../assets/images/avatar4.jpg', 
       user: '', 
       activity: 'Our new privacy update', 
       time: '15 hrs ago', 
-      title: 'We’ve just updated our privacy policy. No action needed, just to let you know.' 
+      title: 'We’ve just updated our privacy policy. No action needed, just to let you know.',
+      read: true 
     },
   ],
   mentions: [
     { 
-      id: '5', 
+      id: '5',
       avatar: '../../assets/images/avatar1.jpg', 
       user: 'User1', 
       activity: 'mentioned you in a comment', 
       time: '5 mins ago', 
-      title: 'Check out the new report.' 
+      title: 'Check out the new report.',
+      read: false 
     },
     { 
-      id: '6', 
+      id: '6',
       avatar: '../../assets/images/avatar3.jpg', 
       user: 'User2', 
       activity: 'mentioned you in a task', 
       time: '1 hr ago', 
-      title: 'Review the latest proposal.' 
+      title: 'Review the latest proposal.',
+      read: true 
     },
   ],
   taskList: [
@@ -77,7 +84,8 @@ const notifications: { [key: string]: Notifications[] } = {
       user: 'User3', 
       activity: 'assigned you a new task', 
       time: '30 mins ago', 
-      title: 'Prepare for the upcoming meeting.' 
+      title: 'Prepare for the upcoming meeting.',
+      read: true 
     },
     { 
       id: '8', 
@@ -85,7 +93,8 @@ const notifications: { [key: string]: Notifications[] } = {
       user: 'User4', 
       activity: 'updated task priority', 
       time: '3 hrs ago', 
-      title: 'Complete the project milestone.' 
+      title: 'Complete the project milestone.',
+      read: false 
     },
   ],
   activityLog: [
@@ -95,7 +104,8 @@ const notifications: { [key: string]: Notifications[] } = {
       user: 'User5', 
       activity: 'logged a call', 
       time: '1 hr ago', 
-      title: 'Review the client meeting notes.' 
+      title: 'Review the client meeting notes.',
+      read: false 
     },
     { 
       id: '10', 
@@ -103,27 +113,39 @@ const notifications: { [key: string]: Notifications[] } = {
       user: 'User6', 
       activity: 'reviewed your document', 
       time: '5 hrs ago', 
-      title: 'Approve the new proposal.' 
+      title: 'Approve the new proposal.',
+      read: true 
     },
   ],
 };
 
 const NotificationsPage: React.FC<NotificationsPageProps> = ({ onClose }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isFilterModalVisible, setFilterModalVisible] = useState(false);
+  const [readStatus, setReadStatus] = useState<'Read' | 'Unread' | null>(null);
 
   const renderNotifications = () => {
-    switch (selectedCategory) {
-      case 'All':
-        return notifications.all;
-      case 'Mentions':
-        return notifications.mentions;
-      case 'Task List':
-        return notifications.taskList;
-      case 'Activity Log':
-        return notifications.activityLog;
-      default:
-        return [];
+    const categoryKeyMap: { [key: string]: keyof typeof notifications } = {
+      All: 'all',
+      Mentions: 'mentions',
+      'Task List': 'taskList',
+      'Activity Log': 'activityLog',
+    };
+
+    const categoryKey = categoryKeyMap[selectedCategory] || 'all';
+    let categoryNotifications = notifications[categoryKey];
+
+    if (readStatus) {
+      categoryNotifications = categoryNotifications.filter(notification =>
+        readStatus === 'Read' ? notification.read : !notification.read
+      );
     }
+
+    return categoryNotifications;
+  };
+
+  const toggleFilterModal = () => {
+    setFilterModalVisible(!isFilterModalVisible);
   };
 
   return (
@@ -133,7 +155,7 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onClose }) => {
           <Ionicons name="chevron-back-outline" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Notifications</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={toggleFilterModal}>
           <Ionicons name="filter-outline" size={24} color="white" />
         </TouchableOpacity>
       </View>
@@ -156,6 +178,27 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onClose }) => {
           </View>
         ))}
       </ScrollView>
+
+      {/* Filter Modal  */}
+      <Modal
+        visible={isFilterModalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={toggleFilterModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Filter Notifications</Text>
+            <TouchableOpacity onPress={() => { setReadStatus('Read'); toggleFilterModal(); }}>
+              <Text style={styles.modalOption}>Read</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => { setReadStatus('Unread'); toggleFilterModal(); }}>
+              <Text style={styles.modalOption}>Unread</Text>
+            </TouchableOpacity>
+            <Button title="Close" onPress={toggleFilterModal} />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -225,6 +268,28 @@ const styles = StyleSheet.create({
   title: {
     color: '#ccc',
     fontSize: 14,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: 300,
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  modalOption: {
+    fontSize: 16,
+    paddingVertical: 10,
   },
 });
 

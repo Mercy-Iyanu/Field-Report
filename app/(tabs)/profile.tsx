@@ -43,9 +43,7 @@ export default function ProfilePage() {
   };
 
   const confirmLogout = () => {
-    // Logic to handle logout
     console.log('Logged out successfully');
-    // Close the logout confirmation modal
     setLogoutModalVisible(false);
   };
 
@@ -77,7 +75,7 @@ export default function ProfilePage() {
           <Text style={[styles.title, { color: colors.text }]}>Profile</Text>
           <View style={styles.icons}>
             <TouchableOpacity onPress={handleDarkModeToggle}>
-              <Ionicons name={darkMode ? 'moon' : 'sunny'} size={24} color={colors.text} style={styles.icon} />
+              <Ionicons name={darkMode ? 'sunny' : 'moon'} size={24} color={colors.text} style={styles.icon} />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleLogout}>
               <Ionicons name="log-out-outline" size={24} color={colors.text} style={styles.logOutIcon} />

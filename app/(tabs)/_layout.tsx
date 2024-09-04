@@ -7,6 +7,8 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 
+import { ThemeProvider } from '@/components/context/ThemeContext';
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   // const darkMode = useSelector((state) => state.theme.darkMode);
@@ -14,10 +16,11 @@ export default function TabLayout() {
 
   return (
     
-    <Provider store={store}>
+    <ThemeProvider>
+      <Provider store={store}>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+          tabBarActiveTintColor: Colors[colorScheme ?? 'dark'].tint,
           headerShown: false,
         }}>
         <Tabs.Screen
@@ -66,6 +69,7 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-    </Provider>  
+      </Provider>
+    </ThemeProvider>  
   );
 }
