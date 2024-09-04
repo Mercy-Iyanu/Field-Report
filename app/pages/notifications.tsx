@@ -189,6 +189,9 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onClose }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Filter Notifications</Text>
+            <TouchableOpacity onPress={() => { setReadStatus(null); toggleFilterModal(); }}>
+              <Text style={styles.modalOption}>All</Text>
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => { setReadStatus('Read'); toggleFilterModal(); }}>
               <Text style={styles.modalOption}>Read</Text>
             </TouchableOpacity>
