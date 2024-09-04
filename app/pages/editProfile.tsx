@@ -54,7 +54,6 @@ export default function EditProfileModal({ onClose }: EditProfileModalProps) {
           onChangeText={setUsername}
         />
         <DropdownMenu
-          label="Department"
           options={['Account Management', 'Sales']}
           onSelect={setDepartment}
         />
