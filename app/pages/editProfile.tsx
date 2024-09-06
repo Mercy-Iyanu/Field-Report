@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import TextField from '@/components/TextField';
 import CustomButton from '@/components/CustomButton';
 import DropdownMenu from '@/components/DropdownMenu';
+import * as ImagePicker from 'expo-image-picker';
 
 type EditProfileModalProps = {
   onClose: () => void;
@@ -17,8 +18,20 @@ export default function EditProfileModal({ onClose }: EditProfileModalProps) {
   const [profilePic, setProfilePic] = useState(require('../../assets/images/profilepic.jpg'));
 
   const handleSaveChanges = () => {
-    // Logic to save changes
     onClose();
+  };
+
+  const updateProfilePicture = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+  
+    if (!result.canceled) {
+      setProfilePic({ uri: result.assets[0].uri });
+    }
   };
 
   return (
@@ -38,7 +51,11 @@ export default function EditProfileModal({ onClose }: EditProfileModalProps) {
             style={styles.profileImage}
             resizeMode="contain"
           />
-          <Ionicons name="camera" size={24} color="white" style={styles.cameraIcon} />
+          <Ionicons name="camera" size={24} color="white" style={styles.cameraIcon} onPress={updateProfilePicture
+            
+
+
+          } />
         </TouchableOpacity>
 
         <TextField
@@ -54,7 +71,6 @@ export default function EditProfileModal({ onClose }: EditProfileModalProps) {
           onChangeText={setUsername}
         />
         <DropdownMenu
-          label="Department"
           options={['Account Management', 'Sales']}
           onSelect={setDepartment}
         />

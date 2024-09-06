@@ -49,7 +49,7 @@ export default function CelebrateFormField({ options, onSubmit }: CelebrateFormF
         onChangeText={handleTextChange}
       />
       <DropdownMenu
-        label="Agency's name"
+        // label="Agency's name"
         options={options}
         onSelect={handleOptionSelect}
       />
