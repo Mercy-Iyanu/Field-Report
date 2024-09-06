@@ -107,6 +107,7 @@ export default function HomeScreen() {
                 description={selectedTask.description}
                 priority={selectedTask.priority}
                 status={selectedTask.status}
+                category={selectedTask.categoryS}
                 principalMembers={[]}
                 coMembers={[]}
                 onEditTask={handleEditTask}

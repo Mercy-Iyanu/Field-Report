@@ -1,7 +1,10 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Animated, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import CustomButton from '@/components/CustomButton';
+import PriorityLevel from '@/components/PriorityLevel';
+import StatusLevel from '@/components/StatusLevel';
+import DropdownMenu from '@/components/DropdownMenu';
 
 interface Member {
   id: string;
@@ -14,6 +17,7 @@ interface TaskDetailsProps {
   description: string;
   priority: string;
   status: string;
+  category: string;
   principalMembers: Member[];
   coMembers: Member[];
   onEditTask: () => void;
@@ -26,6 +30,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
   description,
   priority,
   status,
+  category,
   principalMembers,
   coMembers,
   onEditTask,
@@ -33,6 +38,12 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
   onClose,
 }) => {
   const slideAnim = useRef(new Animated.Value(300)).current;
+
+  const [currentPriority, setCurrentPriority] = useState<string>('High Priority');
+  const [currentStatus, setCurrentStatus] = useState<string>('Pending');
+  const [currentCategory, setCurrentCategory] = useState(category);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [statusModalVisible, setStatusModalVisible] = useState(false);
 
   useEffect(() => {
     Animated.timing(slideAnim, {
@@ -59,28 +70,58 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
           <Text style={styles.headerTitle}>Task Details</Text>
           <View /> {/* This empty View is used for alignment */}
         </View>
+        <View style={styles.lightBg}>
+          <View style={styles.Levelheader}>
+            <PriorityLevel
+              options={[
+                { id: '1', label: 'High Priority' },
+                { id: '2', label: 'Medium Priority' },
+                { id: '3', label: 'Low Priority' },
+              ]}
+              currentOption={currentPriority} 
+              onSelect={setCurrentPriority}
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+            />
 
-        <View style={styles.content}>
-          <Text style={styles.titleInput}>{title}</Text>
-          <Text style={styles.descriptionInput}>{description}</Text>
+            <StatusLevel
+              options={[
+                { id: '1', label: 'Pending' },
+                { id: '2', label: 'In Progress' },
+                { id: '3', label: 'Completed' },
+              ]}
+              currentOption={currentStatus}
+              onSelect={setCurrentStatus}
+              modalVisible={statusModalVisible}
+              setModalVisible={setStatusModalVisible}
+            />
+          </View>
+          <View style={styles.content}>
+            <Text style={styles.titleInput}>{title}</Text>
+            <Text style={styles.descriptionInput}>{description}</Text>
+            <DropdownMenu
+              options={['Field Report', 'Others']}
+              onSelect={setCurrentCategory}
+              // selectedOption={currentCategory}
+            />
 
-          <Text style={styles.label}>Principal Members:</Text>
-          <FlatList
-            data={principalMembers}
-            renderItem={renderMember}
-            keyExtractor={(item) => item.id}
-          />
+            <Text style={styles.label}>Principal Members:</Text>
+            <FlatList
+              data={principalMembers}
+              renderItem={renderMember}
+              keyExtractor={(item) => item.id}
+            />
 
-          <Text style={styles.label}>Co Members:</Text>
-          <FlatList
-            data={coMembers}
-            renderItem={renderMember}
-            keyExtractor={(item) => item.id}
-          />
-
-          <CustomButton title="Edit Task" onPress={onEditTask} />
-          <CustomButton title="Delete Task" onPress={onDeleteTask} />
+            <Text style={styles.label}>Co Members:</Text>
+            <FlatList
+              data={coMembers}
+              renderItem={renderMember}
+              keyExtractor={(item) => item.id}
+            />
+          </View>
         </View>
+        <CustomButton title="Update Task" onPress={onEditTask} />
+        <CustomButton title="Delete Task" onPress={onDeleteTask} />
       </Animated.View>
     </Modal>
   );
@@ -103,6 +144,18 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  lightBg: {
+    backgroundColor: '#232533',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+  },
+  Levelheader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    zIndex: 100,
   },
   content: {
     marginTop: 20,
