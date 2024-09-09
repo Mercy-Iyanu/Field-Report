@@ -19,13 +19,11 @@ export default function CelebrateFormField({ options, onSubmit }: CelebrateFormF
 
   const handleTextChange = (input: string) => {
     setText(input);
-    // Hide notification when input changes
     setNotification({ ...notification, isVisible: false });
   };
 
   const handleOptionSelect = (option: string) => {
     setSelectedOption(option);
-    // Hide notification when option is selected
     setNotification({ ...notification, isVisible: false });
   };
 
@@ -49,7 +47,6 @@ export default function CelebrateFormField({ options, onSubmit }: CelebrateFormF
         onChangeText={handleTextChange}
       />
       <DropdownMenu
-        // label="Agency's name"
         options={options}
         onSelect={handleOptionSelect}
       />
@@ -68,5 +65,12 @@ const styles = StyleSheet.create({
   formContainer: {
     marginTop: 20,
     zIndex: 1,
+  },
+  dropdownWrapper: {
+    position: 'absolute',
+    top: 80,
+    left: 0,
+    right: 0,
+    zIndex: 2,
   },
 });
