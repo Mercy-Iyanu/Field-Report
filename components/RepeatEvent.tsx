@@ -31,7 +31,6 @@ export default function RepeatEvent({ onRepeatChange }: { onRepeatChange: (repea
       </View>
       {isEnabled && (
         <DropdownMenu
-          label=""
           options={repeatOptions}
           onSelect={handleOptionSelect}
         />

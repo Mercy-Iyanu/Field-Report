@@ -96,6 +96,7 @@ export default function TaskListPage() {
                 description={selectedTask.description}
                 priority={selectedTask.priority || 'N/A'}
                 status={selectedTask.status || 'N/A'}
+                category={''}
                 principalMembers={selectedTask.principalMembers || []}
                 coMembers={selectedTask.coMembers || []}
                 onEditTask={() => console.log("Edit task")}
