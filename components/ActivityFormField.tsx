@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-import 
-  { 
-    View, 
-    StyleSheet, 
-    Alert,Button 
-  } from 'react-native';
+import { View, StyleSheet, Alert, Button, Text } from 'react-native';
+import DocumentPicker, { DocumentPickerResponse } from 'react-native-document-picker';
 import TextField from './TextField';
 import DropdownMenu from './DropdownMenu';
 import CustomButton from './CustomButton';
@@ -35,7 +31,6 @@ interface ActivityFormFieldProps {
 }
 
 export default function ActivityFormField({ onAddReport }: ActivityFormFieldProps) {
-
   const [reportData, setReportData] = useState({
     title: '',
     agencyName: '',
@@ -48,7 +43,7 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
     status: '',
     attachment: '',
   });
-   
+
   const [text1, setText1] = useState('');
   const [text3, setText3] = useState('');
   const [text4, setText4] = useState('');
@@ -60,6 +55,7 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
   const [priority, setPriority] = useState<string>('High Priority');
   const [statusModalVisible, setStatusModalVisible] = useState(false);
   const [priorityModalVisible, setPriorityModalVisible] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
 
   const handleTextChange1 = (text: string) => setText1(text);
   const handleTextChange3 = (text: string) => setText3(text);
@@ -70,6 +66,22 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
   const handleAgencyCategorySelect = (option: string) => setAgencyCategory(option);
   const handleStatusSelect = (selectedStatus: string) => setStatus(selectedStatus);
   const handlePrioritySelect = (selectedPriority: string) => setPriority(selectedPriority);
+
+  const handleFilePick = async () => {
+    try {
+      const file: DocumentPickerResponse[] = await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+      });
+      setFileName(file[0].name);
+      setReportData(prevData => ({ ...prevData, attachment: file[0].uri }));
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('User canceled the picker');
+      } else {
+        throw err;
+      }
+    }
+  };
 
   const handleSubmit = () => {
     if (!text1 || !agencyName || !agencyCategory || !text3 || !text4 || !text5 || !text6) {
@@ -86,11 +98,12 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
       nextActionStep: text6,
       priorityLevel: priority,
       status,
-      attachment: '',
+      attachment: reportData.attachment,
     };
 
     onAddReport(newReport);
 
+    // Reset form fields
     setText1('');
     setAgencyName('');
     setAgencyCategory('');
@@ -100,6 +113,7 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
     setText6('');
     setPriority('High Priority');
     setStatus('Pending');
+    setFileName(null);
 
     alert('Report successfully logged.');
   };
@@ -119,9 +133,9 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
       />
       <TextField value={text3} placeholder="Contact person" label="Contact Person" onChangeText={handleTextChange3} />
       <TextField value={text4} placeholder="Description" label="Description" onChangeText={handleTextChange4} />
-      <TextField value={text5} placeholder="Your view" label="Your View" onChangeText={ handleTextChange5} />
+      <TextField value={text5} placeholder="Your view" label="Your View" onChangeText={handleTextChange5} />
       <TextField value={text6} placeholder="Next action step" label="Next Action Step" onChangeText={handleTextChange6} />
-      
+
       <View style={styles.rowContainer}>
         <StatusLevel
           options={statusOptions}
@@ -130,7 +144,6 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
           modalVisible={statusModalVisible}
           setModalVisible={setStatusModalVisible}
         />
-
         <PriorityLevel
           options={priorityOptions}
           currentOption={priority}
@@ -139,6 +152,9 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
           setModalVisible={setPriorityModalVisible}
         />
       </View>
+
+      <Button title="Pick a file" onPress={handleFilePick} />
+      {fileName && <Text>Selected file: {fileName}</Text>}
 
       <CustomButton title="Log Report" onPress={handleSubmit} />
     </View>

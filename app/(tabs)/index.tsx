@@ -82,10 +82,19 @@ export default function HomeScreen() {
         <Calendar
           onDayPress={onDayPress}
           markedDates={{
-            [selectedDate]: { selected: true, marked: true, selectedColor: '#E50000' },
+            [selectedDate]: { 
+              selected: true, 
+              marked: true, 
+              selectedColor: '#E50000',
+              dotColor: '#E50000' },
           }}
           theme={{
             calendarBackground: '#161622',
+            dayTextColor: '#ffffff',
+            textSectionTitleColor: '#ffffff',
+            selectedDayTextColor: '#ffffff',
+            todayTextColor: '#E50000',
+            arrowColor: '#E50000',
             dayContainerStyle: {
               paddingHorizontal: 10,
             },
