@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
   },
   dropdownWrapper: {
     position: 'absolute',
-    top: 50, // Adjust the position according to your layout needs
-    zIndex: 1, // Ensure it appears above other components
+    top: 50,
+    zIndex: 1,  
     width: '100%',
   },
 });
