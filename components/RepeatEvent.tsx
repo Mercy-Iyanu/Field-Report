@@ -31,7 +31,6 @@ export default function RepeatEvent({ onRepeatChange }: { onRepeatChange: (repea
       </View>
       {isEnabled && (
         <DropdownMenu
-          label=""
           options={repeatOptions}
           onSelect={handleOptionSelect}
         />
@@ -52,5 +51,11 @@ const styles = StyleSheet.create({
   label: {
     color: '#fff',
     fontSize: 16,
+  },
+  dropdownWrapper: {
+    position: 'absolute',
+    top: 50,
+    zIndex: 1,  
+    width: '100%',
   },
 });

@@ -51,11 +51,7 @@ export default function EditProfileModal({ onClose }: EditProfileModalProps) {
             style={styles.profileImage}
             resizeMode="contain"
           />
-          <Ionicons name="camera" size={24} color="white" style={styles.cameraIcon} onPress={updateProfilePicture
-            
-
-
-          } />
+          <Ionicons name="camera" size={24} color="white" style={styles.cameraIcon} onPress={updateProfilePicture} />
         </TouchableOpacity>
 
         <TextField

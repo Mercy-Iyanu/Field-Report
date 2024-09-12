@@ -42,9 +42,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#161622',
     borderRadius: 8,
     marginVertical: 17,
-    marginBottom: 36,
     borderColor: '#3B3B3E',
     borderWidth: 1,
+    position: 'relative', 
+    zIndex: 1,
   },
   dropdownHeader: {
     flexDirection: 'row', 
@@ -54,9 +55,18 @@ const styles = StyleSheet.create({
   },
   dropdownOptions: {
     backgroundColor: '#161622',
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+    elevation: 3,
+    borderRadius: 8,
   },
   dropdownOption: {
     padding: 10,
+    // borderBottomColor: '#3B3B3E',
+    // borderBottomWidth: 1,
   },
   dropdownText: {
     color: '#fff',
@@ -64,11 +74,5 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginLeft: 10,
-  },
-  avatar: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    marginRight: 10,
   },
 });
