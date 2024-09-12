@@ -68,7 +68,7 @@ export default function TaskListPage() {
         <DateNavigatorContainer />
         <MembersTasks 
           options={['My tasks', 'Itunu Babatope', 'Koya Kasoro', 'Isaac Tope']} 
-          onSelect={handleFilterSelect} 
+          onSelect={handleFilterSelect}
         />
         <View style={styles.activitiesContainer}>
           <Text style={styles.activitiesTitle}>My tasks</Text>

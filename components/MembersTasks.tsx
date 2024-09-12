@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
   },
   dropdownOption: {
     padding: 10,
-    borderBottomColor: '#3B3B3E',
-    borderBottomWidth: 1,
+    // borderBottomColor: '#3B3B3E',
+    // borderBottomWidth: 1,
   },
   dropdownText: {
     color: '#fff',
