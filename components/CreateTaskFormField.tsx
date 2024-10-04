@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    zIndex: 100, // Ensures header dropdowns are on top
+    zIndex: 100,
   },
   content: {
     marginTop: 20,
@@ -157,11 +157,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 20,
-    zIndex: 100, // Ensures dropdowns are on top
+    zIndex: 100,
   },
   selectedMembersContainer: {
     marginTop: 20,
-    zIndex: 1, // Ensure this is below the dropdowns
+    zIndex: 1,
   },
   sectionTitle: {
     color: '#fff',

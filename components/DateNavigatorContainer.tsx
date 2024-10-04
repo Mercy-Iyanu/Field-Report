@@ -5,11 +5,10 @@ import DateNavigator from './DateNavigator';
 export default function DateNavigatorContainer() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  // Function to handle moving to the next date
   const handleNextDate = () => {
     setCurrentDate(prevDate => {
       const nextDate = new Date(prevDate);
-      nextDate.setDate(prevDate.getDate() + 1); // Increment by 1 day
+      nextDate.setDate(prevDate.getDate() + 1);
       return nextDate;
     });
   };
@@ -18,12 +17,11 @@ export default function DateNavigatorContainer() {
   const handlePreviousDate = () => {
     setCurrentDate(prevDate => {
       const previousDate = new Date(prevDate);
-      previousDate.setDate(prevDate.getDate() - 1); // Decrement by 1 day
+      previousDate.setDate(prevDate.getDate() - 1);
       return previousDate;
     });
   };
 
-  // Formatting the date for display
   const formatDate = (date: Date) => {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
