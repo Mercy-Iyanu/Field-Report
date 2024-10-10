@@ -26,6 +26,7 @@ export default function TaskListPage() {
 
   const handleSearchChange = (text: string) => setSearchQuery(text);
 
+  // Functions to navigate between dates
   const handleDateNext = () => setSelectedDate(new Date().toISOString().split('T')[0]);
   const handleDatePrevious = () => setSelectedDate(new Date().toISOString().split('T')[0]);
 
@@ -80,13 +81,13 @@ export default function TaskListPage() {
       <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
         <Ionicons name="add-circle" size={30} color="#FFF" />
       </TouchableOpacity>
-      {/* <CreateTaskModal 
+      <CreateTaskModal 
         isVisible={isModalVisible} 
         onClose={handleCloseModal} 
         onTaskCreated={handleTaskCreated} 
-      />  */}
+      />
       
-      {/* {selectedTask && (
+      {selectedTask && (
         <Modal animationType="slide" transparent={true} visible={taskModalVisible} onRequestClose={() => setTaskModalVisible(false)}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
@@ -105,7 +106,7 @@ export default function TaskListPage() {
             </View>
           </View>
         </Modal>
-      )} */}
+      )}
     </View>
   );
 }

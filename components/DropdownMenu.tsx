@@ -1,118 +1,86 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  Modal,
-  Pressable,
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 interface DropdownMenuProps {
+  // label: string;
   options: string[];
-  selectedValue: string;
-  onSelect: (value: string) => void;
-  placeholder: string;
+  onSelect: (option: string) => void;
+  style?: ViewStyle;
 }
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({
-  options,
-  selectedValue,
-  onSelect,
-  placeholder,
-}) => {
-  const [modalVisible, setModalVisible] = useState(false);
+// export default function DropdownMenu({ label, options, onSelect }: DropdownMenuProps) {
+export default function DropdownMenu({ options, onSelect, style }: DropdownMenuProps) {
+  const [showOptions, setShowOptions] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(options[0]);
 
-  const handleSelect = (value: string) => {
-    onSelect(value);
-    setModalVisible(false);
+  const handleSelect = (option: string) => {
+    setSelectedOption(option);
+    setShowOptions(false);
+    onSelect(option);
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.dropdown}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.dropdownText}>
-          {selectedValue || placeholder}
-        </Text>
-      </TouchableOpacity>
-
-      <Modal
-        transparent={true}
-        visible={modalVisible}
-        animationType="slide"
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <FlatList
-              data={options}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
-                <Pressable onPress={() => handleSelect(item)}>
-                  <Text style={styles.option}>{item}</Text>
-                </Pressable>
-              )}
-            />
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
+      {/* <Text style={styles.label}>{label}</Text> */}
+      <View style={styles.dropdownContainer}>
+        <TouchableOpacity onPress={() => setShowOptions(!showOptions)} style={styles.dropdownHeader}>
+          <Text style={styles.dropdownText}>{selectedOption}</Text>
+          <Ionicons name={showOptions ? 'chevron-up' : 'chevron-down'} size={20} color="#fff" style={styles.icon} />
+        </TouchableOpacity>
+        {showOptions && (
+          <View style={styles.dropdownOptions}>
+            {options.map((option, index) => (
+              <TouchableOpacity key={index} onPress={() => handleSelect(option)} style={styles.dropdownOption}>
+                <Text style={styles.dropdownText}>{option}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
-        </View>
-      </Modal>
+        )}
+      </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     marginBottom: 16,
+    zIndex: 2,
   },
-  dropdown: {
+  label: {
+    color: '#fff',
+    fontSize: 12,
+    marginBottom: 8,
+  },
+  dropdownContainer: {
+    position: 'relative',
     backgroundColor: '#1E1E2D',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#ccc',
+    paddingHorizontal: 14,
+    paddingVertical: 16,
+  },
+  dropdownOptions: {
+    position: 'absolute',
+    top: 58,
+    left: 0,
+    right: 0,
+    backgroundColor: '#161622',
+    zIndex: 3,
+    borderRadius: 8,
+  },
+  dropdownOption: {
+    padding: 10,
+  },
+  dropdownHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   dropdownText: {
-    color: '#fff',
+    color: '#cecece',
     fontSize: 16,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    width: '80%',
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 16,
-    elevation: 5,
-  },
-  option: {
-    padding: 16,
-    fontSize: 16,
-  },
-  closeButton: {
-    marginTop: 16,
-    padding: 12,
-    backgroundColor: '#E50000',
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  closeButtonText: {
-    color: '#fff',
-    fontSize: 16,
+  icon: {
+    marginLeft: 10,
   },
 });
-
-export default DropdownMenu;

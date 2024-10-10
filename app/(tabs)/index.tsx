@@ -10,8 +10,6 @@ import Search from '@/components/Search';
 import TaskDetails from '../pages/taskDetails';
 
 export default function HomeScreen() {
-  // const darkMode = useSelector((state) => state.theme.darkMode);
-  // const colors = darkMode ? Colors.dark : Colors.light;
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
   const [selectedDate, setSelectedDate] = useState('');
 
@@ -107,7 +105,7 @@ export default function HomeScreen() {
         <PreviewList tasks={tasks} onPress={handlePreviewListPress} />
       </View>
 
-      {/* {selectedTask && (
+      {selectedTask && (
         <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={handleModalClose}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
@@ -126,7 +124,7 @@ export default function HomeScreen() {
             </View>
           </View>
         </Modal>
-      )} */}
+      )}
     </ScrollView>
   );
 }

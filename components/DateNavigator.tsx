@@ -1,60 +1,38 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import moment from 'moment'; // We use moment.js to handle date manipulation
+import React from 'react';
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function DateNavigator() {
-  const [currentDate, setCurrentDate] = useState(moment());
+interface DateNavigatorProps {
+  date: string;
+  onNext: () => void;
+  onPrevious: () => void;
+}
 
-  // Function to handle moving to the previous day
-  const handlePrevious = () => {
-    setCurrentDate(prevDate => moment(prevDate).subtract(1, 'days'));
-  };
-
-  // Function to handle moving to the next day
-  const handleNext = () => {
-    setCurrentDate(prevDate => moment(prevDate).add(1, 'days'));
-  };
-
+export default function DateNavigator({ date, onNext, onPrevious }: DateNavigatorProps) {
   return (
-    <View style={styles.container}>
-      {/* Previous Button */}
-      <TouchableOpacity style={styles.navButton} onPress={handlePrevious}>
-        <Text style={styles.navText}>{'<'}</Text>
+    <View style={styles.navigatorContainer}>
+      <TouchableOpacity onPress={onPrevious} style={styles.iconButton}>
+        <Ionicons name="chevron-back" size={24} color="#fff" />
       </TouchableOpacity>
-
-      {/* Display Current Date */}
-      <Text style={styles.dateText}>{currentDate.format('MMMM Do, YYYY')}</Text>
-
-      {/* Next Button */}
-      <TouchableOpacity style={styles.navButton} onPress={handleNext}>
-        <Text style={styles.navText}>{'>'}</Text>
+      <Text style={styles.dateText}>{date}</Text>
+      <TouchableOpacity onPress={onNext} style={styles.iconButton}>
+        <Ionicons name="chevron-forward" size={24} color="#fff" />
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  navigatorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 10,
-    backgroundColor: '#1E1E2D',
-    borderRadius: 8,
-  },
-  navButton: {
-    padding: 10,
-    backgroundColor: '#E50000',
-    borderRadius: 8,
-  },
-  navText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
+    paddingVertical: 10,
   },
   dateText: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: '500',
   },
+  iconButton: {
+    padding: 5,
+  }
 });

@@ -68,7 +68,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
             <Ionicons name="chevron-back-outline" size={24} color="white" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Task Details</Text>
-          <View /> {/* This empty View is used for alignment */}
         </View>
         <View style={styles.lightBg}>
           <View style={styles.Levelheader}>
@@ -102,7 +101,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({
             <DropdownMenu
               options={['Field Report', 'Others']}
               onSelect={setCurrentCategory}
-              // selectedOption={currentCategory}
             />
 
             <Text style={styles.label}>Principal Members:</Text>
@@ -136,7 +134,6 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    // justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
   },

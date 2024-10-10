@@ -1,15 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
+import DatePicker from '@/components/DatePicker';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import CelebrateFormField from '@/components/CelebrateFormField';
+import TypeOfDropdown from '@/components/TypeOfDropdown';
 
 export default function CelebratePage() {
+  const [selectedOption, setSelectedOption] = useState('Birthday');
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const handleOptionSelect = (option: string) => {
+    setSelectedOption(option);
+  };
+
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+  };
+
+  const handleFormSubmit = (text: string, option: string) => {
+    console.log('Form submitted with:', text, option);
+    // Form submission logic goes here if needed
+  };
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.pageTitle}>New Anniversary</Text>
       <View style={styles.dropdownDateContainer}>
+        <TypeOfDropdown
+          options={['Birthday', 'Wedding Anniversary', 'Agency Anniversary']}
+          onSelect={handleOptionSelect}
+        />
+        <DatePicker onDateChange={handleDateChange} />
       </View>
-      <CelebrateFormField />
+      <CelebrateFormField
+        options={['Search agency name', 'Dee Travels', 'InterGuide Air', 'Tifa Travels']}
+        onSubmit={handleFormSubmit}
+      />
     </ScrollView>
+    // <ScrollView style={styles.container}>
+    //   <Text style={styles.pageTitle}>New Anniversary</Text>
+    //   <View style={styles.dropdownDateContainer}>
+    //   </View>
+    //   <CelebrateFormField />
+    // </ScrollView>
   );
 }
 

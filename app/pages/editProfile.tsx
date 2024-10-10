@@ -67,9 +67,7 @@ export default function EditProfileModal({ onClose }: EditProfileModalProps) {
         />
         <DropdownMenu
           options={['Account Management', 'Sales']}
-          selectedValue={''}
           onSelect={setDepartment}
-          placeholder="Select an option"
       />
         <TextField
           value={phone}
