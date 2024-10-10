@@ -80,13 +80,13 @@ export default function TaskListPage() {
       <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
         <Ionicons name="add-circle" size={30} color="#FFF" />
       </TouchableOpacity>
-      <CreateTaskModal 
+      {/* <CreateTaskModal 
         isVisible={isModalVisible} 
         onClose={handleCloseModal} 
         onTaskCreated={handleTaskCreated} 
-      />
+      />  */}
       
-      {selectedTask && (
+      {/* {selectedTask && (
         <Modal animationType="slide" transparent={true} visible={taskModalVisible} onRequestClose={() => setTaskModalVisible(false)}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
@@ -105,7 +105,7 @@ export default function TaskListPage() {
             </View>
           </View>
         </Modal>
-      )}
+      )} */}
     </View>
   );
 }

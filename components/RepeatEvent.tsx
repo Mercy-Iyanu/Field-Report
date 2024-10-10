@@ -1,40 +1,14 @@
-import React, { useState } from 'react';
-import { View, Text, Switch, StyleSheet } from 'react-native';
-import DropdownMenu from './DropdownMenu';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-const repeatOptions = ['Daily', 'Weekly', 'Monthly', 'Yearly'];
-
-export default function RepeatEvent({ onRepeatChange }: { onRepeatChange: (repeat: { enabled: boolean, interval: string }) => void }) {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(repeatOptions[0]);
-
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
-    onRepeatChange({ enabled: !isEnabled, interval: selectedOption });
-  };
-
-  const handleOptionSelect = (option: string) => {
-    setSelectedOption(option);
-    onRepeatChange({ enabled: isEnabled, interval: option });
-  };
-
+export default function RepeatEvent() {
   return (
     <View style={styles.container}>
       <View style={styles.switchContainer}>
         <Text style={styles.label}>Repeat Event</Text>
-        <Switch
-          trackColor={{ false: '#767577', true: '#81b0ff' }}
-          thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-          onValueChange={toggleSwitch}
-          value={isEnabled}
-        />
+        {/* <Switch /> */}
       </View>
-      {isEnabled && (
-        <DropdownMenu
-          options={repeatOptions}
-          onSelect={handleOptionSelect}
-        />
-      )}
+      {/* <DropdownMenu /> */}
     </View>
   );
 }
@@ -51,11 +25,5 @@ const styles = StyleSheet.create({
   label: {
     color: '#fff',
     fontSize: 16,
-  },
-  dropdownWrapper: {
-    position: 'absolute',
-    top: 50,
-    zIndex: 1,  
-    width: '100%',
   },
 });

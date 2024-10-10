@@ -53,8 +53,8 @@ export default function ActivityLogPage() {
           <Text style={styles.viewReportLink}>View Report History</Text>
         </TouchableOpacity>
       </View>
-      <ActivityFormField onAddReport={addReport} />
-      <FieldReportHistoryModal visible={modalVisible} onClose={closeModal} reports={reports} />
+      <ActivityFormField />
+      {/* <FieldReportHistoryModal visible={modalVisible} onClose={closeModal} reports={reports} /> */}
     </ScrollView>
   );
 }

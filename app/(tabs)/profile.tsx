@@ -63,6 +63,11 @@ export default function ProfilePage() {
     setNotificationsVisible(true);
   };
 
+  const handleFormSubmit = () => {
+    // Perform form submission actions
+    console.log('You attempted to delete your account.');
+  };
+
   return (
     <ScrollView 
       style={styles.container}
@@ -84,20 +89,22 @@ export default function ProfilePage() {
         </View>
         <ProfileInfo />
         <SettingsSection onEditProfile={handleEditProfile} onResetPassword={handleResetPassword} onPrivacyAndSecurity={handlePrivacyAndSecurity} onNotifications={handleNotifications} />
-        <CustomButton title="Delete Account" onPress={() => {}} />
+        <CustomButton title="Delete Account" onPress={handleFormSubmit} />
       </View>
-      <Modal visible={editProfileVisible} animationType="slide">
-        <EditProfileModal onClose={() => setEditProfileVisible(false)} />
-      </Modal>
-      <Modal visible={resetPasswordVisible} animationType="slide">
-        <ResetPasswordModal onClose={() => setResetPasswordVisible(false)} />
-      </Modal>
-      <Modal visible={privacyAndSecurityVisible} animationType="slide">
-        <PrivacyAndSecurityModal onClose={() => setPrivacyAndSecurityVisible(false)} />
-      </Modal>
-      <Modal visible={notificationsVisible} animationType="slide">
-        <NotificationsModal onClose={() => setNotificationsVisible(false)} />
-      </Modal>
+      <View>
+        <Modal visible={editProfileVisible} animationType="slide">
+          <EditProfileModal onClose={() => setEditProfileVisible(false)} />
+        </Modal>
+        <Modal visible={resetPasswordVisible} animationType="slide">
+          <ResetPasswordModal onClose={() => setResetPasswordVisible(false)} />
+        </Modal>
+        <Modal visible={privacyAndSecurityVisible} animationType="slide">
+          <PrivacyAndSecurityModal onClose={() => setPrivacyAndSecurityVisible(false)} />
+        </Modal>
+        <Modal visible={notificationsVisible} animationType="slide">
+          <NotificationsModal onClose={() => setNotificationsVisible(false)} />
+        </Modal>
+      </View>
       <LogoutConfirmationModal
         visible={logoutModalVisible}
         onConfirm={confirmLogout}

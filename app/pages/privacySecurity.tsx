@@ -14,7 +14,6 @@ export default function PrivacyAndSecurityModal({ onClose }: PrivacyAndSecurityM
           <Ionicons name="chevron-back-outline" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Privacy and Security</Text>
-        <View /> {/* This empty View is used for alignment */}
       </View>
 
       <ScrollView style={styles.content}>

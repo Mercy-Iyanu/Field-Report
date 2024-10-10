@@ -1,76 +1,51 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
+import TypeOfDropdown from './TypeOfDropdown';
+import DatePicker from './DatePicker';
 import TextField from './TextField';
 import DropdownMenu from './DropdownMenu';
 import CustomButton from './CustomButton';
-import RepeatEvent from './RepeatEvent';
-import NotificationMessage from './NotificationMessage';
 
-interface CelebrateFormFieldProps {
-  options: string[];
-  onSubmit: (text: string, option: string) => void;
-}
-
-export default function CelebrateFormField({ options, onSubmit }: CelebrateFormFieldProps) {
-  const [text, setText] = useState('');
-  const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [repeat, setRepeat] = useState({ enabled: false, interval: 'Daily' });
-  const [notification, setNotification] = useState({ message: '', isVisible: false, isSuccess: true });
-
-  const handleTextChange = (input: string) => {
-    setText(input);
-    setNotification({ ...notification, isVisible: false });
-  };
-
-  const handleOptionSelect = (option: string) => {
-    setSelectedOption(option);
-    setNotification({ ...notification, isVisible: false });
-  };
+const CelebrateFormField = () => {
+  const [selectedType, setSelectedType] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [textFieldValue, setTextFieldValue] = useState('');
+  const [selectedMenuValue, setSelectedMenuValue] = useState('');
 
   const handleSubmit = () => {
-    if (!text || !selectedOption) {
-      setNotification({ message: 'Please fill out all fields before setting the reminder.', isVisible: true, isSuccess: false });
-      return;
-    }
-
-    onSubmit(text, selectedOption);
-    setText('');
-    setNotification({ message: 'Reminder successfully set.', isVisible: true, isSuccess: true });
+    console.log('You just attempted to submit a celebration form.');
   };
 
   return (
-    <View style={styles.formContainer}>
+    <View style={styles.container}>
+      <TypeOfDropdown
+        options={['Birthday', 'Anniversary', 'Graduation']}
+        onSelect={setSelectedType}
+      />
+      <DatePicker onDateChange={setSelectedDate} />
       <TextField
-        value={text}
-        placeholder="Celebrant's name"
-        label="Celebrant's name"
-        onChangeText={handleTextChange}
+        value={textFieldValue}
+        placeholder="Enter your celebration message"
+        label="Celebration Message"
+        onChangeText={setTextFieldValue}
       />
       <DropdownMenu
-        options={options}
-        onSelect={handleOptionSelect}
+        options={['Option 1', 'Option 2', 'Option 3']}
+        selectedValue={selectedMenuValue}
+        onSelect={setSelectedMenuValue}
+        placeholder="Select an option"
       />
-      <RepeatEvent onRepeatChange={setRepeat} />
-      <CustomButton title="Set reminder" onPress={handleSubmit} />
-      <NotificationMessage 
-        message={notification.message} 
-        isVisible={notification.isVisible} 
-        duration={3000} 
-      />
+      <CustomButton title="Submit" onPress={handleSubmit} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  formContainer: {
-    marginTop: 20,
-    zIndex: 1,
-  },
-  dropdownWrapper: {
-    position: 'absolute',
-    top: 80,
-    left: 0,
-    right: 0,
-    zIndex: 2,
+  container: {
+    padding: 20,
+    backgroundColor: '#161622',
+    borderRadius: 8,
   },
 });
+
+export default CelebrateFormField;

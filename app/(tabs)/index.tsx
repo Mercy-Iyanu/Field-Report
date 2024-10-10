@@ -107,7 +107,7 @@ export default function HomeScreen() {
         <PreviewList tasks={tasks} onPress={handlePreviewListPress} />
       </View>
 
-      {selectedTask && (
+      {/* {selectedTask && (
         <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={handleModalClose}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
@@ -126,7 +126,7 @@ export default function HomeScreen() {
             </View>
           </View>
         </Modal>
-      )}
+      )} */}
     </ScrollView>
   );
 }

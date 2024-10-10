@@ -1,55 +1,48 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, Platform } from 'react-native';
+import { View, Button, StyleSheet, Text } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface DatePickerProps {
   onDateChange: (date: Date) => void;
+  initialDate?: Date;
 }
 
-export default function DatePicker({ onDateChange }: DatePickerProps) {
-  const [date, setDate] = useState<Date | undefined>(undefined);
+const DatePicker: React.FC<DatePickerProps> = ({ onDateChange, initialDate }) => {
+  const [date, setDate] = useState(initialDate || new Date());
   const [show, setShow] = useState(false);
-
-  const formatDate = (date: Date) => {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
 
   const onChange = (event: any, selectedDate?: Date) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
+    setShow(false);
     setDate(currentDate);
-    onDateChange(currentDate as Date);
+    onDateChange(currentDate);
   };
 
   return (
     <View style={styles.container}>
+      <Button title="Select Date" onPress={() => setShow(true)} />
       {show && (
         <DateTimePicker
-          testID="dateTimePicker"
-          value={date || new Date()}
+          value={date}
           mode="date"
           display="default"
           onChange={onChange}
         />
       )}
-      {date ? (
-        <Text style={styles.dateText}>{formatDate(date)}</Text>
-      ) : (
-        <Button onPress={() => setShow(true)} title="Select Date" />
-      )}
+      <Text style={styles.dateText}>{`Selected Date: ${date.toLocaleDateString()}`}</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    marginBottom: 20,
   },
   dateText: {
-    fontSize: 18,
-    marginVertical: 10,
+    marginTop: 10,
+    fontSize: 16,
+    color: '#fff',
   },
 });
+
+export default DatePicker;
