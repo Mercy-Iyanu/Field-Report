@@ -26,6 +26,7 @@ export default function TaskListPage() {
 
   const handleSearchChange = (text: string) => setSearchQuery(text);
 
+  // Functions to navigate between dates
   const handleDateNext = () => setSelectedDate(new Date().toISOString().split('T')[0]);
   const handleDatePrevious = () => setSelectedDate(new Date().toISOString().split('T')[0]);
 

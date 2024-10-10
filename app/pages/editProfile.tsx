@@ -41,7 +41,6 @@ export default function EditProfileModal({ onClose }: EditProfileModalProps) {
           <Ionicons name="chevron-back-outline" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Edit Profile</Text>
-        <View /> {/* This empty View is used for alignment */}
       </View>
 
       <View style={styles.content}>
@@ -69,7 +68,7 @@ export default function EditProfileModal({ onClose }: EditProfileModalProps) {
         <DropdownMenu
           options={['Account Management', 'Sales']}
           onSelect={setDepartment}
-        />
+      />
         <TextField
           value={phone}
           placeholder="Phone no"

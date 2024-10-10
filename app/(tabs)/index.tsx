@@ -10,8 +10,6 @@ import Search from '@/components/Search';
 import TaskDetails from '../pages/taskDetails';
 
 export default function HomeScreen() {
-  // const darkMode = useSelector((state) => state.theme.darkMode);
-  // const colors = darkMode ? Colors.dark : Colors.light;
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
   const [selectedDate, setSelectedDate] = useState('');
 

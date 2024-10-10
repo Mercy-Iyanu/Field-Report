@@ -1,5 +1,5 @@
-import DatePicker from '@/components/DatePicker';
 import React, { useState } from 'react';
+import DatePicker from '@/components/DatePicker';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import CelebrateFormField from '@/components/CelebrateFormField';
 import TypeOfDropdown from '@/components/TypeOfDropdown';
@@ -36,6 +36,12 @@ export default function CelebratePage() {
         onSubmit={handleFormSubmit}
       />
     </ScrollView>
+    // <ScrollView style={styles.container}>
+    //   <Text style={styles.pageTitle}>New Anniversary</Text>
+    //   <View style={styles.dropdownDateContainer}>
+    //   </View>
+    //   <CelebrateFormField />
+    // </ScrollView>
   );
 }
 

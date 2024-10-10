@@ -25,7 +25,6 @@ export default function ResetPasswordModal({ onClose }: ResetPasswordModalProps)
           <Ionicons name="chevron-back-outline" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Reset Password</Text>
-        <View /> {/* This empty View is used for alignment */}
       </View>
 
       <View style={styles.content}>
