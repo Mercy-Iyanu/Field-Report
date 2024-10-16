@@ -79,9 +79,11 @@ export default function ProfilePage() {
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.text }]}>Profile</Text>
           <View style={styles.icons}>
+            
             <TouchableOpacity onPress={handleDarkModeToggle}>
               <Ionicons name={darkMode ? 'sunny' : 'moon'} size={24} color={colors.text} style={styles.icon} />
             </TouchableOpacity>
+            
             <TouchableOpacity onPress={handleLogout}>
               <Ionicons name="log-out-outline" size={24} color={colors.text} style={styles.logOutIcon} />
             </TouchableOpacity>

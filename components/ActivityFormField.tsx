@@ -3,13 +3,15 @@ import
   { 
     View, 
     StyleSheet, 
-    Alert,Button 
+    Alert 
   } from 'react-native';
 import TextField from './TextField';
 import DropdownMenu from './DropdownMenu';
 import CustomButton from './CustomButton';
 import StatusLevel from './StatusLevel';
 import PriorityLevel from './PriorityLevel';
+import DocumentPickerComponent from './DocumentPicker';
+import { DocumentPickerResponse } from 'react-native-document-picker';
 
 const statusOptions = [
   { id: '1', label: 'Pending' },
@@ -24,7 +26,6 @@ const priorityOptions = [
 ];
 
 const agencyCategories = [
-  'Select agency category',
   'Category A (Premium)',
   'Category B (Opportunity)',
   'Category C (Virtual)',
@@ -71,6 +72,13 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
   const handleStatusSelect = (selectedStatus: string) => setStatus(selectedStatus);
   const handlePrioritySelect = (selectedPriority: string) => setPriority(selectedPriority);
 
+  const handleFileSelect = (response: DocumentPickerResponse[]) => {
+    setReportData((prevData) => ({
+      ...prevData,
+      attachment: response[0].uri,
+    }));
+  };
+
   const handleSubmit = () => {
     if (!text1 || !agencyName || !agencyCategory || !text3 || !text4 || !text5 || !text6) {
       alert('Please fill out all fields before logging the report.');
@@ -86,7 +94,7 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
       nextActionStep: text6,
       priorityLevel: priority,
       status,
-      attachment: '',
+      attachment: reportData.attachment,
     };
 
     onAddReport(newReport);
@@ -100,6 +108,7 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
     setText6('');
     setPriority('High Priority');
     setStatus('Pending');
+    setReportData({ ...reportData, attachment: '' });
 
     alert('Report successfully logged.');
   };
@@ -108,7 +117,7 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
     <View style={styles.container}>
       <TextField value={text1} placeholder="Title" label="Title" onChangeText={handleTextChange1} />
       <DropdownMenu 
-        options={['Select agency name', 'Dee Travels', 'InterGuide Air', 'Tifa Travels']} 
+        options={['Dee Travels', 'InterGuide Air', 'Tifa Travels']} 
         onSelect={handleAgencyNameSelect} 
         style={{ zIndex: 2 }}
       />
@@ -139,6 +148,7 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
           setModalVisible={setPriorityModalVisible}
         />
       </View>
+      {/* <DocumentPickerComponent onFileSelect={handleFileSelect} /> */}
 
       <CustomButton title="Log Report" onPress={handleSubmit} />
     </View>

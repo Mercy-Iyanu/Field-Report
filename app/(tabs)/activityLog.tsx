@@ -46,7 +46,7 @@ export default function ActivityLogPage() {
       <Text style={styles.pageTitle}>Activity Log</Text>
       <View style={styles.dropdownDateContainer}>
         <TypeOfDropdown
-          options={['Birthday', 'Wedding Anniversary', 'Agency Anniversary']}
+          options={['Field Report', 'Others']}
           onSelect={handleOptionSelect}
         />
         {/* <TouchableOpacity onPress={openModal}>
@@ -54,7 +54,7 @@ export default function ActivityLogPage() {
         </TouchableOpacity> */}
       </View>
       <ActivityFormField onAddReport={addReport} />
-      <FieldReportHistoryModal visible={modalVisible} onClose={closeModal} reports={reports} />
+      {/* <FieldReportHistoryModal visible={modalVisible} onClose={closeModal} reports={reports} /> */}
     </ScrollView>
   );
 }
