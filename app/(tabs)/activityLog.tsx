@@ -49,9 +49,9 @@ export default function ActivityLogPage() {
           options={['Birthday', 'Wedding Anniversary', 'Agency Anniversary']}
           onSelect={handleOptionSelect}
         />
-        <TouchableOpacity onPress={openModal}>
+        {/* <TouchableOpacity onPress={openModal}>
           <Text style={styles.viewReportLink}>View Report History</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <ActivityFormField onAddReport={addReport} />
       <FieldReportHistoryModal visible={modalVisible} onClose={closeModal} reports={reports} />
