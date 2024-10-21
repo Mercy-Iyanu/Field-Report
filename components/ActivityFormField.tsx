@@ -119,12 +119,10 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
       <DropdownMenu 
         options={['Dee Travels', 'InterGuide Air', 'Tifa Travels']} 
         onSelect={handleAgencyNameSelect} 
-        style={{ zIndex: 2 }}
       />
       <DropdownMenu 
         options={agencyCategories} 
         onSelect={handleAgencyCategorySelect}
-        style={{ zIndex: 1 }}
       />
       <TextField value={text3} placeholder="Contact person" label="Contact Person" onChangeText={handleTextChange3} />
       <TextField value={text4} placeholder="Description" label="Description" onChangeText={handleTextChange4} />
@@ -158,8 +156,9 @@ export default function ActivityFormField({ onAddReport }: ActivityFormFieldProp
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#161622',
     paddingTop: 0,
+    marginBottom: 40
+
   },
   rowContainer: {
     flexDirection: 'row',
