@@ -1,5 +1,5 @@
-import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
-import React, {useState} from 'react'
+import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
 interface SearchProps {
@@ -29,38 +29,31 @@ export default function Search({ placeholder, onChangeText }: SearchProps) {
         value={searchText}
         style={styles.searchInput}
       />
-      {searchText.length > 0 && (
-        <TouchableOpacity onPress={handleClear} style={styles.clearButton}>
-          <Ionicons name="close-outline" size={20} color="#fff" />
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity onPress={searchText.length > 0 ? handleClear : () => {}} style={styles.iconButton}>
+        <Ionicons name={searchText.length > 0 ? "close-outline" : "search-outline"} size={20} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 }
 
-const styles = StyleSheet.create ({
-    searchContainer: {
-        backgroundColor: '#1E1E2D',
-        borderRadius: 8,
-        paddingHorizontal: 14,
-        paddingVertical: 16,
-        marginBottom: 24,
-        flexDirection: 'row',
-        alignItems: 'center',
-      },
-    searchInput: {
-        flex: 1,
-        color: '#fff',
-        fontSize: 16,
-        borderWidth: 0,
-    },
-
-    searchInputFocused: {
-        borderColor: 'transparent'
-    },
-
-    clearButton: {
-      position: 'absolute',
-      right: 14,
-    }
-})
+const styles = StyleSheet.create({
+  searchContainer: {
+    backgroundColor: '#1E1E2D',
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 16,
+    marginBottom: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  searchInput: {
+    flex: 1,
+    color: '#fff',
+    fontSize: 16,
+    paddingRight: 40, // Add padding to the right to prevent text overflow
+  },
+  iconButton: {
+    position: 'absolute',
+    right: 14,
+  },
+});
