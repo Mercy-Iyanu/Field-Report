@@ -51,7 +51,7 @@ export default function DropdownMenu({ options, onSelect }: DropdownMenuProps) {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
+    marginBottom: 5,
   },
   dropdownHeader: {
     backgroundColor: '#1E1E2D',
