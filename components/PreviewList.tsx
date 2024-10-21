@@ -1,6 +1,5 @@
-// PreviewList.tsx
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 interface Task {
   title: string;
@@ -15,6 +14,18 @@ interface PreviewListProps {
 }
 
 const PreviewList: React.FC<PreviewListProps> = ({ tasks, onPress }) => {
+  const noTasksImage = require('../assets/images/no-task-yet.png');
+
+  if (tasks.length === 0) {
+    // Render an image and message when no tasks are available
+    return (
+      <View style={styles.emptyContainer}>
+        <Image source={noTasksImage} style={styles.emptyImage} />
+        <Text style={styles.emptyText}>No tasks yet.</Text>
+      </View>
+    );
+  }
+
   return (
     <View>
       {tasks.map((task, index) => (
@@ -42,6 +53,20 @@ const styles = StyleSheet.create({
   taskDescription: {
     color: '#AAA',
     fontSize: 14,
+  },
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  emptyImage: {
+    width: '100%',
+    marginBottom: 10,
+  },
+  emptyText: {
+    color: '#AAA',
+    fontSize: 16,
+    fontStyle: 'italic',
   },
 });
 

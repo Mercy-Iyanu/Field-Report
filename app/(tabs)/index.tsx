@@ -1,4 +1,3 @@
-// HomeScreen.tsx
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Colors } from '@/constants/Colors';
@@ -76,7 +75,7 @@ export default function HomeScreen() {
         <Image source={logo} style={styles.logo} resizeMode="contain" />
       </View>
 
-      <Search placeholder="Looking for something?" onChangeText={handleSearchChange} />
+      {/* <Search placeholder="Looking for something?" onChangeText={handleSearchChange} /> */}
 
       <View style={styles.dateContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
