@@ -13,6 +13,7 @@ import EditProfileModal from '../pages/editProfile';
 import ResetPasswordModal from '../pages/resetPassword';
 import PrivacyAndSecurityModal from '../pages/privacySecurity';
 import NotificationsModal from '../pages/notifications';
+import HistoryModal from '@/components/HistoryModal';
 
 export default function ProfilePage() {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -21,6 +22,7 @@ export default function ProfilePage() {
   const [resetPasswordVisible, setResetPasswordVisible] = useState(false);
   const [privacyAndSecurityVisible, setPrivacyAndSecurityVisible] = useState(false);
   const [notificationsVisible, setNotificationsVisible] = useState(false);
+  const [historyVisible, setHistoryVisible] = useState(false)
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -31,7 +33,6 @@ export default function ProfilePage() {
   }, []);
 
   const colorScheme = useColorScheme();
-  // const colors = Colors[colorScheme ?? 'light'];
   const colors = darkMode ? Colors.dark : Colors.light;
 
   const handleDarkModeToggle = () => {
@@ -63,6 +64,10 @@ export default function ProfilePage() {
     setNotificationsVisible(true);
   };
 
+  const handleHistory = () => {
+    setHistoryVisible(true);
+  };
+
   const handleFormSubmit = () => {
     // Perform form submission actions
     console.log('You attempted to delete your account.');
@@ -79,20 +84,25 @@ export default function ProfilePage() {
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.text }]}>Profile</Text>
           <View style={styles.icons}>
-            
             <TouchableOpacity onPress={handleDarkModeToggle}>
               <Ionicons name={darkMode ? 'sunny' : 'moon'} size={24} color={colors.text} style={styles.icon} />
             </TouchableOpacity>
-            
             <TouchableOpacity onPress={handleLogout}>
               <Ionicons name="log-out-outline" size={24} color={colors.text} style={styles.logOutIcon} />
             </TouchableOpacity>
           </View>
         </View>
         <ProfileInfo />
-        <SettingsSection onEditProfile={handleEditProfile} onResetPassword={handleResetPassword} onPrivacyAndSecurity={handlePrivacyAndSecurity} onNotifications={handleNotifications} />
+        <SettingsSection 
+          onEditProfile={handleEditProfile} 
+          onResetPassword={handleResetPassword} 
+          onPrivacyAndSecurity={handlePrivacyAndSecurity} 
+          onNotifications={handleNotifications}
+          onHistory={handleHistory} 
+        />
         <CustomButton title="Delete Account" onPress={handleFormSubmit} />
       </View>
+
       <View>
         <Modal visible={editProfileVisible} animationType="slide">
           <EditProfileModal onClose={() => setEditProfileVisible(false)} />
@@ -102,6 +112,9 @@ export default function ProfilePage() {
         </Modal>
         <Modal visible={privacyAndSecurityVisible} animationType="slide">
           <PrivacyAndSecurityModal onClose={() => setPrivacyAndSecurityVisible(false)} />
+        </Modal>
+        <Modal visible={historyVisible} animationType="slide">
+          <HistoryModal onClose={() => setHistoryVisible(false)} />
         </Modal>
         <Modal visible={notificationsVisible} animationType="slide">
           <NotificationsModal onClose={() => setNotificationsVisible(false)} />
