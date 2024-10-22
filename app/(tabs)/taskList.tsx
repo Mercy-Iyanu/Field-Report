@@ -113,10 +113,10 @@ export default function TaskListPage() {
         /> */}
         <View style={styles.activitiesContainer}>
           <Text style={styles.activitiesTitle}>My tasks</Text>
-          <PreviewList 
-            tasks={tasks} 
-            onPress={handlePreviewListPress} 
-          />
+            <PreviewList 
+              tasks={tasks} 
+              onPress={handlePreviewListPress} 
+            />
         </View>
       </ScrollView>
       <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>

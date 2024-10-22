@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: '#fff',
     fontSize: 16,
-    paddingRight: 40, // Add padding to the right to prevent text overflow
+    paddingRight: 40,
   },
   iconButton: {
     position: 'absolute',

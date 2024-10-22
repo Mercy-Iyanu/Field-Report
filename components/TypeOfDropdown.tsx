@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
   icon: {
     marginLeft: 10,
   },
-  // Modal styles
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
