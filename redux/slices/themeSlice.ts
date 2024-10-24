@@ -1,27 +1,21 @@
-// redux/themeSlice.js
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { Appearance } from 'react-native';
 
-interface ThemeState {
-  darkMode: boolean;
-}
-
-const initialState: ThemeState = {
-  darkMode: false,
-};
+const initialTheme = Appearance.getColorScheme() === 'dark' ? 'dark' : 'light';
 
 const themeSlice = createSlice({
   name: 'theme',
-  initialState,
+  initialState: { mode: initialTheme },
   reducers: {
-    toggleDarkMode: (state) => {
-      state.darkMode = !state.darkMode;
+    toggleTheme: (state) => {
+      state.mode = state.mode === 'dark' ? 'light' : 'dark';
     },
-    setDarkMode: (state, action: PayloadAction<boolean>) => {
-      state.darkMode = action.payload;
+    setTheme: (state, action) => {
+      state.mode = action.payload;
     },
   },
 });
 
-export const { toggleDarkMode, setDarkMode } = themeSlice.actions;
+export const { toggleTheme, setTheme } = themeSlice.actions;
 
 export default themeSlice.reducer;

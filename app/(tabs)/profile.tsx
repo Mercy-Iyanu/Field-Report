@@ -9,6 +9,9 @@ import SettingsSection from '@/components/SettingsSection';
 import CustomButton from '@/components/CustomButton';
 import LogoutConfirmationModal from '@/components/LogOut';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleTheme } from '../../redux/slices/themeSlice';
+
 import EditProfileModal from '../pages/editProfile';
 import ResetPasswordModal from '../pages/resetPassword';
 import PrivacyAndSecurityModal from '../pages/privacySecurity';
@@ -17,13 +20,17 @@ import HistoryModal from '@/components/HistoryModal';
 
 export default function ProfilePage() {
   const [refreshing, setRefreshing] = React.useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [editProfileVisible, setEditProfileVisible] = useState(false);
   const [resetPasswordVisible, setResetPasswordVisible] = useState(false);
   const [privacyAndSecurityVisible, setPrivacyAndSecurityVisible] = useState(false);
   const [notificationsVisible, setNotificationsVisible] = useState(false);
   const [historyVisible, setHistoryVisible] = useState(false)
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
+
+  // const theme = useSelector((state) => state.theme.mode);
+  const dispatch = useDispatch();
+  // const colors = theme === 'dark' ? Colors.dark : Colors.light;
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -36,7 +43,8 @@ export default function ProfilePage() {
   const colors = darkMode ? Colors.dark : Colors.light;
 
   const handleDarkModeToggle = () => {
-    setDarkMode(!darkMode);
+    // setDarkMode(!darkMode);
+    console.log("You attempted to switch to light mode");
   };
 
   const handleLogout = () => {
@@ -87,6 +95,9 @@ export default function ProfilePage() {
             <TouchableOpacity onPress={handleDarkModeToggle}>
               <Ionicons name={darkMode ? 'sunny' : 'moon'} size={24} color={colors.text} style={styles.icon} />
             </TouchableOpacity>
+            {/* <TouchableOpacity onPress={() => dispatch(toggleTheme())}>
+          <Ionicons name={theme === 'dark' ? 'sunny' : 'moon'} size={24} color={colors.text} style={styles.icon} />
+        </TouchableOpacity> */}
             <TouchableOpacity onPress={handleLogout}>
               <Ionicons name="log-out-outline" size={24} color={colors.text} style={styles.logOutIcon} />
             </TouchableOpacity>
@@ -133,7 +144,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 8,
-    backgroundColor: '#161622',
+    // backgroundColor: '#161622',
     paddingTop: 28,
     marginBottom: 40
   },
