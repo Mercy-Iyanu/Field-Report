@@ -151,10 +151,10 @@ const NotificationsPage: React.FC<NotificationsPageProps> = ({ onClose }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={onClose}>
+        <TouchableOpacity onPress={onClose} style={styles.notificationBack}>
           <Ionicons name="chevron-back-outline" size={24} color="white" />
+          <Text style={styles.headerTitle}>Notifications</Text>
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Notifications</Text>
         <TouchableOpacity onPress={toggleFilterModal}>
           <Ionicons name="filter-outline" size={24} color="white" />
         </TouchableOpacity>
@@ -212,6 +212,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#161622',
     padding: 16,
     marginTop: 20,
+  },
+  notificationBack: {
+    flexDirection: 'row',
   },
   header: {
     flexDirection: 'row',

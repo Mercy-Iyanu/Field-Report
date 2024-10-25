@@ -24,13 +24,6 @@ export default function CelebratePage() {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.pageTitle}>New Anniversary</Text>
-      <View style={styles.dropdownDateContainer}>
-        <TypeOfDropdown
-          options={['Birthday', 'Wedding Anniversary', 'Agency Anniversary']}
-          onSelect={handleOptionSelect}
-        />
-        <DatePicker onDateChange={handleDateChange} />
-      </View>
       <CelebrateFormField
         options={['Search agency name', 'Dee Travels', 'InterGuide Air', 'Tifa Travels']}
         onSubmit={handleFormSubmit}

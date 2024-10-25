@@ -42,13 +42,19 @@ export default function CelebrateFormField({ options, onSubmit }: CelebrateFormF
     <View style={styles.formContainer}>
       <TextField
         value={text}
-        placeholder="Celebrant's name"
-        label="Celebrant's name"
+        placeholder="Occassion"
+        label="Occassion"
         onChangeText={handleTextChange}
       />
       <DropdownMenu
         options={options}
         onSelect={handleOptionSelect}
+      />
+      <TextField
+        value={text}
+        placeholder="Celebrant's name"
+        label="Celebrant's name"
+        onChangeText={handleTextChange}
       />
       <RepeatEvent onRepeatChange={setRepeat} />
       <CustomButton title="Set reminder" onPress={handleSubmit} />

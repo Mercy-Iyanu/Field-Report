@@ -62,7 +62,7 @@ export default function TextField({ value, placeholder, label, onChangeText }: T
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
+    marginBottom: 5,
     position: 'relative',
   },
   input: {

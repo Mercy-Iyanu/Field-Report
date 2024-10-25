@@ -59,7 +59,7 @@ export default function FieldReportHistoryModal({ visible, onClose, reports }: F
             <Text style={styles.title}>Field Report History</Text>
           </View>
 
-          <ScrollView style={styles.container}>
+          
             <View style={styles.filterContainer}>
               <DatePicker onDateChange={setSelectedDate} />
               <TypeOfDropdown options={['All', 'Category 1', 'Category 2']} onSelect={setSelectedType} />
@@ -95,7 +95,7 @@ export default function FieldReportHistoryModal({ visible, onClose, reports }: F
             <View style={styles.exportButtonContainer}>
               <CustomButton title="Export" onPress={handleExport} />
             </View>
-          </ScrollView>
+          
         </View>
       </View>
     </Modal>

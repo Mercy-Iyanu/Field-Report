@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Modal, FlatList } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Modal, FlatList, TouchableWithoutFeedback } from 'react-native';
 
 interface PriorityLevelProps {
   options: { id: string; label: string }[];
@@ -42,13 +42,23 @@ const PriorityLevel: React.FC<PriorityLevelProps> = ({ options, currentOption, o
         <View style={[styles.indicator, { backgroundColor: getIndicatorColor(currentOption) }]} />
         <Text style={styles.priorityText}>{currentOption}</Text>
       </TouchableOpacity>
-      <Modal visible={modalVisible} transparent={true} animationType="slide">
-        <FlatList
-          data={options}
-          renderItem={renderOption}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.modalContainer}
-        />
+      <Modal 
+        visible={modalVisible} 
+        transparent={true} 
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.modalOverlay} />
+        </TouchableWithoutFeedback>
+        <View style={styles.modalContainer}>
+          <FlatList
+            data={options}
+            renderItem={renderOption}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.flatListContainer}
+          />
+        </View>
       </Modal>
     </>
   );
@@ -75,9 +85,24 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 10,
   },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
   modalContainer: {
-    backgroundColor: '#161622',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#1E1E2D',
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    maxHeight: '50%',
     padding: 20,
+  },
+  flatListContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
   },
   option: {
     backgroundColor: '#1E1E2D',

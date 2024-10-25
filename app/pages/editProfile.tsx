@@ -36,11 +36,11 @@ export default function EditProfileModal({ onClose }: EditProfileModalProps) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={onClose}>
+      <View>
+        <TouchableOpacity onPress={onClose} style={styles.header}>
           <Ionicons name="chevron-back-outline" size={24} color="white" />
+          <Text style={styles.headerTitle}>Edit Profile</Text>
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Edit Profile</Text>
       </View>
 
       <View style={styles.content}>
@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    // justifyContent: 'space-between',
+    // alignItems: 'center',
     marginBottom: 20,
   },
   headerTitle: {

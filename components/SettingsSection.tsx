@@ -14,12 +14,20 @@ type SettingsSectionProps = {
   onResetPassword: () => void;
   onPrivacyAndSecurity: () => void;
   onNotifications: () => void;
+  onHistory: () => void;
 };
 
-export default function SettingsSection({ onEditProfile, onResetPassword, onPrivacyAndSecurity, onNotifications }: SettingsSectionProps) {
+export default function SettingsSection({
+  onEditProfile,
+  onResetPassword,
+  onPrivacyAndSecurity,
+  onNotifications,
+  onHistory
+}: SettingsSectionProps) {
   const settings: SettingItem[] = [
     { title: 'Edit Profile', description: 'Change your profile information', icon: 'person-circle-outline', onPress: onEditProfile },
     { title: 'Reset Password', description: 'Change your account password', icon: 'key-outline', onPress: onResetPassword },
+    { title: 'History', description: 'View your activity history', icon: 'time-outline', onPress: onHistory },
     { title: 'Notifications', description: 'Manage your notification preferences', icon: 'notifications-outline', onPress: onNotifications },
     { title: 'Privacy and Security', description: 'Adjust your privacy settings', icon: 'lock-closed-outline', onPress: onPrivacyAndSecurity },
   ];

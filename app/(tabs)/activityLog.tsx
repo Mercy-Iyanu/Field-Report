@@ -1,18 +1,17 @@
 import React, { useState, useCallback } from 'react';
-import { Text, View, ScrollView, StyleSheet, RefreshControl, TouchableOpacity } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import ActivityFormField from '@/components/ActivityFormField';
+import OtherFormField from '@/components/OtherFormField';
 import TypeOfDropdown from '@/components/TypeOfDropdown';
-import FieldReportHistoryModal from '../pages/fieldReportHistory';
 
 export default function ActivityLogPage() {
   const tasks = useSelector((state: RootState) => state.tasks.tasks);
   console.log('Task details:', tasks)
 
   const [refreshing, setRefreshing] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('Birthday');
-  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('Field Report');  // Default to 'Field Report'
   const [reports, setReports] = useState<any[]>([]);
 
   const onRefresh = useCallback(() => {
@@ -23,15 +22,7 @@ export default function ActivityLogPage() {
   }, []);
 
   const handleOptionSelect = (option: string) => {
-    setSelectedOption(option);
-  };
-
-  const openModal = () => {
-    setModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setModalVisible(false);
+    setSelectedOption(option);  // Update selected option
   };
 
   const addReport = (report: any) => {
@@ -46,15 +37,17 @@ export default function ActivityLogPage() {
       <Text style={styles.pageTitle}>Activity Log</Text>
       <View style={styles.dropdownDateContainer}>
         <TypeOfDropdown
-          options={['Birthday', 'Wedding Anniversary', 'Agency Anniversary']}
-          onSelect={handleOptionSelect}
+          options={['Field Report', 'Others']}
+          onSelect={handleOptionSelect}  // Handle selection changes
         />
-        <TouchableOpacity onPress={openModal}>
-          <Text style={styles.viewReportLink}>View Report History</Text>
-        </TouchableOpacity>
       </View>
-      <ActivityFormField onAddReport={addReport} />
-      <FieldReportHistoryModal visible={modalVisible} onClose={closeModal} reports={reports} />
+
+      {/* Conditionally render ActivityFormField or OtherFormField */}
+      {selectedOption === 'Field Report' ? (
+        <ActivityFormField onAddReport={addReport} />
+      ) : (
+        <OtherFormField onAddReport={addReport} />
+      )}
     </ScrollView>
   );
 }
@@ -78,9 +71,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
-  },
-  viewReportLink: {
-    color: '#3B3B3E',
-    fontSize: 16,
   },
 });

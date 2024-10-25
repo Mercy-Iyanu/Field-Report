@@ -9,11 +9,11 @@ type PrivacyAndSecurityModalProps = {
 export default function PrivacyAndSecurityModal({ onClose }: PrivacyAndSecurityModalProps) {
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={onClose}>
+      <View>
+        <TouchableOpacity onPress={onClose} style={styles.header}>
           <Ionicons name="chevron-back-outline" size={24} color="white" />
+          <Text style={styles.headerTitle}>Privacy and Security</Text>
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Privacy and Security</Text>
       </View>
 
       <ScrollView style={styles.content}>
@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    // justifyContent: 'space-between',
+    // alignItems: 'center',
     marginBottom: 20,
   },
   headerTitle: {

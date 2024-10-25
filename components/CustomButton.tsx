@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { Pressable, Text, StyleSheet } from 'react-native';
 
 interface CustomButtonProps {
   title: string;
@@ -23,7 +23,7 @@ export default function CustomButton({
   fontSize = 16,
 }: CustomButtonProps) {
   return (
-    <TouchableOpacity
+    <Pressable
       style={[
         styles.button,
         {
@@ -36,12 +36,13 @@ export default function CustomButton({
       onPress={onPress}
     >
       <Text style={[styles.buttonText, { color: textColor, fontSize }]}>{title}</Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
+    height: 48,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 16,

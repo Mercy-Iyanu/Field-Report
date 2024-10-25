@@ -4,11 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTask, deleteTask } from '../../redux/slices/taskSlice';
 import { RootState } from '../../redux/store';
 import { Ionicons } from '@expo/vector-icons';
-import DateNavigatorContainer from '@/components/DateNavigatorContainer';
 import MembersTasks from '@/components/MembersTasks';
 import CreateTaskModal from '../pages/createTask';
 import PreviewList from '@/components/PreviewList';
-import Search from '@/components/Search';
 import TaskDetails from '../pages/taskDetails';
 
 export default function TaskListPage() {
@@ -26,9 +24,19 @@ export default function TaskListPage() {
 
   const handleSearchChange = (text: string) => setSearchQuery(text);
 
-  // Functions to navigate between dates
-  const handleDateNext = () => setSelectedDate(new Date().toISOString().split('T')[0]);
-  const handleDatePrevious = () => setSelectedDate(new Date().toISOString().split('T')[0]);
+  interface DateObject {
+    dateString: string;
+    day: number;
+    month: number;
+    year: number;
+    timestamp: number;
+  }
+
+  const onDayPress = (day: DateObject) => {
+    setSelectedDate(day.dateString);
+  };
+
+  const today = new Date().toISOString().split('T')[0];
 
   const handleFilterSelect = (option: string) => setSelectedFilter(option);
 
@@ -61,21 +69,54 @@ export default function TaskListPage() {
     <View style={styles.container}>
       <ScrollView style={styles.scrollContent}>
         <Text style={styles.pageTitle}>Task List</Text>
-        <Search 
-          placeholder="Search for a task" 
-          onChangeText={handleSearchChange} 
-        />
-        <DateNavigatorContainer />
-        <MembersTasks 
+        
+        {/* Horizontal scroll for dates */}
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.dateScroll}>
+          {Array.from({ length: 30 }, (_, i) => {
+            const day = new Date();
+            day.setDate(day.getDate() + i);
+            const dateString = day.toISOString().split('T')[0];
+            return (
+              <TouchableOpacity
+                key={dateString}
+                onPress={() => onDayPress({ 
+                  dateString,
+                  day: day.getDate(),
+                  month: day.getMonth() + 1,
+                  year: day.getFullYear(),
+                  timestamp: day.getTime(),
+                })}
+                style={[
+                  styles.dateButton,
+                  dateString === today ? styles.todayButton : {},
+                  selectedDate === dateString ? styles.selectedDateButton : {},
+                ]}
+              >
+                <Text style={[
+                  styles.dateText,
+                  dateString === today ? styles.todayText : {},
+                  selectedDate === dateString ? styles.selectedDateText : {},
+                ]}>
+                  {day.getDate()}
+                </Text>
+                <Text style={styles.monthText}>
+                  {day.toLocaleString('default', { month: 'short' })}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+
+        {/* <MembersTasks 
           options={['My tasks', 'Itunu Babatope', 'Koya Kasoro', 'Isaac Tope']} 
           onSelect={handleFilterSelect}
-        />
+        /> */}
         <View style={styles.activitiesContainer}>
           <Text style={styles.activitiesTitle}>My tasks</Text>
-          <PreviewList 
-            tasks={tasks} 
-            onPress={handlePreviewListPress} 
-          />
+            <PreviewList 
+              tasks={tasks} 
+              onPress={handlePreviewListPress} 
+            />
         </View>
       </ScrollView>
       <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
@@ -127,6 +168,43 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 32,
     marginBottom: 26,
+  },
+  dateScroll: {
+    marginBottom: 20,
+  },
+  dateButton: {
+    backgroundColor: '#2A2A3A',
+    padding: 10, // Reduced padding to make the buttons smaller
+    borderRadius: 10, // Smaller border radius
+    marginHorizontal: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  todayButton: {
+    backgroundColor: '#E50000', // Distinct style for today's date
+    shadowColor: '#E50000',
+    elevation: 5,
+  },
+  selectedDateButton: {
+    backgroundColor: '#E50000',
+    shadowColor: '#E50000',
+    elevation: 5,
+  },
+  dateText: {
+    color: '#ffffff',
+    fontSize: 16, // Reduced font size for date text
+    fontWeight: 'bold',
+  },
+  todayText: {
+    color: '#ffffff',
+    textDecorationLine: 'underline', // Distinctive style for today's date
+  },
+  selectedDateText: {
+    color: '#ffffff',
+  },
+  monthText: {
+    color: '#ccc',
+    fontSize: 12, // Reduced font size for month text
   },
   activitiesContainer: {
     marginBottom: 16,
