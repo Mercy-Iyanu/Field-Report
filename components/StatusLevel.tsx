@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, Modal, FlatList, View } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, Modal, FlatList, View, TouchableWithoutFeedback } from 'react-native';
 
 interface StatusLevelProps {
   options: { id: string; label: string }[];
@@ -46,16 +46,18 @@ const StatusLevel: React.FC<StatusLevelProps> = ({ options, currentOption, onSel
       >
         <Text style={[styles.statusText, { color }]}>{currentOption}</Text>
       </TouchableOpacity>
-      <Modal visible={modalVisible} transparent={true} animationType="slide">
-        <View>
-          <View style={styles.modalContainer}>
-            <FlatList
-              data={options}
-              renderItem={renderOption}
-              keyExtractor={(item) => item.id}
-              contentContainerStyle={styles.flatListContainer}
-            />
-          </View>
+      <Modal visible={modalVisible} transparent={true} animationType="fade" onRequestClose={() => setModalVisible(false)}>
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.modalOverlay} />
+        </TouchableWithoutFeedback>
+
+        <View style={styles.modalContainer}>
+          <FlatList
+            data={options}
+            renderItem={renderOption}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.flatListContainer}
+          />
         </View>
       </Modal>
     </>
@@ -71,15 +73,21 @@ const styles = StyleSheet.create({
   statusText: {
     fontSize: 10,
   },
-  // modalBackground: {
-  //   flex: 1,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   backgroundColor: 'rgba(0,0,0,0.5)',
-  // },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
   modalContainer: {
-    backgroundColor: '#161622',
-    padding: 20,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#1E1E2D',
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    maxHeight: '50%',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   flatListContainer: {
     flexGrow: 1,
