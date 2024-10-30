@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, Pressable, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 interface DropdownMenuProps {
@@ -31,9 +31,9 @@ export default function DropdownMenu({ options, onSelect }: DropdownMenuProps) {
         animationType="fade"
         onRequestClose={() => setShowModal(false)}
       >
-        <TouchableWithoutFeedback onPress={() => setShowModal(false)}>
+        <Pressable onPress={() => setShowModal(false)}>
           <View style={styles.modalOverlay} />
-        </TouchableWithoutFeedback>
+        </Pressable>
 
         <View style={styles.modalContainer}>
           <ScrollView style={styles.modalOptionsContainer}>

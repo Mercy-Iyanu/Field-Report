@@ -16,7 +16,7 @@ import EditProfileModal from '../pages/editProfile';
 import ResetPasswordModal from '../pages/resetPassword';
 import PrivacyAndSecurityModal from '../pages/privacySecurity';
 import NotificationsModal from '../pages/notifications';
-import HistoryModal from '@/components/HistoryModal';
+import HistoryModal from '@/app/pages/HistoryModal';
 
 export default function ProfilePage() {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -81,6 +81,12 @@ export default function ProfilePage() {
     console.log('You attempted to delete your account.');
   };
 
+  const historyData = [
+    { id: '1', title: 'Field Report', description: 'Monthly field report summary' },
+    { id: '2', title: 'Anniversary Schedule', description: 'Event details for anniversary' },
+    // Add more history items as needed
+  ];
+
   return (
     <ScrollView 
       style={styles.container}
@@ -92,9 +98,9 @@ export default function ProfilePage() {
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.text }]}>Profile</Text>
           <View style={styles.icons}>
-            <TouchableOpacity onPress={handleDarkModeToggle}>
+            {/* <TouchableOpacity onPress={handleDarkModeToggle}>
               <Ionicons name={darkMode ? 'sunny' : 'moon'} size={24} color={colors.text} style={styles.icon} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             {/* <TouchableOpacity onPress={() => dispatch(toggleTheme())}>
           <Ionicons name={theme === 'dark' ? 'sunny' : 'moon'} size={24} color={colors.text} style={styles.icon} />
         </TouchableOpacity> */}
@@ -125,7 +131,12 @@ export default function ProfilePage() {
           <PrivacyAndSecurityModal onClose={() => setPrivacyAndSecurityVisible(false)} />
         </Modal>
         <Modal visible={historyVisible} animationType="slide">
-          <HistoryModal onClose={() => setHistoryVisible(false)} />
+          {/* <HistoryModal onClose={() => setHistoryVisible(false)} /> */}
+          <HistoryModal 
+            historyData={historyData} 
+            visible={historyVisible} 
+            onClose={() => setHistoryVisible(false)} 
+          />
         </Modal>
         <Modal visible={notificationsVisible} animationType="slide">
           <NotificationsModal onClose={() => setNotificationsVisible(false)} />
